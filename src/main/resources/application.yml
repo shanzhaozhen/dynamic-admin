@@ -1,0 +1,28 @@
+server:
+  servlet:
+    context-path: /dynamic
+spring:
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      max-request-size: 20MB
+      max-file-size: 20MB
+
+  jackson:
+    time-zone: GMT+8
+
+druid:
+  username: admin
+  password: 123456
+  allow: 127.0.0.1
+  deny:
+
+jwt:
+  issuer: oldgod
+  secret: mySecret
+  #  header: Authorization
+  header: Class-Token
+  tokenHead: Bearer
+  expiration: 3600
+  remember_expiration: 604800
