@@ -22,7 +22,7 @@ jwt:
   issuer: oldgod
   secret: mySecret
   #  header: Authorization
-  header: Class-Token
+  header: Dynamic-Token
   tokenHead: Bearer
   expiration: 3600
   remember_expiration: 604800

@@ -1,9 +1,5 @@
-package org.shanzhaozhen.dynamicadmin.config;
+package org.shanzhaozhen.dynamicadmin.config.security;
 
-import com.shanzhaozhen.classroom.admin.repository.SysPermissionRepository;
-import com.shanzhaozhen.classroom.admin.repository.SysUserRepository;
-import com.shanzhaozhen.classroom.bean.SysPermission;
-import com.shanzhaozhen.classroom.bean.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;

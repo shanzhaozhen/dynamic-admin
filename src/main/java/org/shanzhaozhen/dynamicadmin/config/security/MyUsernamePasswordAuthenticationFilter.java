@@ -1,4 +1,4 @@
-package org.shanzhaozhen.dynamicadmin.config;
+package org.shanzhaozhen.dynamicadmin.config.security;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;

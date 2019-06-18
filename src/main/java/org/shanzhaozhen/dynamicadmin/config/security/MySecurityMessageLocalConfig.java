@@ -1,4 +1,4 @@
-package org.shanzhaozhen.dynamicadmin.config;
+package org.shanzhaozhen.dynamicadmin.config.security;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;

@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/classroom?useSSL=true&characterEncoding=utf8&serverTimezone=GMT%2B8
+    url: jdbc:mysql://localhost:3306/dynamic?useSSL=true&characterEncoding=utf8&serverTimezone=GMT%2B8
     username: root
     password: 123456
     #driver-class-name: com.mysql.jdbc.Driver
@@ -37,4 +37,16 @@ upload:
 
 
 logging:
-  file: log/classroom.log
+  file: log/dynamic.log
+
+swagger2:
+  title: 动态权限管理后台接口文档
+  description: 动态权限管理后台相关接口的文档
+  termsOfServiceUrl: http://localhost:8080/swagger2
+  contact:
+    name: 神大人
+    url: https://github.com/shanzhaozhen
+    email: 204447118
+  license: Apache License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 0.0.1

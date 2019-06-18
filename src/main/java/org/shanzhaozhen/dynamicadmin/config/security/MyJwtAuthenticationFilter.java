@@ -1,4 +1,4 @@
-package org.shanzhaozhen.dynamicadmin.config;
+package org.shanzhaozhen.dynamicadmin.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

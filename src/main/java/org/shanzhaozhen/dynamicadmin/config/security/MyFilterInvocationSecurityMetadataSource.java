@@ -1,4 +1,4 @@
-package org.shanzhaozhen.dynamicadmin.config;
+package org.shanzhaozhen.dynamicadmin.config.security;
 
 import com.shanzhaozhen.classroom.admin.repository.SysPermissionRepository;
 import com.shanzhaozhen.classroom.bean.SysPermission;

@@ -1,4 +1,4 @@
-package org.shanzhaozhen.dynamicadmin.config;
+package org.shanzhaozhen.dynamicadmin.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -77,7 +77,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
             .authorizeRequests()
 //                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/", "/login", "/register/**", "/druid/**", "/webjars/**", "/upload", "/test", "/files/**", "/error", "/wechat/**").permitAll()
+                .antMatchers("/", "/login", "/register/**", "/druid/**", "/webjars/**", "/upload", "/test", "/files/**", "/error").permitAll()
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
