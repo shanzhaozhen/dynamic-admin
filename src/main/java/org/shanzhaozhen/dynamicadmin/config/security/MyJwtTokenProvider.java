@@ -1,8 +1,9 @@
 package org.shanzhaozhen.dynamicadmin.config.security;
 
 import com.alibaba.fastjson.JSONObject;
-import com.shanzhaozhen.classroom.common.JwtErrorConst;
 import io.jsonwebtoken.*;
+import org.shanzhaozhen.dynamicadmin.common.JwtErrorConst;
+import org.shanzhaozhen.dynamicadmin.param.JWTUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +23,6 @@ import java.util.Map;
 public class MyJwtTokenProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(MyJwtTokenProvider.class);
-
 
     @Value("${jwt.issuer}")
     private String issuer;
@@ -61,7 +61,7 @@ public class MyJwtTokenProvider {
         /**
          * 按照jwt的规定，最后请求的时候应该是 `Bearer token`
          */
-        return tokenHead + " " + Jwts.builder()
+        return tokenHead + Jwts.builder()
                 /**
                  * 如果有私有声明，一定要先设置这个自己创建的私有的声明，这个是给builder的claim赋值
                  * 一旦写在标准的声明赋值之后，就是覆盖了那些标准的声明的
@@ -130,12 +130,11 @@ public class MyJwtTokenProvider {
      */
     public String getJwtTokenFromRequest(HttpServletRequest httpServletRequest) {
         String jwtToken = httpServletRequest.getHeader(header);
-        if (StringUtils.hasText(jwtToken) && jwtToken.startsWith(tokenHead + " ")) {
-            return jwtToken.substring((tokenHead + " ").length());
+        if (StringUtils.hasText(jwtToken) && jwtToken.startsWith(tokenHead)) {
+            return jwtToken.substring((tokenHead).length());
         }
         return null;
     }
-
 
     // 从token中获取用户名
     public String getUsername(String token){
@@ -147,6 +146,15 @@ public class MyJwtTokenProvider {
         return (List<String>) getTokenBody(token).get("roles");
     }
 
+    //获取jwt用户体信息
+    public JWTUser getJWTUser(String token) {
+        Claims tokenBody = getTokenBody(token);
+        return JWTUser.builder()
+                .username(tokenBody.getSubject())
+                .roles((List<String>) tokenBody.get("roles"))
+                .build();
+    }
+
     // 是否已过期
     public boolean isExpiration(String token){
         return getTokenBody(token).getExpiration().before(new Date());
@@ -154,7 +162,7 @@ public class MyJwtTokenProvider {
 
     private Claims getTokenBody(String token){
 
-        token = token.replace(tokenHead + " ", "");
+        token = token.replace(tokenHead, "");
 
         return Jwts.parser()
                 .setSigningKey(secret)

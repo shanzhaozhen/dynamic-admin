@@ -12,18 +12,18 @@ public class BaseEntity {
 
     private static final long serialVersionUID = -7305968647134811297L;
 
+    @TableField(fill = FieldFill.INSERT)
+    private Long createBy;
+
     @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss",timezone = "GMT+8")
     @TableField(fill = FieldFill.INSERT)
     private Date createdDate;
 
-    @TableField(fill = FieldFill.INSERT)
-    private Integer createBy;
+    @TableField(fill = FieldFill.UPDATE)
+    private Long lastModifiedBy;
 
     @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss",timezone = "GMT+8")
     @TableField(fill = FieldFill.UPDATE)
     private Date lastModifiedDate;
-
-    @TableField(fill = FieldFill.UPDATE)
-    private Integer lastModifiedBy;
 
 }

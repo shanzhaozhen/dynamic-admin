@@ -50,7 +50,7 @@ public class UserDetailsUtils {
     /**
      * 获取当前登录用户ID.
      */
-    public static Integer getSysUserId() {
+    public static Long getSysUserId() {
         if ("anonymousUser".equals(SecurityContextHolder.getContext().getAuthentication().getPrincipal())) {
             return null;
         }

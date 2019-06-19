@@ -1,7 +1,7 @@
 package org.shanzhaozhen.dynamicadmin.config.security;
 
-import com.shanzhaozhen.classroom.admin.repository.SysPermissionRepository;
-import com.shanzhaozhen.classroom.bean.SysPermission;
+import org.shanzhaozhen.dynamicadmin.entity.SysPermission;
+import org.shanzhaozhen.dynamicadmin.service.SysPermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
@@ -24,7 +24,7 @@ import java.util.*;
 public class MyFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
     @Autowired
-    private SysPermissionRepository sysPermissionRepository;
+    private SysPermissionService sysPermissionService;
 
     private HashMap<String, Collection<ConfigAttribute>> resourceMap;
 
@@ -33,7 +33,7 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
      */
     public void loadResourceDefine() {
         resourceMap = new HashMap<>();
-        List<SysPermission> sysPermissions = sysPermissionRepository.findSysPermissionsByPermissionNameIsNotNull();
+        List<SysPermission> sysPermissions = sysPermissionService.selectSysPermissionListIsAuthorization();
         for (SysPermission sysPermission : sysPermissions) {
             Collection<ConfigAttribute> configAttributes = new ArrayList<>();
             //此处只添加了用户的名字，其实还可以添加更多权限的信息，例如请求方法到ConfigAttribute的集合中去。

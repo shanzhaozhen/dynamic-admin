@@ -23,6 +23,6 @@ jwt:
   secret: mySecret
   #  header: Authorization
   header: Dynamic-Token
-  tokenHead: Bearer
+  tokenHead: "Bearer "
   expiration: 3600
   remember_expiration: 604800

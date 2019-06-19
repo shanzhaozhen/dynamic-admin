@@ -2,10 +2,7 @@ package org.shanzhaozhen.dynamicadmin.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -14,7 +11,6 @@ import java.util.List;
 import java.util.Set;
 
 @Data
-@Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class SysUser extends BaseEntity implements UserDetails {
@@ -22,7 +18,7 @@ public class SysUser extends BaseEntity implements UserDetails {
     private static final long serialVersionUID = 3064727069207896868L;
 
     @TableId(type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     private String username;
 

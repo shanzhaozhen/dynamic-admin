@@ -21,9 +21,6 @@ import java.util.List;
 @Component
 public class MyJwtAuthenticationFilter extends OncePerRequestFilter {
 
-    @Value("${jwt.tokenHead}")
-    private String tokenHead;
-
     @Autowired
     private MyJwtTokenProvider myJwtTokenProvider;
 
@@ -54,13 +51,11 @@ public class MyJwtAuthenticationFilter extends OncePerRequestFilter {
          * 不管成不成功都交给下一个过滤器判断
          */
         filterChain.doFilter(httpServletRequest, httpServletResponse);
-
     }
 
 
     // 这里从token中获取用户信息并新建一个UsernamePasswordAuthenticationToken供给过滤链进行权限过滤
     private UsernamePasswordAuthenticationToken createAuthentication(String token) {
-
 
         String username = myJwtTokenProvider.getUsername(token);
         List<String> roles = myJwtTokenProvider.getUserRoles(token);

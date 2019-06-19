@@ -1,5 +1,9 @@
 package org.shanzhaozhen.dynamicadmin.config.security;
 
+import org.shanzhaozhen.dynamicadmin.entity.SysPermission;
+import org.shanzhaozhen.dynamicadmin.entity.SysUser;
+import org.shanzhaozhen.dynamicadmin.service.SysPermissionService;
+import org.shanzhaozhen.dynamicadmin.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,14 +27,14 @@ import java.util.Set;
 public class MyUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private SysUserRepository sysUserRepository;
+    private SysUserService sysUserService;
 
     @Autowired
-    private SysPermissionRepository sysPermissionRepository;
+    private SysPermissionService sysPermissionService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        SysUser sysUser = sysUserRepository.findSysUserByUsername(username);
+        SysUser sysUser = sysUserService.selectSysUserByUsername(username);
 
         if (sysUser == null) {
             /**
@@ -41,8 +45,7 @@ public class MyUserDetailsService implements UserDetailsService {
             throw new BadCredentialsException("账号不存在");
         } else {
             //将数据库保存的权限存至登陆的账号里面
-            List<SysPermission> sysPermissions = null;
-            sysPermissions = sysPermissionRepository.findByUsername(username);
+            List<SysPermission> sysPermissions = sysPermissionService.selectSysPermissionListByUsername(username);
             if (sysPermissions != null) {
                 Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
                 for (SysPermission sysPermission : sysPermissions) {

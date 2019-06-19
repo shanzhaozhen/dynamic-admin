@@ -3,8 +3,8 @@ package org.shanzhaozhen.dynamicadmin.config.security;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
-import com.shanzhaozhen.classroom.bean.SysUser;
-import com.shanzhaozhen.classroom.common.JwtErrorConst;
+import org.shanzhaozhen.dynamicadmin.common.JwtErrorConst;
+import org.shanzhaozhen.dynamicadmin.entity.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -102,7 +102,7 @@ public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticati
 
         List<GrantedAuthority> authorities = (List<GrantedAuthority>) authResult.getAuthorities();
         List<String> roles = new ArrayList<>();
-        for(GrantedAuthority g : authorities){
+        for(GrantedAuthority g : authorities) {
             roles.add(g.getAuthority());
         }
 
