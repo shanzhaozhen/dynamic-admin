@@ -42,7 +42,7 @@ public class MyUserDetailsService implements UserDetailsService {
              * 由于hideUserNotFoundExceptions的值为true，所以这里会new一个新的BadCredentialsException异常抛出来，那么最后捕获到并放入session中的就是这个BadCredentialsException异常。
              * 所以我们在页面始终无法捕获我们自定义的异常信息。
              */
-            throw new BadCredentialsException("账号不存在");
+            throw new BadCredentialsException("Account does not exist!");
         } else {
             //将数据库保存的权限存至登陆的账号里面
             List<SysPermission> sysPermissions = sysPermissionService.selectSysPermissionListByUsername(username);

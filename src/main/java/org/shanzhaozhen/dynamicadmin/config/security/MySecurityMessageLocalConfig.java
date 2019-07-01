@@ -18,8 +18,6 @@ public class MySecurityMessageLocalConfig {
         Locale.setDefault(Locale.CHINA);
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.addBasenames("classpath:org/springframework/security/messages_zh_CN");
-//        messageSource.addBasenames("classpath:security/messages_zh_CN");
-
         return messageSource;
     }
 

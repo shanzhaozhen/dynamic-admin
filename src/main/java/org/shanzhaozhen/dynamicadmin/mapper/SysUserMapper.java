@@ -4,12 +4,14 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Select;
 import org.shanzhaozhen.dynamicadmin.entity.SysUser;
 
-import java.io.Serializable;
-
 public interface SysUserMapper extends BaseMapper<SysUser> {
 
-    SysUser selectSysUserByUserId(String userId);
+    @Select("select * from sys_user where id = #{id}")
+    SysUser selectSysUserByUserId(String id);
 
-    @Select("select * from sys_user where username = #{userName}")
+    @Select("select * from sys_user where username = #{username}")
     SysUser selectSysUserByUsername(String username);
+
+    @Select("select count(*) from sys_user where username = #{username}")
+    int countByUsername(String username);
 }

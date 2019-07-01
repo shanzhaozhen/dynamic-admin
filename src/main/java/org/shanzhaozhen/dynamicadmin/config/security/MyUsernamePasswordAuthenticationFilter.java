@@ -8,6 +8,7 @@ import org.shanzhaozhen.dynamicadmin.entity.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -50,47 +51,51 @@ public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticati
     @Override
     public Authentication attemptAuthentication(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws AuthenticationException, IOException, ServletException {
 
-        //从json中获取username和password
-        String body = StreamUtils.copyToString(httpServletRequest.getInputStream(), Charset.forName("UTF-8"));
+        //非post请求处理
+        if (httpServletRequest.getMethod().equals("POST")) {
+            throw new AuthenticationServiceException("Authentication method not supported: " + httpServletRequest.getMethod());
+        } else {
+            //从json中获取username和password
+            String body = StreamUtils.copyToString(httpServletRequest.getInputStream(), Charset.forName("UTF-8"));
 
-        String username = null;
-        String password = null;
+            String username = null;
+            String password = null;
 
-        try {
-            if(StringUtils.hasText(body)) {
-                JSONObject jsonObj = JSON.parseObject(body);
-                username = jsonObj.getString("username");
-                password = jsonObj.getString("password");
-                rememberMe.set(jsonObj.getBooleanValue("rememberMe"));
+            try {
+                if (StringUtils.hasText(body)) {
+                    JSONObject jsonObj = JSON.parseObject(body);
+                    username = jsonObj.getString("username");
+                    password = jsonObj.getString("password");
+                    rememberMe.set(jsonObj.getBooleanValue("rememberMe"));
+                }
+            } catch (JSONException e) {
+                this.unsuccessfulAuthentication(httpServletRequest, httpServletResponse, null);
+                return null;
             }
-        } catch (JSONException e) {
-            this.unsuccessfulAuthentication(httpServletRequest, httpServletResponse, null);
-            return null;
+
+            if (username == null) {
+                username = "";
+            }
+            if (password == null) {
+                password = "";
+            }
+            username = username.trim();
+
+            /**
+             * UsernamePasswordAuthenticationToken 是 Authentication 的实现类
+             *
+             * 封装到token中提交
+             */
+            UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username, password);
+
+
+            /**
+             * authenticate()接受一个token参数,返回一个完全经过身份验证的对象，包括证书.
+             * 里并没有对用户名密码进行验证,而是使用 AuthenticationProvider 提供的 authenticate 方法返回一个完全经过身份验证的对象，包括证书.
+             * Authentication authenticate = authenticationManager.authenticate(authenticationToken);
+             */
+            return this.getAuthenticationManager().authenticate(authRequest);
         }
-
-        if (username == null) {
-            username = "";
-        }
-        if (password == null) {
-            password = "";
-        }
-        username = username.trim();
-
-        /**
-         * UsernamePasswordAuthenticationToken 是 Authentication 的实现类
-         *
-         * 封装到token中提交
-         */
-        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username, password);
-
-
-        /**
-         * authenticate()接受一个token参数,返回一个完全经过身份验证的对象，包括证书.
-         * 里并没有对用户名密码进行验证,而是使用 AuthenticationProvider 提供的 authenticate 方法返回一个完全经过身份验证的对象，包括证书.
-         * Authentication authenticate = authenticationManager.authenticate(authenticationToken);
-         */
-        return this.getAuthenticationManager().authenticate(authRequest);
-
     }
 
     @Override

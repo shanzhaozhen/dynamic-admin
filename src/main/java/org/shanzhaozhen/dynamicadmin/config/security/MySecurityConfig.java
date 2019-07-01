@@ -52,7 +52,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
     protected CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST", "PUT","DELETE","HEAD", "OPTION"));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE", "HEAD", "OPTION"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.addExposedHeader("Authorization");
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -89,7 +89,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 //                .and()
             .addFilterBefore(myJwtAuthenticationFilter, BasicAuthenticationFilter.class)
             .addFilterBefore(myUsernamePasswordAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-            .addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class)
+            .addFilterAfter(myFilterSecurityInterceptor, FilterSecurityInterceptor.class)
         ;
 
     }

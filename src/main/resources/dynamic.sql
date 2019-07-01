@@ -88,9 +88,9 @@ CREATE TABLE sys_user_role
 /*
 角色-权限关系表
  */
-DROP TABLE IF EXISTS sys_user_role;
+DROP TABLE IF EXISTS sys_role_permission;
 
-CREATE TABLE sys_user_role
+CREATE TABLE sys_role_permission
 (
 	id BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
 	role_id BIGINT(20) NOT NULL COMMENT '角色ID',
@@ -106,9 +106,9 @@ CREATE TABLE sys_user_role
 /*
 字典表
  */
-DROP TABLE IF EXISTS sys_user_role;
+DROP TABLE IF EXISTS sys_dictionary;
 
-CREATE TABLE sys_user_role
+CREATE TABLE sys_dictionary
 (
 	id BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
 	name VARCHAR(30) NOT NULL COMMENT '名称',

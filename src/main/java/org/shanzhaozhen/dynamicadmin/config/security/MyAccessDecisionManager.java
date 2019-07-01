@@ -6,7 +6,7 @@ import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -18,12 +18,12 @@ import java.util.Iterator;
  * 该方法用于判断当前用户是否有权限进行操作，参数中authentication包含了当前用户所拥有的权限，
  * configAttributes中包含了进行该步骤需要的权限，对其进行对比就可以判断该用户是否有权限进行操作
  */
-@Service
+@Component
 public class MyAccessDecisionManager implements AccessDecisionManager {
 
     /**
      * decide           是判定是否拥有权限的决策方法，
-     * authentication   是释UserDetailsService中循环添加到 GrantedAuthority 对象中的权限信息集合.
+     * authentication   是释 UserDetailsService 中循环添加到 GrantedAuthority 对象中的权限信息集合.
      * object           包含客户端发起的请求的requset信息,
      *                  可转换为 HttpServletRequest request = ((FilterInvocation) object).getHttpRequest();
      * configAttributes 为FilterInvocationSecurityMetadataSource的getAttributes(Object object)这个方法返回的结果,
