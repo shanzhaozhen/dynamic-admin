@@ -34,8 +34,6 @@ public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticati
     @Value("${jwt.header}")
     private String header;
 
-    private ThreadLocal rememberMe = new ThreadLocal();
-
     @Autowired
     private MyJwtTokenProvider myJwtTokenProvider;
 
@@ -52,7 +50,7 @@ public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticati
     public Authentication attemptAuthentication(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws AuthenticationException, IOException, ServletException {
 
         //非post请求处理
-        if (httpServletRequest.getMethod().equals("POST")) {
+        if (!httpServletRequest.getMethod().equals("POST")) {
             throw new AuthenticationServiceException("Authentication method not supported: " + httpServletRequest.getMethod());
         } else {
             //从json中获取username和password
@@ -66,7 +64,6 @@ public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticati
                     JSONObject jsonObj = JSON.parseObject(body);
                     username = jsonObj.getString("username");
                     password = jsonObj.getString("password");
-                    rememberMe.set(jsonObj.getBooleanValue("rememberMe"));
                 }
             } catch (JSONException e) {
                 this.unsuccessfulAuthentication(httpServletRequest, httpServletResponse, null);
@@ -101,8 +98,6 @@ public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticati
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
 
-        boolean isRemember = (boolean) rememberMe.get();
-
         String username = ((SysUser) authResult.getPrincipal()).getUsername();
 
         List<GrantedAuthority> authorities = (List<GrantedAuthority>) authResult.getAuthorities();
@@ -111,7 +106,7 @@ public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticati
             roles.add(g.getAuthority());
         }
 
-        String token = myJwtTokenProvider.createToken(username, roles, isRemember);
+        String token = myJwtTokenProvider.createToken(username, roles);
 
 //         返回创建成功的token
 //        response.setHeader(header, token);

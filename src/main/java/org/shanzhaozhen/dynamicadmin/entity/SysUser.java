@@ -1,6 +1,7 @@
 package org.shanzhaozhen.dynamicadmin.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class SysUser extends BaseEntity implements UserDetails {
@@ -34,6 +36,7 @@ public class SysUser extends BaseEntity implements UserDetails {
 
     private boolean enabled;                    //是否被禁用,禁用的用户不能身份验证
 
+    @TableField(exist = false)
     private List<SysRole> sysRoles;
 
     private String nickname;

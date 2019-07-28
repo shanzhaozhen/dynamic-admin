@@ -24,7 +24,7 @@ public class MyFilterSecurityInterceptor extends AbstractSecurityInterceptor imp
 
     /**
      * filterInvocation里面有一个被拦截的url
-     * 里面调用MyInvocationSecurityMetadataSource的getAttributes(Object object)这个方法获取filterInvocation对应的所有权限
+     * 里面调用 MyInvocationSecurityMetadataSource 的 getAttributes(Object object) 这个方法获取 filterInvocation 对应的所有权限
      * 再调用MyAccessDecisionManager的decide方法来校验用户的权限是否足够
      */
     public void invoke(FilterInvocation filterInvocation) throws IOException, ServletException {
@@ -43,7 +43,7 @@ public class MyFilterSecurityInterceptor extends AbstractSecurityInterceptor imp
 
     /**
      * 所有的请求到了这一个filter，如果这个filter之前没有执行过的话，
-     * 那么首先执行的InterceptorStatusToken token = super.beforeInvocation(filterInvocation);
+     * 那么首先执行的 InterceptorStatusToken token = super.beforeInvocation(filterInvocation);
      * 这个是由AbstractSecurityInterceptor提供。它就是spring security处理鉴权的入口。
      */
     @Override

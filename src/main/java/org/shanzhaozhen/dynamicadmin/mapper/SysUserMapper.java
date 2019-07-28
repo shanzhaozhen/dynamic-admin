@@ -16,5 +16,5 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
     SysUser checkSysUserByUsername(String username);
 
     @Select("select count(*) from sys_user where username = #{username}")
-    int countByUsername(String username);
+    Integer countByUsername(String username);
 }

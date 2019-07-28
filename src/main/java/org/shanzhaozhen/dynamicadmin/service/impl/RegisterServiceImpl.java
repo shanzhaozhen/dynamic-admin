@@ -5,18 +5,18 @@ import org.shanzhaozhen.dynamicadmin.mapper.SysUserMapper;
 import org.shanzhaozhen.dynamicadmin.param.ResultParam;
 import org.shanzhaozhen.dynamicadmin.service.RegisterService;
 import org.shanzhaozhen.dynamicadmin.utils.PasswordUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
 public class RegisterServiceImpl implements RegisterService {
 
-    @Autowired
+    @Resource
     private SysUserMapper sysUserMapper;
 
     @Override
@@ -32,13 +32,14 @@ public class RegisterServiceImpl implements RegisterService {
         if (count > 0) {
             return new ResultParam(false, "注册失败，用户名已存在！");
         }
-        SysUser newUser = new SysUser();
-        newUser.setUsername(sysUser.getUsername());
-        newUser.setPassword(PasswordUtils.encryption(sysUser.getPassword()));
-        newUser.setAccountNonExpired(false);
-        newUser.setAccountNonLocked(true);
-        newUser.setCredentialsNonExpired(true);
-        newUser.setEnabled(true);
+        SysUser newUser = SysUser.builder()
+                .username(sysUser.getUsername())
+                .password(PasswordUtils.encryption(sysUser.getPassword()))
+                .accountNonExpired(false)
+                .accountNonLocked(true)
+                .credentialsNonExpired(true)
+                .enabled(true)
+            .build();
         sysUserMapper.insert(newUser);
         return new ResultParam(true, "注册成功，等待管理员通过审核！");
     }

@@ -52,7 +52,7 @@ public class MyJwtTokenProvider {
      * jti：JWT ID用于标识该JWT
      */
     // 创建token
-    public String createToken(String username, List<String> roles, boolean isRemember) {
+    public String createToken(String username, List<String> roles) {
 
         Map<String, Object> map = new HashMap<>();
 
@@ -70,7 +70,7 @@ public class MyJwtTokenProvider {
                 .setSubject(username)
                 .setIssuer(issuer)          //iss
                 .setIssuedAt(new Date())            //iat: jwt的签发时间
-                .setExpiration(new Date(System.currentTimeMillis() + (isRemember ? remember_expiration : expiration) * 1000))        //设置过期时间
+                .setExpiration(new Date(System.currentTimeMillis() + expiration * 1000))        //设置过期时间
                 .signWith(SignatureAlgorithm.HS512, secret)         //设置签名使用的签名算法和签名使用的秘钥
                 .compact();
     }

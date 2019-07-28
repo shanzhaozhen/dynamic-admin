@@ -1,6 +1,7 @@
 package org.shanzhaozhen.dynamicadmin.service;
 
 import org.shanzhaozhen.dynamicadmin.entity.SysUser;
+import org.shanzhaozhen.dynamicadmin.param.ResultParam;
 
 import java.util.Map;
 
@@ -25,12 +26,12 @@ public interface SysUserService {
      * @param sysUser
      * @return
      */
-    Map<String, Object> register(SysUser sysUser);
+    ResultParam register(SysUser sysUser);
 
     /**
      * 检查用户名是否已存在
      * @param username
      * @return
      */
-    Map<String, Boolean> checkUsername(String username);
+    ResultParam checkUsername(String username);
 }

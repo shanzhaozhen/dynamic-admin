@@ -13,26 +13,22 @@ import lombok.NoArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResultParam {
 
-    private Integer code;
+    private int code;
 
-    private boolean success;
-
-    private String msg;
+    private String message;
 
     private Object data;
 
     public ResultParam(String msg) {
-        this.msg = msg;
+        this.message = msg;
     }
 
     public ResultParam(boolean success, String msg) {
-        this.success = success;
-        this.msg = msg;
+        this.message = msg;
     }
 
     public ResultParam(boolean success, String msg, Object data) {
-        this.success = success;
-        this.msg = msg;
+        this.message = msg;
         this.data = data;
     }
 }

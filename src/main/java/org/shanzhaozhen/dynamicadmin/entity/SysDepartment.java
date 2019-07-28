@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Department extends BaseEntity {
+public class SysDepartment extends BaseEntity {
 
     private static final long serialVersionUID = -4727379501712632270L;
 
