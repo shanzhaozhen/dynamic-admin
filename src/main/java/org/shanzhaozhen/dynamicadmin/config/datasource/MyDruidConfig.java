@@ -66,6 +66,4 @@ public class MyDruidConfig {
         return bean;
     }
 
-
-
 }

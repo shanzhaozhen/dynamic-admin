@@ -6,6 +6,8 @@ import org.shanzhaozhen.dynamicadmin.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
 public class SysUserServiceImpl implements SysUserService {
 
@@ -14,12 +16,24 @@ public class SysUserServiceImpl implements SysUserService {
 
 
     @Override
-    public SysUser selectSysUserByUserId(String userId) {
+    public SysUser getSysUserByUserId(String userId) {
         return sysUserMapper.selectById(userId);
     }
 
     @Override
-    public SysUser selectSysUserByUsername(String username) {
+    public SysUser getSysUserByUsername(String username) {
         return sysUserMapper.selectSysUserByUsername(username);
     }
+
+    @Override
+    public Map<String, Object> register(SysUser sysUser) {
+        return null;
+    }
+
+    @Override
+    public Map<String, Boolean> checkUsername(String username) {
+        sysUserMapper.countByUsername(username);
+        return null;
+    }
+
 }
