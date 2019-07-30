@@ -2,10 +2,12 @@ package org.shanzhaozhen.dynamicadmin.service.impl;
 
 import org.shanzhaozhen.dynamicadmin.entity.SysUser;
 import org.shanzhaozhen.dynamicadmin.mapper.SysUserMapper;
+import org.shanzhaozhen.dynamicadmin.param.JWTUser;
 import org.shanzhaozhen.dynamicadmin.param.ResultParam;
 import org.shanzhaozhen.dynamicadmin.service.SysUserService;
 import org.shanzhaozhen.dynamicadmin.utils.PasswordUtils;
 import org.shanzhaozhen.dynamicadmin.utils.ResultUtils;
+import org.shanzhaozhen.dynamicadmin.utils.UserDetailsUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -26,6 +28,12 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public SysUser getSysUserByUsername(String username) {
         return sysUserMapper.selectSysUserByUsername(username);
+    }
+
+    @Override
+    public SysUser getCurrentUser() {
+        Long userId = UserDetailsUtils.getUserId();
+        return sysUserMapper.selectById(userId);
     }
 
     @Override
@@ -60,6 +68,12 @@ public class SysUserServiceImpl implements SysUserService {
             return ResultUtils.failure("该用户名已被注册");
         }
         return ResultUtils.success("该用户名可以使用");
+    }
+
+    @Override
+    public ResultParam getUserInfo() {
+        JWTUser jwtUser = UserDetailsUtils.getJWTUser();
+        return ResultUtils.success("获取成功", jwtUser);
     }
 
 }

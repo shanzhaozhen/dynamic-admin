@@ -5,6 +5,7 @@ import org.shanzhaozhen.dynamicadmin.mapper.SysUserMapper;
 import org.shanzhaozhen.dynamicadmin.param.ResultParam;
 import org.shanzhaozhen.dynamicadmin.service.RegisterService;
 import org.shanzhaozhen.dynamicadmin.utils.PasswordUtils;
+import org.shanzhaozhen.dynamicadmin.utils.ResultUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -23,14 +24,14 @@ public class RegisterServiceImpl implements RegisterService {
     @Transactional
     public ResultParam RegisterNewUser(SysUser sysUser) {
         if (StringUtils.isEmpty(sysUser.getUsername())) {
-            return new ResultParam(false, "填写的用户名有误！");
+            return ResultUtils.failure("填写的用户名有误！");
         }
         if (StringUtils.isEmpty(sysUser.getPassword())) {
-            return new ResultParam(false, "填写的密码有误！");
+            return ResultUtils.failure("填写的密码有误！");
         }
         int count = sysUserMapper.countByUsername(sysUser.getUsername());
         if (count > 0) {
-            return new ResultParam(false, "注册失败，用户名已存在！");
+            return ResultUtils.failure("注册失败，用户名已存在！");
         }
         SysUser newUser = SysUser.builder()
                 .username(sysUser.getUsername())
@@ -41,7 +42,7 @@ public class RegisterServiceImpl implements RegisterService {
                 .enabled(true)
             .build();
         sysUserMapper.insert(newUser);
-        return new ResultParam(true, "注册成功，等待管理员通过审核！");
+        return ResultUtils.success("注册成功，等待管理员通过审核！");
     }
 
     @Override

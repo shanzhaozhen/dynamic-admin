@@ -98,7 +98,7 @@ public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticati
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
 
-        String username = ((SysUser) authResult.getPrincipal()).getUsername();
+        SysUser sysUser = (SysUser) authResult.getPrincipal();
 
         List<GrantedAuthority> authorities = (List<GrantedAuthority>) authResult.getAuthorities();
         List<String> roles = new ArrayList<>();
@@ -106,7 +106,7 @@ public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticati
             roles.add(g.getAuthority());
         }
 
-        String token = myJwtTokenProvider.createToken(username, roles);
+        String token = myJwtTokenProvider.createToken(sysUser.getId(), sysUser.getUsername(), roles);
 
 //         返回创建成功的token
 //        response.setHeader(header, token);
@@ -124,7 +124,7 @@ public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticati
 //        String msg = "authentication failed, reason: " + (failed == null ? "param error" : failed.getMessage());
         String msg = failed == null ? "param error" : failed.getMessage();
 
-//        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, msg);
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, msg);
         this.sendResult(response, false, null, msg);
 
     }
@@ -135,22 +135,18 @@ public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticati
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
         PrintWriter writer = response.getWriter();
-        map.put("timestamp", new Date(System.currentTimeMillis()));
 
         if (success) {
             response.setStatus(HttpServletResponse.SC_OK);
-            map.put("success", true);
             map.put("code", JwtErrorConst.LOGIN_SUCCESS.getCode());
-            map.put("message", msg);
-            map.put("access-token", token);
-            writer.write(JSONObject.toJSONString(map));
+            map.put("token", token);
         } else {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            map.put("status", HttpServletResponse.SC_UNAUTHORIZED);
             map.put("code", JwtErrorConst.LOGIN_ERROR.getCode());
-            map.put("message", msg);
-            writer.write(JSONObject.toJSONString(map));
         }
+        map.put("message", msg);
+        map.put("timestamp", System.currentTimeMillis());
+        writer.write(JSONObject.toJSONString(map));
 
     }
 

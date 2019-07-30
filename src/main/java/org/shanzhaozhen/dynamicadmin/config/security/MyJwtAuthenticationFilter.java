@@ -1,5 +1,6 @@
 package org.shanzhaozhen.dynamicadmin.config.security;
 
+import org.shanzhaozhen.dynamicadmin.param.JWTUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -40,7 +41,7 @@ public class MyJwtAuthenticationFilter extends OncePerRequestFilter {
             /**
              * token 过期时重新登录
              */
-            if (myJwtTokenProvider.validateToken(httpServletResponse, jwtToken) == false) {
+            if (!myJwtTokenProvider.validateToken(httpServletResponse, jwtToken)) {
                 return;
             }
 
@@ -57,19 +58,18 @@ public class MyJwtAuthenticationFilter extends OncePerRequestFilter {
     // 这里从token中获取用户信息并新建一个UsernamePasswordAuthenticationToken供给过滤链进行权限过滤
     private UsernamePasswordAuthenticationToken createAuthentication(String token) {
 
-        String username = myJwtTokenProvider.getUsername(token);
-        List<String> roles = myJwtTokenProvider.getUserRoles(token);
+        JWTUser jwtUser = myJwtTokenProvider.getJWTUser(token);
 
-        if (StringUtils.isEmpty(username)) {
+        if (StringUtils.isEmpty(jwtUser.getUsername())) {
             return null;
         }
 
         List<GrantedAuthority> authorities = new ArrayList<>();
-        for (String role : roles) {
+        for (String role : jwtUser.getAuthorities()) {
             authorities.add(new SimpleGrantedAuthority(role));
         }
 
-        return new UsernamePasswordAuthenticationToken(username, null, authorities);
+        return new UsernamePasswordAuthenticationToken(jwtUser, null, authorities);
     }
 
 

@@ -5,40 +5,27 @@ import org.shanzhaozhen.dynamicadmin.param.ResultParam;
 public class ResultUtils {
 
     public static ResultParam success() {
-        return ResultParam.builder()
-                .code(0)
-                .message("success")
-                .build();
+        return new ResultParam(0, "success");
     }
 
     public static ResultParam success(Object data) {
-        return ResultParam.builder()
-                .code(0)
-                .message("success")
-                .data(data)
-                .build();
+        return new ResultParam(0, "success", data);
     }
 
     public static ResultParam success(String message) {
-        return ResultParam.builder()
-                .code(0)
-                .message(message)
-                .build();
+        return new ResultParam(0, message);
+    }
+
+    public static ResultParam success(String message, Object data) {
+        return new ResultParam(0, message, data);
     }
 
     public static ResultParam success(int code, String message) {
-        return ResultParam.builder()
-                .code(code)
-                .message(message)
-                .build();
+        return new ResultParam(code, message);
     }
 
     public static ResultParam success(int code, String message, Object data) {
-        return ResultParam.builder()
-                .code(code)
-                .message(message)
-                .data(data)
-                .build();
+        return new ResultParam(code, message, data);
     }
 
     public static ResultParam failure() {

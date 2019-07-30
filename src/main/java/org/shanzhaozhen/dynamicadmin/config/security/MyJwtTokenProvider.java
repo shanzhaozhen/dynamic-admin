@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import io.jsonwebtoken.*;
 import org.shanzhaozhen.dynamicadmin.common.JwtErrorConst;
 import org.shanzhaozhen.dynamicadmin.param.JWTUser;
+import org.shanzhaozhen.dynamicadmin.param.ResultParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,11 +53,13 @@ public class MyJwtTokenProvider {
      * jti：JWT ID用于标识该JWT
      */
     // 创建token
-    public String createToken(String username, List<String> roles) {
+    public String createToken(Long userId, String username, List<String> roles) {
 
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> claims = new HashMap<>();
 
-        map.put("roles", roles);
+        claims.put("id", userId);
+        claims.put("username", username);
+        claims.put("roles", roles);
 
         /**
          * 按照jwt的规定，最后请求的时候应该是 `Bearer token`
@@ -66,7 +69,7 @@ public class MyJwtTokenProvider {
                  * 如果有私有声明，一定要先设置这个自己创建的私有的声明，这个是给builder的claim赋值
                  * 一旦写在标准的声明赋值之后，就是覆盖了那些标准的声明的
                  */
-                .setClaims(map)
+                .setClaims(claims)
                 .setSubject(username)
                 .setIssuer(issuer)          //iss
                 .setIssuedAt(new Date())            //iat: jwt的签发时间
@@ -77,7 +80,6 @@ public class MyJwtTokenProvider {
 
     /**
      * 校验token的签名
-     *
      * @param httpServletResponse
      * @param authToken
      * @return
@@ -110,17 +112,11 @@ public class MyJwtTokenProvider {
 
 
     public void sendError(HttpServletResponse httpServletResponse, JwtErrorConst jwtErrorConst) throws IOException {
-        httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         httpServletResponse.setCharacterEncoding("UTF-8");
         httpServletResponse.setContentType("application/json; charset=utf-8");
+        httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         PrintWriter writer = httpServletResponse.getWriter();
-        Map<String, Object> map = new HashMap<>();
-        Date date = new Date(System.currentTimeMillis());
-        map.put("timestamp", date);
-        map.put("status", HttpServletResponse.SC_UNAUTHORIZED);
-        map.put("code", jwtErrorConst.getCode());
-        map.put("message", jwtErrorConst.getReason());
-        writer.write(JSONObject.toJSONString(map));
+        writer.write(JSONObject.toJSONString(new ResultParam(jwtErrorConst.getCode(), jwtErrorConst.getReason())));
     }
 
     /**
@@ -136,22 +132,44 @@ public class MyJwtTokenProvider {
         return null;
     }
 
-    // 从token中获取用户名
-    public String getUsername(String token){
+    /**
+     * 从token中获取用户名
+     * @param token
+     * @return
+     */
+    public String getUsername(String token) {
         return getTokenBody(token).getSubject();
     }
 
-    // 获取用户角色
-    public List<String> getUserRoles(String token){
+    /**
+     * 获取用户id
+     * @param token
+     * @return
+     */
+    public Long getUserId(String token) {
+        return Long.parseLong(String.valueOf(getTokenBody(token).get("id")));
+    }
+
+    /**
+     * 获取用户角色
+     * @param token
+     * @return
+     */
+    public List<String> getUserRoles(String token) {
         return (List<String>) getTokenBody(token).get("roles");
     }
 
-    //获取jwt用户体信息
+    /**
+     * 获取jwt用户体信息
+     * @param token
+     * @return
+     */
     public JWTUser getJWTUser(String token) {
-        Claims tokenBody = getTokenBody(token);
+        Claims claims = getTokenBody(token);
         return JWTUser.builder()
-                .username(tokenBody.getSubject())
-                .roles((List<String>) tokenBody.get("roles"))
+                .id(Long.parseLong(String.valueOf(claims.get("id"))))
+                .username(claims.getSubject())
+                .authorities((List<String>) claims.get("roles"))
                 .build();
     }
 

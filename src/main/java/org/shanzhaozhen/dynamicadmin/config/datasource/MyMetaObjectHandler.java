@@ -12,7 +12,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void insertFill(MetaObject metaObject) {
-        Long userId = UserDetailsUtils.getSysUserId();
+        Long userId = UserDetailsUtils.getUserId();
         this.setInsertFieldValByName("createdDate", new Date(), metaObject);
         this.setInsertFieldValByName("createBy", userId, metaObject);
         this.setInsertFieldValByName("lastModifiedDate", new Date(), metaObject);
@@ -21,7 +21,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        Long userId = UserDetailsUtils.getSysUserId();
+        Long userId = UserDetailsUtils.getUserId();
         this.setUpdateFieldValByName("lastModifiedDate", new Date(), metaObject);
         this.setUpdateFieldValByName("lastModifiedBy", userId, metaObject);
     }

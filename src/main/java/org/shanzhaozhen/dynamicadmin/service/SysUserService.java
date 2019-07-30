@@ -21,6 +21,12 @@ public interface SysUserService {
      */
     SysUser getSysUserByUsername(String username);
 
+
+    /**
+     * 获取当前用户
+     */
+    SysUser getCurrentUser();
+
     /**
      * 注册新用户
      * @param sysUser
@@ -34,4 +40,10 @@ public interface SysUserService {
      * @return
      */
     ResultParam checkUsername(String username);
+
+    /**
+     * 获取用户信息
+     * @return
+     */
+    ResultParam getUserInfo();
 }

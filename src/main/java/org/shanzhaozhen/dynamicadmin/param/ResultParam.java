@@ -19,15 +19,18 @@ public class ResultParam {
 
     private Object data;
 
+    private long timestamp = System.currentTimeMillis();
+
     public ResultParam(String msg) {
         this.message = msg;
     }
 
-    public ResultParam(boolean success, String msg) {
+    public ResultParam(int code, String msg) {
+        this.code = code;
         this.message = msg;
     }
 
-    public ResultParam(boolean success, String msg, Object data) {
+    public ResultParam(int code, String msg, Object data) {
         this.message = msg;
         this.data = data;
     }

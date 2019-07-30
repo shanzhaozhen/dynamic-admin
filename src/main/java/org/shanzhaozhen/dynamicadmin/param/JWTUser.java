@@ -13,8 +13,10 @@ import java.util.List;
 @AllArgsConstructor
 public class JWTUser {
 
+    private Long id;
+
     private String username;
 
-    private List<String> roles;
+    private List<String> authorities;
 
 }
