@@ -7,7 +7,7 @@ import org.shanzhaozhen.dynamicadmin.entity.SysUser;
 public interface SysUserMapper extends BaseMapper<SysUser> {
 
     @Select("select * from sys_user where id = #{id}")
-    SysUser selectSysUserByUserId(String id);
+    SysUser selectSysUserByUserId(Long id);
 
     @Select("select * from sys_user where username = #{username}")
     SysUser selectSysUserByUsername(String username);

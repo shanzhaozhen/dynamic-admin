@@ -2,20 +2,28 @@ package org.shanzhaozhen.dynamicadmin.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@TableName("sys_user_role")
+@ApiModel(value="UserRole对象", description="")
 public class SysUserRole extends BaseEntity {
 
     private static final long serialVersionUID = -8389872342618587940L;
 
+    @ApiModelProperty(value = "主键ID")
     @TableId(type = IdType.AUTO)
     private Long id;
 
-    private Integer userId;
+    @ApiModelProperty(value = "用户ID")
+    private Long userId;
 
-    private Integer roleId;
+    @ApiModelProperty(value = "角色ID")
+    private Long roleId;
 
 }

@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class SysUserServiceImpl implements SysUserService {
@@ -73,7 +75,16 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public ResultParam getUserInfo() {
         JWTUser jwtUser = UserDetailsUtils.getJWTUser();
-        return ResultUtils.success("获取成功", jwtUser);
+        SysUser sysUser = sysUserMapper.selectSysUserByUserId(jwtUser.getId());
+        if (sysUser == null) {
+            return ResultUtils.failure();
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("nickname", sysUser.getNickname());
+        map.put("avatar", sysUser.getAvatar());
+        map.put("introduction", sysUser.getIntroduction());
+        map.put("roles", jwtUser.getAuthorities());
+        return ResultUtils.success(map);
     }
 
 }

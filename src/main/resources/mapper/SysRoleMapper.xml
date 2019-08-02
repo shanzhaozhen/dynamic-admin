@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.shanzhaozhen.dynamicadmin.mapper.SysRoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="org.shanzhaozhen.dynamicadmin.entity.SysRole">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="role" property="role" />
+        <result column="description" property="description" />
+        <result column="create_by" property="createBy" />
+        <result column="created_date" property="createdDate" />
+        <result column="last_modified_by" property="lastModifiedBy" />
+        <result column="last_modified_date" property="lastModifiedDate" />
+    </resultMap>
+
+
+    <resultMap type="org.shanzhaozhen.dynamicadmin.entity.SysResource" id="SysResourceMap">
+    </resultMap>
+
+    <select id="selectSysRoleListJoinResourceByType" parameterType="integer" resultMap="SysResourceMap">
+        select * from sys_role r1
+        left join sys_role_resource srr on r1.id = srr.resource_id
+        left join sys_resource r2 on r2.id = srr.resource_id
+        where r2.type = #{type}
+    </select>
+
+</mapper>

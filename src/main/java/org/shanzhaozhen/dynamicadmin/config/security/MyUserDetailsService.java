@@ -1,8 +1,8 @@
 package org.shanzhaozhen.dynamicadmin.config.security;
 
-import org.shanzhaozhen.dynamicadmin.entity.SysPermission;
+import org.shanzhaozhen.dynamicadmin.entity.SysResource;
 import org.shanzhaozhen.dynamicadmin.entity.SysUser;
-import org.shanzhaozhen.dynamicadmin.service.SysPermissionService;
+import org.shanzhaozhen.dynamicadmin.service.SysResourceService;
 import org.shanzhaozhen.dynamicadmin.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -30,7 +30,7 @@ public class MyUserDetailsService implements UserDetailsService {
     private SysUserService sysUserService;
 
     @Autowired
-    private SysPermissionService sysPermissionService;
+    private SysResourceService sysResourceService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -45,11 +45,11 @@ public class MyUserDetailsService implements UserDetailsService {
             throw new BadCredentialsException("Account does not exist!");
         } else {
             //将数据库保存的权限存至登陆的账号里面
-            List<SysPermission> sysPermissions = sysPermissionService.selectSysPermissionListByUsername(username);
-            if (sysPermissions != null) {
+            List<SysResource> sysResources = sysResourceService.selectSysResourceListByUsername(username);
+            if (sysResources != null) {
                 Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-                for (SysPermission sysPermission : sysPermissions) {
-                    grantedAuthorities.add(new SimpleGrantedAuthority(sysPermission.getPermissionName()));
+                for (SysResource sysResource : sysResources) {
+                    grantedAuthorities.add(new SimpleGrantedAuthority(sysResource.getName()));
                 }
                 sysUser.setAuthorities(grantedAuthorities);
             }

@@ -7,29 +7,23 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
-import java.util.List;
-import java.util.Set;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("sys_role")
-@ApiModel(value="SysRole对象", description="")
-public class SysRole extends BaseEntity {
+@TableName("sys_role_resource")
+@ApiModel(value="SysRoleResource对象", description="")
+public class SysRoleResource extends BaseEntity {
 
-    private static final long serialVersionUID = 6203528166202612882L;
+    private static final long serialVersionUID = 1642473344166749722L;
 
     @ApiModelProperty(value = "主键ID")
     @TableId(type = IdType.AUTO)
     private Long id;
 
-    @ApiModelProperty(value = "名称")
-    private String name;
+    @ApiModelProperty(value = "角色ID")
+    private Long roleId;
 
-    @ApiModelProperty(value = "角色名")
-    private String role;
-
-    @ApiModelProperty(value = "描述")
-    private String description;
+    @ApiModelProperty(value = "权限ID")
+    private Long resourceId;
 
 }
