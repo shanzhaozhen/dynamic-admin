@@ -28,14 +28,21 @@ public class UserDetailsUtils {
      * 获取当前用户名JWTUser.
      */
     public static JWTUser getJWTUser() {
-        return (JWTUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Object jwtUser = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if ("anonymousUser".equals(jwtUser)) {
+            return null;
+        }
+        return (JWTUser) jwtUser;
     }
 
     /**
      * 获取当前登录用户名.
      */
     public static Long getUserId() {
-        JWTUser jwtUser = (JWTUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        JWTUser jwtUser = UserDetailsUtils.getJWTUser();
+        if (jwtUser == null) {
+            return null;
+        }
         return jwtUser.getId();
     }
 
@@ -43,7 +50,10 @@ public class UserDetailsUtils {
      * 获取当前登录用户名.
      */
     public static String getUsername() {
-        JWTUser jwtUser = (JWTUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        JWTUser jwtUser = UserDetailsUtils.getJWTUser();
+        if (jwtUser == null) {
+            return null;
+        }
         return jwtUser.getUsername();
     }
 

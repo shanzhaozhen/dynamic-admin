@@ -13,20 +13,4 @@
         <result column="last_modified_date" property="lastModifiedDate" />
     </resultMap>
 
-
-    <resultMap id="RoleMap" type="org.shanzhaozhen.dynamicadmin.entity.SysRole" autoMapping="true">
-    </resultMap>
-    <select id="selectSysRoleByResourceId" resultMap="RoleMap" parameterType="long">
-        select * from sys_role r
-        inner join sys_role_resource srr on srr.resource_id = #{resource_id} and r.id = srr.role_id
-    </select>
-
-    <resultMap id="ResourceMap" type="org.shanzhaozhen.dynamicadmin.entity.SysResource" autoMapping="true">
-    </resultMap>
-    <select id="selectSysResourceByRoleId" resultMap="ResourceMap" parameterType="long">
-        select * from sys_resource r
-        inner join sys_role_resource srr on srr.role_id = #{role_id} and r.id = srr.resource_id
-    </select>
-
-
 </mapper>

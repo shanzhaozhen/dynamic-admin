@@ -2,6 +2,7 @@ package org.shanzhaozhen.dynamicadmin;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.shanzhaozhen.dynamicadmin.common.ResourceType;
 import org.shanzhaozhen.dynamicadmin.entity.SysResource;
 import org.shanzhaozhen.dynamicadmin.mapper.SysResourceMapper;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,7 +24,7 @@ public class DynamicAdminApplicationTests {
 
     @Test
     public void testMybatisManyToMany() {
-        List<SysResource> list = sysResourceMapper.selectSysResourceListJoinRole();
+        List<SysResource> list = sysResourceMapper.selectSysResourceRoleListByTypeAndUserId(ResourceType.API, null);
         System.out.println(list);
     }
 

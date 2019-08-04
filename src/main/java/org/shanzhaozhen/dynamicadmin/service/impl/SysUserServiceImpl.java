@@ -4,10 +4,12 @@ import org.shanzhaozhen.dynamicadmin.entity.SysUser;
 import org.shanzhaozhen.dynamicadmin.mapper.SysUserMapper;
 import org.shanzhaozhen.dynamicadmin.param.JWTUser;
 import org.shanzhaozhen.dynamicadmin.param.ResultParam;
+import org.shanzhaozhen.dynamicadmin.service.SysResourceService;
 import org.shanzhaozhen.dynamicadmin.service.SysUserService;
 import org.shanzhaozhen.dynamicadmin.utils.PasswordUtils;
 import org.shanzhaozhen.dynamicadmin.utils.ResultUtils;
 import org.shanzhaozhen.dynamicadmin.utils.UserDetailsUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -21,6 +23,8 @@ public class SysUserServiceImpl implements SysUserService {
     @Resource
     private SysUserMapper sysUserMapper;
 
+    @Autowired
+    private SysResourceService sysResourceService;
 
     @Override
     public SysUser getSysUserByUserId(String userId) {
@@ -84,6 +88,7 @@ public class SysUserServiceImpl implements SysUserService {
         map.put("avatar", sysUser.getAvatar());
         map.put("introduction", sysUser.getIntroduction());
         map.put("roles", jwtUser.getAuthorities());
+        map.put("menus", sysResourceService.getMenusByCurrentUser());
         return ResultUtils.success(map);
     }
 

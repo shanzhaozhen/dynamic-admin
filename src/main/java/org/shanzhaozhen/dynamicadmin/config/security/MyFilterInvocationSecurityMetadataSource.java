@@ -3,6 +3,7 @@ package org.shanzhaozhen.dynamicadmin.config.security;
 import org.shanzhaozhen.dynamicadmin.common.ResourceType;
 import org.shanzhaozhen.dynamicadmin.entity.SysResource;
 import org.shanzhaozhen.dynamicadmin.entity.SysResource;
+import org.shanzhaozhen.dynamicadmin.entity.SysRole;
 import org.shanzhaozhen.dynamicadmin.service.SysResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
@@ -35,12 +36,15 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
      */
     public void loadResourceDefine() {
         resourceMap = new HashMap<>();
-        List<SysResource> sysResources = sysResourceService.selectSysResourceListByType(ResourceType.API);
+        List<SysResource> sysResources = sysResourceService.getSysResourceRoleListByType(ResourceType.API);
         for (SysResource sysResource : sysResources) {
             Collection<ConfigAttribute> configAttributes = new ArrayList<>();
             //此处只添加了用户的名字，其实还可以添加更多权限的信息，例如请求方法到ConfigAttribute的集合中去。
             //此处添加的信息将会作为MyAccessDecisionManager类的decide的第三个参数
-            configAttributes.add(new SecurityConfig(sysResource.getName()));
+            List<SysRole> roles = sysResource.getRoles();
+            for (SysRole sysRole : roles) {
+                configAttributes.add(new SecurityConfig(sysRole.getRole()));
+            }
             resourceMap.put(sysResource.getPath(), configAttributes);
         }
     }

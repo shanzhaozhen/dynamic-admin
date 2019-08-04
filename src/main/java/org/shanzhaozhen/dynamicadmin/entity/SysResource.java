@@ -9,7 +9,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import java.util.List;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -45,7 +44,25 @@ public class SysResource extends BaseEntity {
     @ApiModelProperty(value = "排序等级")
     private Integer priority;
 
+    @ApiModelProperty(value = "菜单是否隐藏")
+    private Boolean hidden;
+
+    @ApiModelProperty(value = "菜单是否总是显示")
+    private Boolean alwaysShow;
+
+    @ApiModelProperty(value = "是否需要缓存")
+    private Boolean noCache;
+
+    @ApiModelProperty(value = "固钉")
+    private Boolean affix;
+
+    @ApiModelProperty(value = "面包屑")
+    private Boolean breadcrumb;
+
     @TableField(exist = false)
-    private List<String> roles;
+    private List<SysRole> roles;
+//
+//    @TableField(exist = false)
+//    private List<String> roles;
 
 }

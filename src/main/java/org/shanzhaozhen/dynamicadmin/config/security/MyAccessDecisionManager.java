@@ -40,10 +40,10 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
         while (iterator.hasNext()) {
             ConfigAttribute configAttribute = iterator.next();
             //访问所请求资源所需要的权限
-            String needPermission = configAttribute.getAttribute();
+            String needRole = configAttribute.getAttribute();
             for (GrantedAuthority grantedAuthority : authentication.getAuthorities()) {
                 //如果访问的资源在用户的权限表里面，则不拦截
-                if (needPermission.equals(grantedAuthority.getAuthority())) {
+                if (needRole.equals(grantedAuthority.getAuthority())) {
                     return;
                 }
             }

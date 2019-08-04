@@ -14,15 +14,10 @@
         <result column="last_modified_date" property="lastModifiedDate" />
     </resultMap>
 
-
-    <resultMap type="org.shanzhaozhen.dynamicadmin.entity.SysResource" id="SysResourceMap">
+    <resultMap autoMapping="true" type="org.shanzhaozhen.dynamicadmin.entity.SysRole" id="SysRoleResourceMap">
+        <id property="id" column="id"></id>
+        <collection property="roles" column="id" select="org.shanzhaozhen.dynamicadmin.mapper.SysRoleMapper.selectSysRoleByResourceId">
+        </collection>
     </resultMap>
-
-    <select id="selectSysRoleListJoinResourceByType" parameterType="integer" resultMap="SysResourceMap">
-        select * from sys_role r1
-        left join sys_role_resource srr on r1.id = srr.resource_id
-        left join sys_resource r2 on r2.id = srr.resource_id
-        where r2.type = #{type}
-    </select>
 
 </mapper>

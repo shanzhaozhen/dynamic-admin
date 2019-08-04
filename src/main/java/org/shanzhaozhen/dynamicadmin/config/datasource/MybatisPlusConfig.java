@@ -6,7 +6,9 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+@EnableTransactionManagement
 @Configuration
 @MapperScan("org.shanzhaozhen.dynamicadmin.mapper")
 public class MybatisPlusConfig {
@@ -30,6 +32,7 @@ public class MybatisPlusConfig {
      */
     @Bean
     public PaginationInterceptor paginationInterceptor() {
+        // .setLimit(你的最大单页限制数量，默认 500 条，小于 0 如 -1 不受限制);
         return new PaginationInterceptor();
     }
 

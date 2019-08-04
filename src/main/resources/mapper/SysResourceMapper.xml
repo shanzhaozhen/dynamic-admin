@@ -18,14 +18,20 @@
         <result column="last_modified_date" property="lastModifiedDate" />
     </resultMap>
 
-    <resultMap autoMapping="true" type="org.shanzhaozhen.dynamicadmin.entity.SysResource" id="SysResourceMap">
+    <resultMap autoMapping="true" type="org.shanzhaozhen.dynamicadmin.entity.SysResource" id="SysResourceRoleMap">
         <id property="id" column="id"></id>
-        <collection property="roles" column="id" select="org.shanzhaozhen.dynamicadmin.mapper.SysRoleResourceMapper.selectSysRoleByResourceId">
+        <collection property="roles" column="id" select="org.shanzhaozhen.dynamicadmin.mapper.SysRoleMapper.selectSysRoleByResourceId">
         </collection>
     </resultMap>
 
-    <select id="selectSysResourceListJoinRole" resultMap="SysResourceMap">
-        select * from sys_resource
+    <select id="selectSysResourceRoleListByTypeAndUserId" resultMap="SysResourceRoleMap">
+        select * from sys_resource re
+        <if test="userId != null">
+            inner join sys_role_resource srr on srr.resource_id = re.id
+            inner join sys_role ro on ro.id = srr.role_id
+            inner join sys_user_role sur on sur.user_id = #{userId} and ro.id = sur.role_id
+        </if>
+        where re.type = #{type} group by re.id
     </select>
 
 
