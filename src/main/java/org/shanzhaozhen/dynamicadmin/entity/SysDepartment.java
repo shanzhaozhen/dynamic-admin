@@ -28,8 +28,4 @@ public class SysDepartment extends BaseEntity {
     @ApiModelProperty(value = "父级ID")
     private Long pid;
 
-
-
-
-
 }

@@ -18,4 +18,6 @@ public interface SysResourceMapper extends BaseMapper<SysResource> {
 
     List<SysResource> selectSysResourceRoleListByTypeAndUserId(@Param("type") int type, @Param("userId") Long userId);
 
+    @Select("select * from sys_resource order by priority")
+    List<SysResource> selectSysResourceList();
 }

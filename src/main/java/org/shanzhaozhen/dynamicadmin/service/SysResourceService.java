@@ -1,6 +1,5 @@
 package org.shanzhaozhen.dynamicadmin.service;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.shanzhaozhen.dynamicadmin.entity.SysResource;
 import org.shanzhaozhen.dynamicadmin.param.AsyncRoute;
 import org.shanzhaozhen.dynamicadmin.param.ResultParam;
@@ -29,8 +28,8 @@ public interface SysResourceService {
     List<AsyncRoute> getMenusByCurrentUser();
 
     /**
-     * 获取资源列表
+     * 获取所有资源的树形结构
      * @return
      */
-    Page<SysResource> getSysResourcePage();
+    ResultParam getAllSysResourceTree();
 }

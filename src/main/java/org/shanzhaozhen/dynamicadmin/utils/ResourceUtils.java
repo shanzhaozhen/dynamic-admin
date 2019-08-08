@@ -83,7 +83,7 @@ public class ResourceUtils {
     }
 
     /**
-     * 对子节点进行递归查找
+     * 对动态路由子节点进行递归查找
      * @param noRootList
      * @param children
      * @return
@@ -115,5 +115,53 @@ public class ResourceUtils {
         List<AsyncRoute> menuList = ResourceUtils.builtAsyncRouteTree(asyncRouteList);
         return menuList;
     }
+
+    /**
+     * 装资源list转成树状结构
+     * @param resourceList
+     * @return
+     */
+    public static List<SysResource> builtResourceTree(List<SysResource> resourceList) {
+        List<SysResource> rootList = new ArrayList<>();
+        List<SysResource> noRootList = new ArrayList<>();
+
+        for (SysResource sysResource : resourceList) {
+            if (sysResource.getPid() == null || sysResource.getPid() <= 0) {
+                rootList.add(sysResource);
+            } else {
+                noRootList.add(sysResource);
+            }
+        }
+
+        getSysResourceChildren(noRootList, resourceList);
+
+        rootList.sort((Comparator.comparing(SysResource::getPriority)));
+
+        return rootList;
+    }
+
+    /**
+     * 对动态路由子节点进行递归查找
+     * @param noRootList
+     * @param children
+     * @return
+     */
+    public static List<SysResource> getSysResourceChildren(List<SysResource> noRootList, List<SysResource> children) {
+        for (SysResource child : children) {
+            List<SysResource> grandsons = new ArrayList<>();
+            for (SysResource noRoot : noRootList) {
+                if (child.getId().equals(noRoot.getPid())) {
+                    grandsons.add(noRoot);
+                }
+            }
+            if (grandsons.size() > 0) {
+                child.setChildren(getSysResourceChildren(noRootList, grandsons));
+            }
+        }
+        children.sort((Comparator.comparing(SysResource::getPriority)));
+
+        return children;
+    }
+
 
 }

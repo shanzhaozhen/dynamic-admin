@@ -1,6 +1,5 @@
 package org.shanzhaozhen.dynamicadmin.service.impl;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.shanzhaozhen.dynamicadmin.common.ResourceType;
 import org.shanzhaozhen.dynamicadmin.entity.SysResource;
 import org.shanzhaozhen.dynamicadmin.mapper.SysResourceMapper;
@@ -40,9 +39,10 @@ public class SysResourceServiceImpl implements SysResourceService {
     }
 
     @Override
-    public Page<SysResource> getSysResourcePage() {
-        List<SysResource> resourceList = this.getSysResourcesByCurrentUser();
-        return null;
+    public ResultParam getAllSysResourceTree() {
+        List<SysResource> resourceList = sysResourceMapper.selectSysResourceList();
+        List<SysResource> resourceTree = ResourceUtils.builtResourceTree(resourceList);
+        return ResultUtils.success(resourceTree);
     }
 
 }

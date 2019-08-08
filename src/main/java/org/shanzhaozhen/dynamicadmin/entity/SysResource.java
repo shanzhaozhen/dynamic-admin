@@ -61,6 +61,10 @@ public class SysResource extends BaseEntity {
 
     @TableField(exist = false)
     private List<SysRole> roles;
+
+    @TableField(exist = false)
+    private List<SysResource> children;
+
 //
 //    @TableField(exist = false)
 //    private List<String> roles;
