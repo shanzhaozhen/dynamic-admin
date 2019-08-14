@@ -1,8 +1,9 @@
 package org.shanzhaozhen.dynamicadmin.controller;
 
-import org.shanzhaozhen.dynamicadmin.entity.SysUser;
-import org.shanzhaozhen.dynamicadmin.param.ResultParam;
-import org.shanzhaozhen.dynamicadmin.service.SysUserService;
+import org.shanzhaozhen.dynamicadmin.entity.sys.UserDo;
+import org.shanzhaozhen.dynamicadmin.param.ResultObject;
+import org.shanzhaozhen.dynamicadmin.service.UserService;
+import org.shanzhaozhen.dynamicadmin.utils.ResultUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,17 +12,18 @@ import org.springframework.web.bind.annotation.*;
 public class RegisterController {
 
     @Autowired
-    private SysUserService sysUserService;
+    private UserService sysUserService;
 
     @PostMapping
-    public ResultParam register(@RequestBody SysUser sysUser) {
-        return sysUserService.register(sysUser);
+    public ResultObject register(@RequestBody UserDo userDo) {
+        sysUserService.register(userDo);
+        return ResultUtils.success("注册成功");
     }
 
     @GetMapping("/{username}")
     @ResponseBody
-    public ResultParam checkUserName(@PathVariable("username") String username) {
-        return sysUserService.checkUsername(username);
+    public ResultObject checkUserName(@PathVariable("username") String username) {
+        return sysUserService.isExistUser(username) ? ResultUtils.success() : ResultUtils.failure();
     }
 
 }

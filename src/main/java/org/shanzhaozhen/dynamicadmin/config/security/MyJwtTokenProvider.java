@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import io.jsonwebtoken.*;
 import org.shanzhaozhen.dynamicadmin.common.JwtErrorConst;
 import org.shanzhaozhen.dynamicadmin.param.JWTUser;
-import org.shanzhaozhen.dynamicadmin.param.ResultParam;
+import org.shanzhaozhen.dynamicadmin.param.ResultObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -116,7 +116,7 @@ public class MyJwtTokenProvider {
         httpServletResponse.setContentType("application/json; charset=utf-8");
         httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         PrintWriter writer = httpServletResponse.getWriter();
-        writer.write(JSONObject.toJSONString(new ResultParam(jwtErrorConst.getCode(), jwtErrorConst.getReason())));
+        writer.write(JSONObject.toJSONString(new ResultObject(jwtErrorConst.getCode(), jwtErrorConst.getReason())));
     }
 
     /**

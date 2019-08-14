@@ -1,58 +1,47 @@
 package org.shanzhaozhen.dynamicadmin.utils;
 
-import org.shanzhaozhen.dynamicadmin.param.ResultParam;
+import org.shanzhaozhen.dynamicadmin.param.ResultObject;
 
 public class ResultUtils {
 
-    public static ResultParam success() {
-        return new ResultParam(0, "success");
+    public static ResultObject success() {
+        return new ResultObject(0, "success");
     }
 
-    public static ResultParam success(Object data) {
-        return new ResultParam(0, "success", data);
+    public static <T> ResultObject<T> success(T data) {
+        return new ResultObject<>(0, "success", data);
     }
 
-    public static ResultParam success(String message) {
-        return new ResultParam(0, message);
+    public static ResultObject success(String message) {
+        return new ResultObject(0, message);
     }
 
-    public static ResultParam success(String message, Object data) {
-        return new ResultParam(0, message, data);
+    public static <T> ResultObject<T> success(String message, T data) {
+        return new ResultObject<>(0, message, data);
     }
 
-    public static ResultParam success(int code, String message) {
-        return new ResultParam(code, message);
+    public static ResultObject success(Integer code, String message) {
+        return new ResultObject(code, message);
     }
 
-    public static ResultParam success(int code, String message, Object data) {
-        return new ResultParam(code, message, data);
+    public static <T> ResultObject<T> success(Integer code, String message, T data) {
+        return new ResultObject<>(code, message, data);
     }
 
-    public static ResultParam failure() {
-        return ResultParam.builder()
-                .code(-1)
-                .message("failure")
-                .build();
+    public static ResultObject failure() {
+        return new ResultObject(-1, "failure");
     }
 
-    public static ResultParam failure(String message) {
-        return ResultParam.builder()
-                .code(-1)
-                .message(message)
-                .build();
+    public static ResultObject failure(String message) {
+        return new ResultObject(-1, message);
     }
 
-    public static ResultParam failure(int code, String message) {
-        return ResultParam.builder()
-                .code(code)
-                .message(message)
-                .build();
+    public static ResultObject failure(Integer code, String message) {
+        return new ResultObject(code, message);
     }
 
-    public static ResultParam resultCode(int code) {
-        return ResultParam.builder()
-                .code(code)
-                .build();
+    public static ResultObject resultCode(Integer code) {
+        return new ResultObject(code);
     }
 
 

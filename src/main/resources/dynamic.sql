@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS sys_user;
 CREATE TABLE sys_user
 (
 	id BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-	username VARCHAR(30) NOT NULL COMMENT '用户名',
+	username VARCHAR(30) NOT NULL UNIQUE COMMENT '用户名',
 	password VARCHAR(255) NOT NULL COMMENT '密码',
     account_non_expired bit(1) NOT NULL COMMENT '账户是否过期,过期无法验证',
     account_non_locked bit(1) NOT NULL COMMENT '指定用户是否被锁定或者解锁,锁定的用户无法进行身份验证',
@@ -38,7 +38,7 @@ CREATE TABLE sys_role
 (
 	id BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
 	name VARCHAR(30) NOT NULL COMMENT '名称',
-	role VARCHAR(30) NOT NULL COMMENT '角色名',
+	identification VARCHAR(30) NOT NULL UNIQUE COMMENT '标识名称',
     description VARCHAR(255) COMMENT '描述',
 	create_by BIGINT(20) NULL DEFAULT NULL COMMENT '创建人',
     created_date datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
@@ -59,7 +59,7 @@ CREATE TABLE sys_resource
 	description VARCHAR(255) COMMENT '权限描述',
 	type INT(11) NOT NULL COMMENT '权限类型',
 	path VARCHAR(255) COMMENT '权限路由',
-    pid BIGINT(20) COMMENT '父级ID',
+    pid BIGINT(20) NULL DEFAULT NULL COMMENT '父级ID',
 	icon VARCHAR(255) COMMENT '图标',
     priority INT(11) NULL DEFAULT NULL COMMENT '排序等级',
     hidden bit(1) NOT NULL DEFAULT 0 COMMENT '菜单是否隐藏',

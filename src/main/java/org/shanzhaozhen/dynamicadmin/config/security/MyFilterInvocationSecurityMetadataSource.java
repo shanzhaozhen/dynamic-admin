@@ -1,10 +1,9 @@
 package org.shanzhaozhen.dynamicadmin.config.security;
 
 import org.shanzhaozhen.dynamicadmin.common.ResourceType;
-import org.shanzhaozhen.dynamicadmin.entity.SysResource;
-import org.shanzhaozhen.dynamicadmin.entity.SysResource;
-import org.shanzhaozhen.dynamicadmin.entity.SysRole;
-import org.shanzhaozhen.dynamicadmin.service.SysResourceService;
+import org.shanzhaozhen.dynamicadmin.entity.sys.ResourceDo;
+import org.shanzhaozhen.dynamicadmin.entity.sys.RoleDo;
+import org.shanzhaozhen.dynamicadmin.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
@@ -27,7 +26,7 @@ import java.util.*;
 public class MyFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
     @Autowired
-    private SysResourceService sysResourceService;
+    private ResourceService resourceService;
 
     private HashMap<String, Collection<ConfigAttribute>> resourceMap;
 
@@ -36,16 +35,16 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
      */
     public void loadResourceDefine() {
         resourceMap = new HashMap<>();
-        List<SysResource> sysResources = sysResourceService.getSysResourceRoleListByType(ResourceType.API);
-        for (SysResource sysResource : sysResources) {
+        List<ResourceDo> resourceDoList = resourceService.getResourceRoleListByType(ResourceType.API);
+        for (ResourceDo resourceDo : resourceDoList) {
             Collection<ConfigAttribute> configAttributes = new ArrayList<>();
             //此处只添加了用户的名字，其实还可以添加更多权限的信息，例如请求方法到ConfigAttribute的集合中去。
             //此处添加的信息将会作为MyAccessDecisionManager类的decide的第三个参数
-            List<SysRole> roles = sysResource.getRoles();
-            for (SysRole sysRole : roles) {
-                configAttributes.add(new SecurityConfig(sysRole.getRole()));
+            List<RoleDo> roleDoList = resourceDo.getRoleDos();
+            for (RoleDo roleDo : roleDoList) {
+                configAttributes.add(new SecurityConfig(roleDo.getIdentification()));
             }
-            resourceMap.put(sysResource.getPath(), configAttributes);
+            resourceMap.put(resourceDo.getPath(), configAttributes);
         }
     }
 

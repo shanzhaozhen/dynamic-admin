@@ -2,7 +2,6 @@ package org.shanzhaozhen.dynamicadmin.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -28,12 +27,12 @@ public class BaseEntity implements Serializable {
     @ApiModelProperty(value = "创建时间")
     private Date createdDate;
 
-    @TableField(fill = FieldFill.UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     @ApiModelProperty(value = "修改人")
     private Long lastModifiedBy;
 
     @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss",timezone = "GMT+8")
-    @TableField(fill = FieldFill.UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     @ApiModelProperty(value = "修改时间")
     private Date lastModifiedDate;
 

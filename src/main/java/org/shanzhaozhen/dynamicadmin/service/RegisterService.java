@@ -1,13 +1,13 @@
 package org.shanzhaozhen.dynamicadmin.service;
 
-import org.shanzhaozhen.dynamicadmin.entity.SysUser;
-import org.shanzhaozhen.dynamicadmin.param.ResultParam;
+import org.shanzhaozhen.dynamicadmin.entity.sys.UserDo;
+import org.shanzhaozhen.dynamicadmin.param.ResultObject;
 
 import java.util.Map;
 
 public interface RegisterService {
 
-    ResultParam RegisterNewUser(SysUser sysUser);
+    ResultObject registerNewUser(UserDo userDo);
 
     Map<String, Boolean> checkUsername(String username);
 

@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import org.shanzhaozhen.dynamicadmin.common.JwtErrorConst;
-import org.shanzhaozhen.dynamicadmin.entity.SysUser;
+import org.shanzhaozhen.dynamicadmin.entity.sys.UserDo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -98,7 +98,7 @@ public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticati
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
 
-        SysUser sysUser = (SysUser) authResult.getPrincipal();
+        UserDo userDo = (UserDo) authResult.getPrincipal();
 
         List<GrantedAuthority> authorities = (List<GrantedAuthority>) authResult.getAuthorities();
         List<String> roles = new ArrayList<>();
@@ -106,7 +106,7 @@ public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticati
             roles.add(g.getAuthority());
         }
 
-        String token = myJwtTokenProvider.createToken(sysUser.getId(), sysUser.getUsername(), roles);
+        String token = myJwtTokenProvider.createToken(userDo.getId(), userDo.getUsername(), roles);
 
 //         返回创建成功的token
 //        response.setHeader(header, token);

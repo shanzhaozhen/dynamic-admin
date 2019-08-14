@@ -1,8 +1,8 @@
 package org.shanzhaozhen.dynamicadmin.service.impl;
 
-import org.shanzhaozhen.dynamicadmin.entity.SysUser;
-import org.shanzhaozhen.dynamicadmin.mapper.SysUserMapper;
-import org.shanzhaozhen.dynamicadmin.param.ResultParam;
+import org.shanzhaozhen.dynamicadmin.entity.sys.UserDo;
+import org.shanzhaozhen.dynamicadmin.mapper.UserMapper;
+import org.shanzhaozhen.dynamicadmin.param.ResultObject;
 import org.shanzhaozhen.dynamicadmin.service.RegisterService;
 import org.shanzhaozhen.dynamicadmin.utils.PasswordUtils;
 import org.shanzhaozhen.dynamicadmin.utils.ResultUtils;
@@ -18,36 +18,36 @@ import java.util.Map;
 public class RegisterServiceImpl implements RegisterService {
 
     @Resource
-    private SysUserMapper sysUserMapper;
+    private UserMapper userMapper;
 
     @Override
     @Transactional
-    public ResultParam RegisterNewUser(SysUser sysUser) {
-        if (StringUtils.isEmpty(sysUser.getUsername())) {
+    public ResultObject registerNewUser(UserDo userDo) {
+        if (StringUtils.isEmpty(userDo.getUsername())) {
             return ResultUtils.failure("填写的用户名有误！");
         }
-        if (StringUtils.isEmpty(sysUser.getPassword())) {
+        if (StringUtils.isEmpty(userDo.getPassword())) {
             return ResultUtils.failure("填写的密码有误！");
         }
-        int count = sysUserMapper.countByUsername(sysUser.getUsername());
+        int count = userMapper.countByUsername(userDo.getUsername());
         if (count > 0) {
             return ResultUtils.failure("注册失败，用户名已存在！");
         }
-        SysUser newUser = SysUser.builder()
-                .username(sysUser.getUsername())
-                .password(PasswordUtils.encryption(sysUser.getPassword()))
+        UserDo newUserDo = UserDo.builder()
+                .username(userDo.getUsername())
+                .password(PasswordUtils.encryption(userDo.getPassword()))
                 .accountNonExpired(false)
                 .accountNonLocked(true)
                 .credentialsNonExpired(true)
                 .enabled(true)
             .build();
-        sysUserMapper.insert(newUser);
+        userMapper.insert(newUserDo);
         return ResultUtils.success("注册成功，等待管理员通过审核！");
     }
 
     @Override
     public Map<String, Boolean> checkUsername(String username) {
-        int count = sysUserMapper.countByUsername(username);
+        int count = userMapper.countByUsername(username);
         Map<String, Boolean> map = new HashMap<>();
         if (count > 0) {
             map.put("valid", false);

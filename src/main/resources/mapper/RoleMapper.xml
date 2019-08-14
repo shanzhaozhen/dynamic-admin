@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.shanzhaozhen.dynamicadmin.mapper.RoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="org.shanzhaozhen.dynamicadmin.entity.sys.RoleDo">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="roleDo" property="roleDo" />
+        <result column="description" property="description" />
+        <result column="create_by" property="createBy" />
+        <result column="created_date" property="createdDate" />
+        <result column="last_modified_by" property="lastModifiedBy" />
+        <result column="last_modified_date" property="lastModifiedDate" />
+    </resultMap>
+
+    <resultMap autoMapping="true" type="org.shanzhaozhen.dynamicadmin.entity.sys.RoleDo" id="RoleResourceMap">
+        <id property="id" column="id"></id>
+        <collection property="resourceDoList" column="id" select="org.shanzhaozhen.dynamicadmin.mapper.ResourceMapper.selectResourceByRoleId">
+        </collection>
+    </resultMap>
+
+    <select id="selectRoleByRoleId" resultMap="RoleResourceMap">
+        select * from sys_role
+        where id = #{roleId}
+    </select>
+
+</mapper>

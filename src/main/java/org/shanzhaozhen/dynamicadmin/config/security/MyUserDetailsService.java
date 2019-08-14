@@ -1,11 +1,9 @@
 package org.shanzhaozhen.dynamicadmin.config.security;
 
-import org.shanzhaozhen.dynamicadmin.entity.SysResource;
-import org.shanzhaozhen.dynamicadmin.entity.SysRole;
-import org.shanzhaozhen.dynamicadmin.entity.SysUser;
-import org.shanzhaozhen.dynamicadmin.service.SysResourceService;
-import org.shanzhaozhen.dynamicadmin.service.SysRoleService;
-import org.shanzhaozhen.dynamicadmin.service.SysUserService;
+import org.shanzhaozhen.dynamicadmin.entity.sys.RoleDo;
+import org.shanzhaozhen.dynamicadmin.entity.sys.UserDo;
+import org.shanzhaozhen.dynamicadmin.service.RoleService;
+import org.shanzhaozhen.dynamicadmin.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
@@ -29,16 +27,16 @@ import java.util.Set;
 public class MyUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private SysUserService sysUserService;
+    private UserService userService;
 
     @Autowired
-    private SysRoleService sysRoleService;
+    private RoleService roleService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        SysUser sysUser = sysUserService.getSysUserByUsername(username);
+        UserDo userDo = userService.getUserByUsername(username);
 
-        if (sysUser == null) {
+        if (userDo == null) {
             /**
              * 在这里会继续捕获到UsernameNotFoundException异常。
              * 由于hideUserNotFoundExceptions的值为true，所以这里会new一个新的BadCredentialsException异常抛出来，那么最后捕获到并放入session中的就是这个BadCredentialsException异常。
@@ -47,18 +45,17 @@ public class MyUserDetailsService implements UserDetailsService {
             throw new BadCredentialsException("Account does not exist!");
         } else {
             //将数据库保存的权限存至登陆的账号里面
-            List<SysRole> sysRoles = sysRoleService.getSysRolesByUserId(sysUser.getId());
-            if (sysRoles != null && sysRoles.size() > 0) {
+            List<RoleDo> roleDoList = roleService.getRolesByUserId(userDo.getId());
+            if (roleDoList != null && roleDoList.size() > 0) {
                 Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-                for (SysRole sysRole : sysRoles) {
-                    grantedAuthorities.add(new SimpleGrantedAuthority(sysRole.getRole()));
+                for (RoleDo RoleDo : roleDoList) {
+                    grantedAuthorities.add(new SimpleGrantedAuthority(RoleDo.getIdentification()));
                 }
-                sysUser.setAuthorities(grantedAuthorities);
+                userDo.setAuthorities(grantedAuthorities);
             }
         }
 
-        return sysUser;
-
+        return userDo;
     }
 
 }

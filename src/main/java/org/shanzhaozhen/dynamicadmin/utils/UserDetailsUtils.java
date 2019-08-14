@@ -28,7 +28,11 @@ public class UserDetailsUtils {
      * 获取当前用户名JWTUser.
      */
     public static JWTUser getJWTUser() {
-        Object jwtUser = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Authentication authentication = UserDetailsUtils.getAuthentication();
+        if (authentication == null) {
+            return null;
+        }
+        Object jwtUser = authentication.getPrincipal();
         if ("anonymousUser".equals(jwtUser)) {
             return null;
         }
