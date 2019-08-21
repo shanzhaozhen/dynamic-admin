@@ -13,7 +13,7 @@ import org.shanzhaozhen.dynamicadmin.entity.BaseEntity;
 @AllArgsConstructor
 @TableName("sys_dictionary")
 @ApiModel(value="Dictionary对象", description="")
-public class DictionaryDo extends BaseEntity {
+public class DictionaryDO extends BaseEntity {
 
     private static final long serialVersionUID = -4727379501712632270L;
 

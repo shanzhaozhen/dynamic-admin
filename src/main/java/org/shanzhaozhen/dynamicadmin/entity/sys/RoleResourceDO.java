@@ -13,7 +13,7 @@ import org.shanzhaozhen.dynamicadmin.entity.BaseEntity;
 @AllArgsConstructor
 @TableName("sys_role_resource")
 @ApiModel(value="RoleResource对象", description="")
-public class RoleResourceDo extends BaseEntity {
+public class RoleResourceDO extends BaseEntity {
 
     private static final long serialVersionUID = 1642473344166749722L;
 
@@ -27,7 +27,7 @@ public class RoleResourceDo extends BaseEntity {
     @ApiModelProperty(value = "权限ID")
     private Long resourceId;
 
-    public RoleResourceDo(Long roleId, Long resourceId) {
+    public RoleResourceDO(Long roleId, Long resourceId) {
         this.roleId = roleId;
         this.resourceId = resourceId;
     }

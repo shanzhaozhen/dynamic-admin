@@ -3,7 +3,7 @@
 <mapper namespace="org.shanzhaozhen.dynamicadmin.mapper.DepartmentMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="org.shanzhaozhen.dynamicadmin.entity.sys.DepartmentDo">
+    <resultMap id="BaseResultMap" type="org.shanzhaozhen.dynamicadmin.entity.sys.DepartmentDO">
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="pid" property="pid" />

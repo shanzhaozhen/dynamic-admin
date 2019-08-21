@@ -1,6 +1,6 @@
 package org.shanzhaozhen.dynamicadmin.service;
 
-import org.shanzhaozhen.dynamicadmin.entity.sys.ResourceDo;
+import org.shanzhaozhen.dynamicadmin.entity.sys.ResourceDO;
 import org.shanzhaozhen.dynamicadmin.param.AsyncRoute;
 
 import java.util.List;
@@ -12,13 +12,13 @@ public interface ResourceService {
      * @param type
      * @return
      */
-    List<ResourceDo> getResourceRoleListByType(Integer type);
+    List<ResourceDO> getResourceRoleListByType(Integer type);
 
     /**
      * 通过当前用户的信息获取前端可访问的路由
      * @return
      */
-    List<ResourceDo> getResourcesByCurrentUser();
+    List<ResourceDO> getResourcesByCurrentUser();
 
     /**
      * 通过当前用户的信息生成对应的前端路由
@@ -30,28 +30,28 @@ public interface ResourceService {
      * 获取所有资源的树形结构
      * @return
      */
-    List<ResourceDo> getAllResourceTree();
+    List<ResourceDO> getAllResourceTree();
 
     /**
      * 通过资源id获取资源实体
      * @param resourceId
      * @return
      */
-    ResourceDo getResourceById(Long resourceId);
+    ResourceDO getResourceById(Long resourceId);
 
     /**
      * 增加资源
-     * @param resourceDo
+     * @param resourceDO
      * @return
      */
-    ResourceDo addResource(ResourceDo resourceDo);
+    ResourceDO addResource(ResourceDO resourceDO);
 
     /**
      * 修改资源
-     * @param resourceDo
+     * @param resourceDO
      * @return
      */
-    ResourceDo updateResource(ResourceDo resourceDo);
+    ResourceDO updateResource(ResourceDO resourceDO);
 
     /**
      * 删除资源(通过资源id删除)

@@ -1,6 +1,6 @@
 package org.shanzhaozhen.dynamicadmin.controller;
 
-import org.shanzhaozhen.dynamicadmin.entity.sys.ResourceDo;
+import org.shanzhaozhen.dynamicadmin.entity.sys.ResourceDO;
 import org.shanzhaozhen.dynamicadmin.param.ResultObject;
 import org.shanzhaozhen.dynamicadmin.service.ResourceService;
 import org.shanzhaozhen.dynamicadmin.utils.ResultUtils;
@@ -24,13 +24,13 @@ public class ResourceController {
     }
 
     @PostMapping("/resource")
-    public ResultObject addResource(@RequestBody ResourceDo resourceDo) {
-        return ResultUtils.success("添加成功", resourceService.addResource(resourceDo));
+    public ResultObject addResource(@RequestBody ResourceDO resourceDO) {
+        return ResultUtils.success("添加成功", resourceService.addResource(resourceDO));
     }
 
     @PutMapping("/resource")
-    public ResultObject updateResource(@RequestBody ResourceDo resourceDo) {
-        return ResultUtils.success("修改成功", resourceService.updateResource(resourceDo));
+    public ResultObject updateResource(@RequestBody ResourceDO resourceDO) {
+        return ResultUtils.success("修改成功", resourceService.updateResource(resourceDO));
     }
 
     @DeleteMapping("/resource/{resourceId}")

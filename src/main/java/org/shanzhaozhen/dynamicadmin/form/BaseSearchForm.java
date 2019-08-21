@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(description = "基础分页列表查找参数")
+@ApiModel(description = "基础分页列表查询前端传入参数")
 public class BaseSearchForm {
 
     /**

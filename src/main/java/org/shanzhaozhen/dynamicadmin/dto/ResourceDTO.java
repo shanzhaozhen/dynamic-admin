@@ -1,27 +1,22 @@
-package org.shanzhaozhen.dynamicadmin.entity.sys;
+package org.shanzhaozhen.dynamicadmin.dto;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
-import org.shanzhaozhen.dynamicadmin.entity.BaseEntity;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("sys_resource")
 @ApiModel(value="Resource对象", description="")
-public class ResourceDo extends BaseEntity {
+public class ResourceDTO {
 
-    private static final long serialVersionUID = 4485640590947953262L;
+    private static final long serialVersionUID = -1191774933022664362L;
 
     @ApiModelProperty(value = "主键ID")
-    @TableId(type = IdType.AUTO)
     private Long id;
 
     @ApiModelProperty(value = "权限名称")
@@ -60,14 +55,8 @@ public class ResourceDo extends BaseEntity {
     @ApiModelProperty(value = "面包屑")
     private Boolean breadcrumb;
 
-    @TableField(exist = false)
-    private List<RoleDo> roleDos;
+    private List<RoleDTO> roleDOList;
 
-    @TableField(exist = false)
-    private List<ResourceDo> children;
-
-//
-//    @TableField(exist = false)
-//    private List<String> roles;
+    private List<ResourceDTO> children;
 
 }

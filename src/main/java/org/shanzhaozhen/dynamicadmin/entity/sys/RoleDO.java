@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @TableName("sys_role")
 @ApiModel(value="Role对象", description="")
-public class RoleDo extends BaseEntity {
+public class RoleDO extends BaseEntity {
 
     private static final long serialVersionUID = 6203528166202612882L;
 
@@ -36,7 +36,7 @@ public class RoleDo extends BaseEntity {
 
     @ApiModelProperty(value = "关联的资源")
     @TableField(exist = false)
-    private List<ResourceDo> resourceDoList;
+    private List<ResourceDO> resourceDOList;
 
     @ApiModelProperty(value = "关联的资源id")
     @TableField(exist = false)
@@ -44,11 +44,11 @@ public class RoleDo extends BaseEntity {
 
     public List<Long> getResourceIds() {
         List<Long> resourceIds = new ArrayList<>();
-        if (this.resourceDoList == null) {
+        if (this.resourceDOList == null) {
             return resourceIds;
         }
-        for (ResourceDo resourceDo : resourceDoList) {
-            resourceIds.add(resourceDo.getId());
+        for (ResourceDO resourceDO : resourceDOList) {
+            resourceIds.add(resourceDO.getId());
         }
         return resourceIds;
     }

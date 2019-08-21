@@ -1,6 +1,6 @@
 package org.shanzhaozhen.dynamicadmin.service;
 
-import org.shanzhaozhen.dynamicadmin.entity.sys.UserDo;
+import org.shanzhaozhen.dynamicadmin.entity.sys.UserDO;
 
 import java.util.Map;
 
@@ -11,27 +11,27 @@ public interface UserService {
      * @param userId
      * @return
      */
-    UserDo getUserByUserId(String userId);
+    UserDO getUserByUserId(String userId);
 
     /**
      * 通过用户名查找用户
      * @param username
      * @return
      */
-    UserDo getUserByUsername(String username);
+    UserDO getUserByUsername(String username);
 
 
     /**
      * 获取当前用户
      */
-    UserDo getCurrentUser();
+    UserDO getCurrentUser();
 
     /**
      * 注册新用户
-     * @param userDo
+     * @param userDO
      * @return
      */
-    UserDo register(UserDo userDo);
+    UserDO register(UserDO userDO);
 
     /**
      * 检查用户名是否已存在

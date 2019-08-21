@@ -1,6 +1,6 @@
 package org.shanzhaozhen.dynamicadmin.controller;
 
-import org.shanzhaozhen.dynamicadmin.entity.sys.UserDo;
+import org.shanzhaozhen.dynamicadmin.entity.sys.UserDO;
 import org.shanzhaozhen.dynamicadmin.param.ResultObject;
 import org.shanzhaozhen.dynamicadmin.service.UserService;
 import org.shanzhaozhen.dynamicadmin.utils.ResultUtils;
@@ -15,8 +15,8 @@ public class RegisterController {
     private UserService sysUserService;
 
     @PostMapping
-    public ResultObject register(@RequestBody UserDo userDo) {
-        sysUserService.register(userDo);
+    public ResultObject register(@RequestBody UserDO userDO) {
+        sysUserService.register(userDO);
         return ResultUtils.success("注册成功");
     }
 

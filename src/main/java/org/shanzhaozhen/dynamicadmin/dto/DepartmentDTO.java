@@ -1,26 +1,20 @@
-package org.shanzhaozhen.dynamicadmin.entity.sys;
+package org.shanzhaozhen.dynamicadmin.dto;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.shanzhaozhen.dynamicadmin.entity.BaseEntity;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("sys_department")
 @ApiModel(value="Department对象", description="")
-public class DepartmentDo extends BaseEntity {
+public class DepartmentDTO {
 
-    private static final long serialVersionUID = -4727379501712632270L;
+    private static final long serialVersionUID = -1976449584620139527L;
 
     @ApiModelProperty(value = "主键ID")
-    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     @ApiModelProperty(value = "部门名称")

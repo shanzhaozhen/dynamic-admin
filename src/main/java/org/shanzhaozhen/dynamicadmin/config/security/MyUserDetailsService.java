@@ -1,7 +1,7 @@
 package org.shanzhaozhen.dynamicadmin.config.security;
 
-import org.shanzhaozhen.dynamicadmin.entity.sys.RoleDo;
-import org.shanzhaozhen.dynamicadmin.entity.sys.UserDo;
+import org.shanzhaozhen.dynamicadmin.entity.sys.RoleDO;
+import org.shanzhaozhen.dynamicadmin.entity.sys.UserDO;
 import org.shanzhaozhen.dynamicadmin.service.RoleService;
 import org.shanzhaozhen.dynamicadmin.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +34,9 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserDo userDo = userService.getUserByUsername(username);
+        UserDO userDO = userService.getUserByUsername(username);
 
-        if (userDo == null) {
+        if (userDO == null) {
             /**
              * 在这里会继续捕获到UsernameNotFoundException异常。
              * 由于hideUserNotFoundExceptions的值为true，所以这里会new一个新的BadCredentialsException异常抛出来，那么最后捕获到并放入session中的就是这个BadCredentialsException异常。
@@ -45,17 +45,17 @@ public class MyUserDetailsService implements UserDetailsService {
             throw new BadCredentialsException("Account does not exist!");
         } else {
             //将数据库保存的权限存至登陆的账号里面
-            List<RoleDo> roleDoList = roleService.getRolesByUserId(userDo.getId());
-            if (roleDoList != null && roleDoList.size() > 0) {
+            List<RoleDO> roleDOList = roleService.getRolesByUserId(userDO.getId());
+            if (roleDOList != null && roleDOList.size() > 0) {
                 Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-                for (RoleDo RoleDo : roleDoList) {
-                    grantedAuthorities.add(new SimpleGrantedAuthority(RoleDo.getIdentification()));
+                for (RoleDO RoleDO : roleDOList) {
+                    grantedAuthorities.add(new SimpleGrantedAuthority(RoleDO.getIdentification()));
                 }
-                userDo.setAuthorities(grantedAuthorities);
+                userDO.setAuthorities(grantedAuthorities);
             }
         }
 
-        return userDo;
+        return userDO;
     }
 
 }

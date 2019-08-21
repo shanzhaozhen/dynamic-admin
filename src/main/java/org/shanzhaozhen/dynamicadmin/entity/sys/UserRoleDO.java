@@ -13,7 +13,7 @@ import org.shanzhaozhen.dynamicadmin.entity.BaseEntity;
 @AllArgsConstructor
 @TableName("sys_user_role")
 @ApiModel(value="UserRole对象", description="")
-public class UserRoleDo extends BaseEntity {
+public class UserRoleDO extends BaseEntity {
 
     private static final long serialVersionUID = -8389872342618587940L;
 

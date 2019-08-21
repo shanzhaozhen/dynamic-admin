@@ -1,20 +1,20 @@
-package org.shanzhaozhen.dynamicadmin.vo;
+package org.shanzhaozhen.dynamicadmin.form;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
-public class RoleVo {
+public class RoleForm {
 
     @ApiModelProperty(value = "主键ID")
-    @TableId(type = IdType.AUTO)
     private Long id;
 
+    @NotEmpty(message = "角色名称不能为空")
     @ApiModelProperty(value = "名称")
     private String name;
 
+    @NotEmpty(message = "标识名称不能为空")
     @ApiModelProperty(value = "标识名称")
     private String identification;
 

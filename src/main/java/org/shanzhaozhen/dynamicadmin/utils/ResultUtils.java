@@ -1,23 +1,24 @@
 package org.shanzhaozhen.dynamicadmin.utils;
 
+import org.shanzhaozhen.dynamicadmin.common.ResultType;
 import org.shanzhaozhen.dynamicadmin.param.ResultObject;
 
 public class ResultUtils {
 
     public static ResultObject success() {
-        return new ResultObject(0, "success");
+        return new ResultObject(ResultType.SUCCESS, "success");
     }
 
     public static <T> ResultObject<T> success(T data) {
-        return new ResultObject<>(0, "success", data);
+        return new ResultObject<>(ResultType.SUCCESS, "success", data);
     }
 
     public static ResultObject success(String message) {
-        return new ResultObject(0, message);
+        return new ResultObject(ResultType.SUCCESS, message);
     }
 
     public static <T> ResultObject<T> success(String message, T data) {
-        return new ResultObject<>(0, message, data);
+        return new ResultObject<>(ResultType.SUCCESS, message, data);
     }
 
     public static ResultObject success(Integer code, String message) {
@@ -29,11 +30,11 @@ public class ResultUtils {
     }
 
     public static ResultObject failure() {
-        return new ResultObject(-1, "failure");
+        return new ResultObject(ResultType.FAILURE, "failure");
     }
 
     public static ResultObject failure(String message) {
-        return new ResultObject(-1, message);
+        return new ResultObject(ResultType.FAILURE, message);
     }
 
     public static ResultObject failure(Integer code, String message) {

@@ -21,7 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @TableName("sys_user")
 @ApiModel(value="User对象", description="")
-public class UserDo extends BaseEntity implements UserDetails {
+public class UserDO extends BaseEntity implements UserDetails {
 
     private static final long serialVersionUID = 3064727069207896868L;
 
@@ -51,7 +51,7 @@ public class UserDo extends BaseEntity implements UserDetails {
     private boolean enabled;
 
     @TableField(exist = false)
-    private List<RoleDo> roleDos;
+    private List<RoleDO> roleDOs;
 
     @ApiModelProperty(value = "姓名")
     private String name;

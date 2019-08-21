@@ -3,18 +3,18 @@ package org.shanzhaozhen.dynamicadmin.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import org.shanzhaozhen.dynamicadmin.entity.sys.UserDo;
+import org.shanzhaozhen.dynamicadmin.entity.sys.UserDO;
 
-public interface UserMapper extends BaseMapper<UserDo> {
+public interface UserMapper extends BaseMapper<UserDO> {
 
     @Select("select * from sys_user where id = #{id}")
-    UserDo selectUserByUserId(@Param("id") Long id);
+    UserDO selectUserByUserId(@Param("id") Long id);
 
     @Select("select * from sys_user where username = #{username}")
-    UserDo selectUserByUsername(@Param("username") String username);
+    UserDO selectUserByUsername(@Param("username") String username);
 
     @Select("select count(*) from sys_user where username = #{username}")
-    UserDo checkUserByUsername(@Param("username") String username);
+    UserDO checkUserByUsername(@Param("username") String username);
 
     @Select("select count(*) from sys_user where username = #{username}")
     Integer countByUsername(@Param("username") String username);

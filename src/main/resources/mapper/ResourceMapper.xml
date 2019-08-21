@@ -3,7 +3,7 @@
 <mapper namespace="org.shanzhaozhen.dynamicadmin.mapper.ResourceMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="org.shanzhaozhen.dynamicadmin.entity.sys.ResourceDo">
+    <resultMap id="BaseResultMap" type="org.shanzhaozhen.dynamicadmin.entity.sys.ResourceDO">
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="description" property="description" />
@@ -18,9 +18,9 @@
         <result column="last_modified_date" property="lastModifiedDate" />
     </resultMap>
 
-    <resultMap autoMapping="true" type="org.shanzhaozhen.dynamicadmin.entity.sys.ResourceDo" id="ResourceRoleMap">
+    <resultMap autoMapping="true" type="org.shanzhaozhen.dynamicadmin.entity.sys.ResourceDO" id="ResourceRoleMap">
         <id property="id" column="id"></id>
-        <collection property="roleDos" column="id" select="org.shanzhaozhen.dynamicadmin.mapper.RoleMapper.selectRoleByResourceId">
+        <collection property="roleDOs" column="id" select="org.shanzhaozhen.dynamicadmin.mapper.RoleMapper.selectRoleByResourceId">
         </collection>
     </resultMap>
 
