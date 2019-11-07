@@ -1,6 +1,8 @@
 package org.shanzhaozhen.dynamicadmin.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.shanzhaozhen.dynamicadmin.converter.RoleConverter;
+import org.shanzhaozhen.dynamicadmin.dto.RoleDTO;
 import org.shanzhaozhen.dynamicadmin.entity.sys.RoleDO;
 import org.shanzhaozhen.dynamicadmin.form.BaseSearchForm;
 import org.shanzhaozhen.dynamicadmin.entity.sys.RoleResourceDO;
@@ -24,49 +26,52 @@ public class RoleServiceImpl implements RoleService {
     private RoleResourceMapper roleResourceMapper;
 
     @Override
-    public List<RoleDO> getRolesByUserId(Long userId) {
-        return roleMapper.selectRoleByUserId(userId);
+    public List<RoleDTO> getRolesByUserId(Long userId) {
+        return roleMapper.getRoleByUserId(userId);
     }
 
     @Override
-    public Page<RoleDO> getRolePage(BaseSearchForm baseSearchForm) {
-        return roleMapper.selectRolePage(BaseSearchForm.getPage(baseSearchForm), baseSearchForm.getKeyword());
+    public Page<RoleDTO> getRolePage(BaseSearchForm baseSearchForm) {
+        return roleMapper.getRolePage(BaseSearchForm.getPage(baseSearchForm), baseSearchForm.getKeyword());
     }
 
     @Override
-    public RoleDO getRoleById(Long roleId) {
+    public RoleDTO getRoleById(Long roleId) {
         Assert.notNull(roleId, "获取失败：没有找到该角色");
         RoleDO roleDO = roleMapper.selectRoleByRoleId(roleId);
         Assert.notNull(roleDO, "获取失败：没有找到该角色");
-        return roleDO;
+        return RoleConverter.doToDTO(roleDO);
     }
 
     @Override
     @Transactional
-    public RoleDO addRole(RoleDO roleDO) {
-        RoleDO tempRoleDO = roleMapper.selectRoleByIdentification(roleDO.getIdentification());
+    public RoleDTO addRole(RoleDTO roleDTO) {
+        RoleDTO tempRoleDO = roleMapper.getRoleByIdentification(roleDTO.getIdentification());
         Assert.isNull(tempRoleDO, "创建失败：标识名称已被占用");
+        RoleDO roleDO = RoleConverter.dtoToDO(roleDTO);
         roleMapper.insert(roleDO);
-        if (roleDO.getResourceIds() != null && roleDO.getResourceIds().size() > 0) {
+        if (roleDTO.getResourceIds() != null && roleDTO.getResourceIds().size() > 0) {
+            assert roleDO != null;
             Long roleId = roleDO.getId();
-            this.bathAddRoleResource(roleId, roleDO.getResourceIds());
+            this.bathAddRoleResource(roleId, roleDTO.getResourceIds());
         }
-        return roleDO;
+        return roleDTO;
     }
 
     @Override
     @Transactional
-    public RoleDO updateRole(RoleDO roleDO) {
-        Assert.notNull(roleDO.getId(), "更新失败：没有找到对应的角色");
-        RoleDO tempRoleDO = roleMapper.selectRoleByIdentification(roleDO.getIdentification());
+    public RoleDTO updateRole(RoleDTO roleDTO) {
+        RoleDTO tempRoleDO = roleMapper.getRoleByIdentification(roleDTO.getIdentification());
         Assert.isNull(tempRoleDO, "创建失败：标识名称已被占用");
+        RoleDO roleDO = RoleConverter.dtoToDO(roleDTO);
         roleMapper.updateById(roleDO);
-        if (roleDO.getResourceIds() != null && roleDO.getResourceIds().size() > 0) {
+        if (roleDTO.getResourceIds() != null && roleDTO.getResourceIds().size() > 0) {
+            assert roleDO != null;
             Long roleId = roleDO.getId();
             roleResourceMapper.deleteByRoleId(roleId);
-            this.bathAddRoleResource(roleId, roleDO.getResourceIds());
+            this.bathAddRoleResource(roleId, roleDTO.getResourceIds());
         }
-        return roleDO;
+        return roleDTO;
     }
 
     @Override
@@ -80,7 +85,7 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     public void bathAddRoleResource(Long roleId, List<Long> resourceIds) {
         for (Long resourceId : resourceIds) {
-            RoleResourceDO RoleResourceDO = new RoleResourceDO(roleId, resourceId);
+            RoleResourceDO RoleResourceDO = new RoleResourceDO(null, roleId, resourceId);
             roleResourceMapper.insert(RoleResourceDO);
         }
     }

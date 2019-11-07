@@ -1,11 +1,13 @@
 package org.shanzhaozhen.dynamicadmin.service.impl;
 
+import org.shanzhaozhen.dynamicadmin.dto.UserDTO;
 import org.shanzhaozhen.dynamicadmin.entity.sys.UserDO;
+import org.shanzhaozhen.dynamicadmin.form.UserForm;
 import org.shanzhaozhen.dynamicadmin.mapper.UserMapper;
 import org.shanzhaozhen.dynamicadmin.service.ResourceService;
 import org.shanzhaozhen.dynamicadmin.service.UserService;
-import org.shanzhaozhen.dynamicadmin.utils.PasswordUtils;
 import org.shanzhaozhen.dynamicadmin.utils.UserDetailsUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,38 +27,30 @@ public class UserServiceImpl implements UserService {
     private ResourceService resourceService;
 
     @Override
-    public UserDO getUserByUserId(String userId) {
-        return userMapper.selectById(userId);
+    public UserDTO getUserByUserId(Long userId) {
+        return userMapper.getUserByUserId(userId);
     }
 
     @Override
-    public UserDO getUserByUsername(String username) {
-        return userMapper.selectUserByUsername(username);
+    public UserDTO getUserByUsername(String username) {
+        return userMapper.getUserByUsername(username);
     }
 
     @Override
-    public UserDO getCurrentUser() {
-        UserDO userDO = userMapper.selectById(UserDetailsUtils.getUserId());
-        Assert.notNull(userDO, "没有找到当前用户信息");
-        return userDO;
+    public UserDTO getCurrentUser() {
+        UserDTO userDTO = userMapper.getUserByUserId(UserDetailsUtils.getUserId());
+        Assert.notNull(userDTO, "没有找到当前用户信息");
+        return userDTO;
     }
 
     @Override
     @Transactional
-    public UserDO register(UserDO userDO) {
-        Assert.hasText(userDO.getUsername(), "填写的账号不能为空！");
-        Assert.hasText(userDO.getPassword(), "填写的密码不能为空！");
-        Assert.state(this.isExistUser(userDO.getUsername()), "注册失败，该用户名已存在！");
-        UserDO newUserDO = UserDO.builder()
-                .username(userDO.getUsername())
-                .password(PasswordUtils.encryption(userDO.getPassword()))
-                .accountNonExpired(true)
-                .accountNonLocked(true)
-                .credentialsNonExpired(true)
-                .enabled(true)      //默认开放账号
-                .build();
-        userMapper.insert(newUserDO);
-        return newUserDO;
+    public Long register(UserDTO userDTO) {
+        Assert.state(this.isExistUser(userDTO.getUsername()), "注册失败，该用户名已存在！");
+        UserDO newUser = new UserDO();
+        BeanUtils.copyProperties(userDTO, newUser);
+        userMapper.insert(newUser);
+        return newUser.getId();
     }
 
     @Override
@@ -66,11 +60,11 @@ public class UserServiceImpl implements UserService {
     }
 
     public Map<String, Object> getUserInfo() {
-        UserDO userDO = this.getCurrentUser();
+        UserDTO userDTO = this.getCurrentUser();
         Map<String, Object> map = new HashMap<>();
-        map.put("nickname", userDO.getNickname());
-        map.put("avatar", userDO.getAvatar());
-        map.put("introduction", userDO.getIntroduction());
+        map.put("nickname", userDTO.getNickname());
+        map.put("avatar", userDTO.getAvatar());
+        map.put("introduction", userDTO.getIntroduction());
         map.put("roles", UserDetailsUtils.getAuthorities());
         map.put("menus", resourceService.getMenusByCurrentUser());
         return map;

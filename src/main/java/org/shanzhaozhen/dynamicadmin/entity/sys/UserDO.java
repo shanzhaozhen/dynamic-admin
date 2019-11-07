@@ -1,19 +1,14 @@
 package org.shanzhaozhen.dynamicadmin.entity.sys;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import org.shanzhaozhen.dynamicadmin.entity.BaseEntity;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 @Data
 @Builder
@@ -21,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @TableName("sys_user")
 @ApiModel(value="User对象", description="")
-public class UserDO extends BaseEntity implements UserDetails {
+public class UserDO extends BaseEntity {
 
     private static final long serialVersionUID = 3064727069207896868L;
 
@@ -35,23 +30,17 @@ public class UserDO extends BaseEntity implements UserDetails {
     @ApiModelProperty(value = "密码")
     private String password;
 
-    @TableField(exist = false)
-    private Collection<GrantedAuthority> authorities;
-
     @ApiModelProperty(value = "账户是否过期,过期无法验证")
-    private boolean accountNonExpired;
+    private boolean accountNonExpired = true;
 
     @ApiModelProperty(value = "指定用户是否被锁定或者解锁,锁定的用户无法进行身份验证")
-    private boolean accountNonLocked;
+    private boolean accountNonLocked = true;
 
     @ApiModelProperty(value = "指示是否已过期的用户的凭据(密码),过期的凭据防止认证")
-    private boolean credentialsNonExpired;
+    private boolean credentialsNonExpired = true;
 
     @ApiModelProperty(value = "是否被禁用,禁用的用户不能身份验证")
-    private boolean enabled;
-
-    @TableField(exist = false)
-    private List<RoleDO> roleDOs;
+    private boolean enabled = true;
 
     @ApiModelProperty(value = "姓名")
     private String name;

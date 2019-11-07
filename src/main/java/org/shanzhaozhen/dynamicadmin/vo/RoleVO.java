@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.shanzhaozhen.dynamicadmin.entity.sys.RoleDO;
 
 import java.util.List;
 
@@ -34,16 +33,5 @@ public class RoleVO {
 
     @ApiModelProperty(value = "关联的资源id")
     private List<Long> resourceIds;
-
-    public RoleDO toRoleDO() {
-        RoleDO roleDO = new RoleDO();
-        roleDO
-                .setId(this.id)
-                .setName(this.name)
-                .setIdentification(this.identification)
-                .setDescription(this.description)
-                .setResourceIds(this.resourceIds);
-        return roleDO;
-    }
 
 }

@@ -1,6 +1,8 @@
 package org.shanzhaozhen.dynamicadmin.form;
 
 import io.swagger.annotations.ApiModelProperty;
+import org.shanzhaozhen.dynamicadmin.dto.RoleDTO;
+import org.springframework.beans.BeanUtils;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
@@ -23,5 +25,11 @@ public class RoleForm {
 
     @ApiModelProperty(value = "关联的资源id")
     private List<Long> resourceIds;
+
+    public RoleDTO toDTO() {
+        RoleDTO roleDTO = new RoleDTO();
+        BeanUtils.copyProperties(this, roleDTO);
+        return roleDTO;
+    }
 
 }

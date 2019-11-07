@@ -55,8 +55,7 @@ public class ResourceDTO {
     @ApiModelProperty(value = "面包屑")
     private Boolean breadcrumb;
 
-    private List<RoleDTO> roleDOList;
+    private List<RoleDTO> roles;
 
     private List<ResourceDTO> children;
-
 }

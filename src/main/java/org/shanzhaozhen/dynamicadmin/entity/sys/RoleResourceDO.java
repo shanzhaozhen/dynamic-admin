@@ -27,8 +27,4 @@ public class RoleResourceDO extends BaseEntity {
     @ApiModelProperty(value = "权限ID")
     private Long resourceId;
 
-    public RoleResourceDO(Long roleId, Long resourceId) {
-        this.roleId = roleId;
-        this.resourceId = resourceId;
-    }
 }

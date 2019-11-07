@@ -60,14 +60,4 @@ public class ResourceDO extends BaseEntity {
     @ApiModelProperty(value = "面包屑")
     private Boolean breadcrumb;
 
-    @TableField(exist = false)
-    private List<RoleDO> roleDOList;
-
-    @TableField(exist = false)
-    private List<ResourceDO> children;
-
-//
-//    @TableField(exist = false)
-//    private List<String> roles;
-
 }

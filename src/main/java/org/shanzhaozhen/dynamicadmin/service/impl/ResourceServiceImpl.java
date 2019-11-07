@@ -1,9 +1,11 @@
 package org.shanzhaozhen.dynamicadmin.service.impl;
 
 import org.shanzhaozhen.dynamicadmin.common.ResourceType;
+import org.shanzhaozhen.dynamicadmin.converter.ResourceConverter;
+import org.shanzhaozhen.dynamicadmin.dto.ResourceDTO;
 import org.shanzhaozhen.dynamicadmin.entity.sys.ResourceDO;
 import org.shanzhaozhen.dynamicadmin.mapper.ResourceMapper;
-import org.shanzhaozhen.dynamicadmin.param.AsyncRoute;
+import org.shanzhaozhen.dynamicadmin.vo.AsyncRoute;
 import org.shanzhaozhen.dynamicadmin.service.ResourceService;
 import org.shanzhaozhen.dynamicadmin.utils.ResourceUtils;
 import org.shanzhaozhen.dynamicadmin.utils.UserDetailsUtils;
@@ -21,49 +23,51 @@ public class ResourceServiceImpl implements ResourceService {
     private ResourceMapper resourceMapper;
 
     @Override
-    public List<ResourceDO> getResourceRoleListByType(Integer type) {
-        return resourceMapper.selectResourceRoleListByTypeAndUserId(type, null);
+    public List<ResourceDTO> getResourceRoleListByType(Integer type) {
+        return resourceMapper.getResourceRoleListByTypeAndUserId(type, null);
     }
 
     @Override
-    public List<ResourceDO> getResourcesByCurrentUser() {
+    public List<ResourceDTO> getResourcesByCurrentUser() {
         Long userId = UserDetailsUtils.getUserId();
-        return resourceMapper.selectResourceRoleListByTypeAndUserId(ResourceType.MENU, userId);
+        return resourceMapper.getResourceRoleListByTypeAndUserId(ResourceType.MENU, userId);
     }
 
     @Override
     public List<AsyncRoute> getMenusByCurrentUser() {
-        List<ResourceDO> resourceDOList = this.getResourcesByCurrentUser();
-        return ResourceUtils.builtAsyncRouteTreeByResourceList(resourceDOList);
+        List<ResourceDTO> resourceDTOList = this.getResourcesByCurrentUser();
+        return ResourceUtils.builtAsyncRouteTreeByResourceList(resourceDTOList);
     }
 
     @Override
-    public List<ResourceDO> getAllResourceTree() {
-        List<ResourceDO> resourceDOList = resourceMapper.selectResourceList();
-        return ResourceUtils.builtResourceTree(resourceDOList);
+    public List<ResourceDTO> getAllResourceTree() {
+        List<ResourceDTO> resourceDTOList = resourceMapper.getResourceList();
+        return ResourceUtils.builtResourceTree(resourceDTOList);
     }
 
     @Override
-    public ResourceDO getResourceById(Long resourceId) {
+    public ResourceDTO getResourceById(Long resourceId) {
         Assert.notNull(resourceId, "获取失败：没有找到该资源");
         ResourceDO resourceDO = resourceMapper.selectById(resourceId);
         Assert.notNull(resourceDO, "获取失败：没有找到该资源");
-        return resourceDO;
+        ResourceDTO resourceDTO = ResourceConverter.doToDTO(resourceDO);
+        return resourceDTO;
     }
 
     @Override
     @Transactional
-    public ResourceDO addResource(ResourceDO resourceDO) {
+    public ResourceDTO addResource(ResourceDTO resourceDTO) {
+        ResourceDO resourceDO = ResourceConverter.dtoToDO(resourceDTO);
         resourceMapper.insert(resourceDO);
-        return resourceDO;
+        return resourceDTO;
     }
 
     @Override
     @Transactional
-    public ResourceDO updateResource(ResourceDO resourceDO) {
-        Assert.notNull(resourceDO.getId(), "更新失败：没有找到对应的资源");
+    public ResourceDTO updateResource(ResourceDTO resourceDTO) {
+        ResourceDO resourceDO = ResourceConverter.dtoToDO(resourceDTO);
         resourceMapper.updateById(resourceDO);
-        return resourceDO;
+        return resourceDTO;
     }
 
     @Override

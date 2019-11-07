@@ -1,5 +1,6 @@
 package org.shanzhaozhen.dynamicadmin.service.impl;
 
+import org.shanzhaozhen.dynamicadmin.dto.UserDTO;
 import org.shanzhaozhen.dynamicadmin.entity.sys.UserDO;
 import org.shanzhaozhen.dynamicadmin.mapper.UserMapper;
 import org.shanzhaozhen.dynamicadmin.param.ResultObject;
@@ -22,25 +23,14 @@ public class RegisterServiceImpl implements RegisterService {
 
     @Override
     @Transactional
-    public ResultObject registerNewUser(UserDO userDO) {
-        if (StringUtils.isEmpty(userDO.getUsername())) {
-            return ResultUtils.failure("填写的用户名有误！");
-        }
-        if (StringUtils.isEmpty(userDO.getPassword())) {
-            return ResultUtils.failure("填写的密码有误！");
-        }
-        int count = userMapper.countByUsername(userDO.getUsername());
+    public ResultObject registerNewUser(UserDTO userDTO) {
+        int count = userMapper.countByUsername(userDTO.getUsername());
         if (count > 0) {
             return ResultUtils.failure("注册失败，用户名已存在！");
         }
-        UserDO newUserDO = UserDO.builder()
-                .username(userDO.getUsername())
-                .password(PasswordUtils.encryption(userDO.getPassword()))
-                .accountNonExpired(false)
-                .accountNonLocked(true)
-                .credentialsNonExpired(true)
-                .enabled(true)
-            .build();
+        UserDO newUserDO = new UserDO();
+        newUserDO.setUsername(userDTO.getUsername())
+                .setPassword(PasswordUtils.encryption(userDTO.getPassword()));
         userMapper.insert(newUserDO);
         return ResultUtils.success("注册成功，等待管理员通过审核！");
     }

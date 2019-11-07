@@ -1,7 +1,8 @@
 package org.shanzhaozhen.dynamicadmin.config.security;
 
 import org.shanzhaozhen.dynamicadmin.common.ResourceType;
-import org.shanzhaozhen.dynamicadmin.entity.sys.ResourceDO;
+import org.shanzhaozhen.dynamicadmin.dto.ResourceDTO;
+import org.shanzhaozhen.dynamicadmin.dto.RoleDTO;
 import org.shanzhaozhen.dynamicadmin.entity.sys.RoleDO;
 import org.shanzhaozhen.dynamicadmin.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,16 +36,16 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
      */
     public void loadResourceDefine() {
         resourceMap = new HashMap<>();
-        List<ResourceDO> resourceDOList = resourceService.getResourceRoleListByType(ResourceType.API);
-        for (ResourceDO resourceDO : resourceDOList) {
+        List<ResourceDTO> resourceDOList = resourceService.getResourceRoleListByType(ResourceType.API);
+        for (ResourceDTO resourceDTO : resourceDOList) {
             Collection<ConfigAttribute> configAttributes = new ArrayList<>();
             //此处只添加了用户的名字，其实还可以添加更多权限的信息，例如请求方法到ConfigAttribute的集合中去。
             //此处添加的信息将会作为MyAccessDecisionManager类的decide的第三个参数
-            List<RoleDO> roleDOList = resourceDO.getRoleDOs();
-            for (RoleDO roleDO : roleDOList) {
-                configAttributes.add(new SecurityConfig(roleDO.getIdentification()));
+            List<RoleDTO> roles = resourceDTO.getRoles();
+            for (RoleDTO roleDTO : roles) {
+                configAttributes.add(new SecurityConfig(roleDTO.getIdentification()));
             }
-            resourceMap.put(resourceDO.getPath(), configAttributes);
+            resourceMap.put(resourceDTO.getPath(), configAttributes);
         }
     }
 

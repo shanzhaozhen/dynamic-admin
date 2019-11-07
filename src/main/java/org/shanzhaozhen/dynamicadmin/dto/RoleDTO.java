@@ -35,15 +35,4 @@ public class RoleDTO {
     @ApiModelProperty(value = "关联的资源id")
     private List<Long> resourceIds;
 
-    public List<Long> getResourceIds() {
-        List<Long> resourceIds = new ArrayList<>();
-        if (this.resourceDOList == null) {
-            return resourceIds;
-        }
-        for (ResourceDTO resourceDTO : resourceDOList) {
-            resourceIds.add(resourceDTO.getId());
-        }
-        return resourceIds;
-    }
-
 }

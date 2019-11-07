@@ -1,8 +1,9 @@
 package org.shanzhaozhen.dynamicadmin.utils;
 
+import org.shanzhaozhen.dynamicadmin.dto.ResourceDTO;
+import org.shanzhaozhen.dynamicadmin.dto.RoleDTO;
 import org.shanzhaozhen.dynamicadmin.entity.sys.ResourceDO;
-import org.shanzhaozhen.dynamicadmin.entity.sys.RoleDO;
-import org.shanzhaozhen.dynamicadmin.param.AsyncRoute;
+import org.shanzhaozhen.dynamicadmin.vo.AsyncRoute;
 import org.shanzhaozhen.dynamicadmin.param.Meta;
 
 import java.util.ArrayList;
@@ -13,31 +14,31 @@ public class ResourceUtils {
 
     /**
      * 将Resource转换成AsyncRoute供给前端渲染使用
-     * @param resourceDO
+     * @param resourceDTO
      * @return
      */
-    public static AsyncRoute resourceToAsyncRoute(ResourceDO resourceDO) {
+    public static AsyncRoute resourceToAsyncRoute(ResourceDTO resourceDTO) {
         AsyncRoute asyncRoute = new AsyncRoute();
-        List<RoleDO> roleDOList = resourceDO.getRoleDOs();
+        List<RoleDTO> roleDOList = resourceDTO.getRoles();
         List<String> roles = new ArrayList<>();
-        for (RoleDO roleDO : roleDOList) {
-            roles.add(roleDO.getIdentification());
+        for (RoleDTO roleDTO : roleDOList) {
+            roles.add(roleDTO.getIdentification());
         }
         Meta meta = new Meta();
         meta
-                .setTitle(resourceDO.getName())
-                .setIcon(resourceDO.getIcon())
-                .setNoCache(resourceDO.getNoCache())
-                .setAffix(resourceDO.getAffix())
-                .setBreadcrumb(resourceDO.getBreadcrumb())
+                .setTitle(resourceDTO.getName())
+                .setIcon(resourceDTO.getIcon())
+                .setNoCache(resourceDTO.getNoCache())
+                .setAffix(resourceDTO.getAffix())
+                .setBreadcrumb(resourceDTO.getBreadcrumb())
                 .setRoles(roles);
         asyncRoute
-                .setId(resourceDO.getId())
-                .setPid(resourceDO.getPid())
-                .setPath(resourceDO.getPath())
-                .setHidden(resourceDO.getHidden())
-                .setAlwaysShow(resourceDO.getAlwaysShow())
-                .setPriority(resourceDO.getPriority())
+                .setId(resourceDTO.getId())
+                .setPid(resourceDTO.getPid())
+                .setPath(resourceDTO.getPath())
+                .setHidden(resourceDTO.getHidden())
+                .setAlwaysShow(resourceDTO.getAlwaysShow())
+                .setPriority(resourceDTO.getPriority())
                 .setMeta(meta);
         return asyncRoute;
     }
@@ -45,13 +46,13 @@ public class ResourceUtils {
     /**
      * 批量将Resource转换成AsyncRoute供给前端渲染使用
      *
-     * @param resourceDOList
+     * @param resourceDTOList
      * @return
      */
-    public static List<AsyncRoute> resourceListToAsyncRouteList(List<ResourceDO> resourceDOList) {
+    public static List<AsyncRoute> resourceListToAsyncRouteList(List<ResourceDTO> resourceDTOList) {
         List<AsyncRoute> asyncRouteList = new ArrayList<>();
-        for (ResourceDO resourceDO : resourceDOList) {
-            AsyncRoute asyncRoute = ResourceUtils.resourceToAsyncRoute(resourceDO);
+        for (ResourceDTO resourceDTO : resourceDTOList) {
+            AsyncRoute asyncRoute = ResourceUtils.resourceToAsyncRoute(resourceDTO);
             asyncRouteList.add(asyncRoute);
         }
         return asyncRouteList;
@@ -106,35 +107,35 @@ public class ResourceUtils {
 
     /**
      * 将resourceList生成AsyncRoute的树状结构
-     * @param resourceDOList
+     * @param resourceDTOList
      * @return
      */
-    public static List<AsyncRoute> builtAsyncRouteTreeByResourceList(List<ResourceDO> resourceDOList) {
-        List<AsyncRoute> asyncRouteList = ResourceUtils.resourceListToAsyncRouteList(resourceDOList);
+    public static List<AsyncRoute> builtAsyncRouteTreeByResourceList(List<ResourceDTO> resourceDTOList) {
+        List<AsyncRoute> asyncRouteList = ResourceUtils.resourceListToAsyncRouteList(resourceDTOList);
         List<AsyncRoute> menuList = ResourceUtils.builtAsyncRouteTree(asyncRouteList);
         return menuList;
     }
 
     /**
      * 装资源list转成树状结构
-     * @param resourceDOList
+     * @param resourceDTOList
      * @return
      */
-    public static List<ResourceDO> builtResourceTree(List<ResourceDO> resourceDOList) {
-        List<ResourceDO> rootList = new ArrayList<>();
-        List<ResourceDO> noRootList = new ArrayList<>();
+    public static List<ResourceDTO> builtResourceTree(List<ResourceDTO> resourceDTOList) {
+        List<ResourceDTO> rootList = new ArrayList<>();
+        List<ResourceDTO> noRootList = new ArrayList<>();
 
-        for (ResourceDO resourceDO : resourceDOList) {
-            if (resourceDO.getPid() == null || resourceDO.getPid() <= 0) {
-                rootList.add(resourceDO);
+        for (ResourceDTO resourceDTO : resourceDTOList) {
+            if (resourceDTO.getPid() == null || resourceDTO.getPid() <= 0) {
+                rootList.add(resourceDTO);
             } else {
-                noRootList.add(resourceDO);
+                noRootList.add(resourceDTO);
             }
         }
 
-        getResourceChildren(noRootList, resourceDOList);
+        getResourceChildren(noRootList, resourceDTOList);
 
-        rootList.sort((Comparator.comparing(ResourceDO::getPriority)));
+        rootList.sort((Comparator.comparing(ResourceDTO::getPriority)));
 
         return rootList;
     }
@@ -145,10 +146,10 @@ public class ResourceUtils {
      * @param children
      * @return
      */
-    public static List<ResourceDO> getResourceChildren(List<ResourceDO> noRootList, List<ResourceDO> children) {
-        for (ResourceDO child : children) {
-            List<ResourceDO> grandsons = new ArrayList<>();
-            for (ResourceDO noRoot : noRootList) {
+    public static List<ResourceDTO> getResourceChildren(List<ResourceDTO> noRootList, List<ResourceDTO> children) {
+        for (ResourceDTO child : children) {
+            List<ResourceDTO> grandsons = new ArrayList<>();
+            for (ResourceDTO noRoot : noRootList) {
                 if (child.getId().equals(noRoot.getPid())) {
                     grandsons.add(noRoot);
                 }
@@ -157,7 +158,7 @@ public class ResourceUtils {
                 child.setChildren(getResourceChildren(noRootList, grandsons));
             }
         }
-        children.sort((Comparator.comparing(ResourceDO::getPriority)));
+        children.sort((Comparator.comparing(ResourceDTO::getPriority)));
 
         return children;
     }

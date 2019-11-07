@@ -1,9 +1,8 @@
 package org.shanzhaozhen.dynamicadmin.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.shanzhaozhen.dynamicadmin.entity.sys.RoleDO;
+import org.shanzhaozhen.dynamicadmin.dto.RoleDTO;
 import org.shanzhaozhen.dynamicadmin.form.BaseSearchForm;
-import org.shanzhaozhen.dynamicadmin.vo.RoleVO;
 
 import java.util.List;
 
@@ -14,35 +13,35 @@ public interface RoleService {
      * @param userId
      * @return
      */
-    List<RoleDO> getRolesByUserId(Long userId);
+    List<RoleDTO> getRolesByUserId(Long userId);
 
     /**
      * 获取角色的分页列表
      * @param baseSearchForm
      * @return
      */
-    Page<RoleDO> getRolePage(BaseSearchForm baseSearchForm);
+    Page<RoleDTO> getRolePage(BaseSearchForm baseSearchForm);
 
     /**
      * 通过角色id获取
      * @param roleId
      * @return
      */
-    RoleDO getRoleById(Long roleId);
+    RoleDTO getRoleById(Long roleId);
 
     /**
      * 新增角色
-     * @param roleDO
+     * @param roleDTO
      * @return
      */
-    RoleDO addRole(RoleDO roleDO);
+    RoleDTO addRole(RoleDTO roleDTO);
 
     /**
      * 修改角色
-     * @param roleDO
+     * @param roleDTO
      * @return
      */
-    RoleDO updateRole(RoleDO roleDO);
+    RoleDTO updateRole(RoleDTO roleDTO);
 
     /**
      * 删除角色(通过角色id删除)

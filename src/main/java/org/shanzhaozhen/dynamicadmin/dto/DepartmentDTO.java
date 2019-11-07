@@ -12,8 +12,6 @@ import lombok.NoArgsConstructor;
 @ApiModel(value="Department对象", description="")
 public class DepartmentDTO {
 
-    private static final long serialVersionUID = -1976449584620139527L;
-
     @ApiModelProperty(value = "主键ID")
     private Long id;
 

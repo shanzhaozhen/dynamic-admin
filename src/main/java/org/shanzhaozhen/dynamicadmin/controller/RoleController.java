@@ -1,10 +1,10 @@
 package org.shanzhaozhen.dynamicadmin.controller;
 
 import org.shanzhaozhen.dynamicadmin.form.BaseSearchForm;
+import org.shanzhaozhen.dynamicadmin.form.RoleForm;
 import org.shanzhaozhen.dynamicadmin.param.ResultObject;
 import org.shanzhaozhen.dynamicadmin.service.RoleService;
 import org.shanzhaozhen.dynamicadmin.utils.ResultUtils;
-import org.shanzhaozhen.dynamicadmin.vo.RoleVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,13 +25,13 @@ public class RoleController {
     }
 
     @PostMapping("/role")
-    public ResultObject addSysRole(@RequestBody RoleVO roleVo) {
-        return ResultUtils.success("添加成功", roleService.addRole(roleVo.toRoleDO()));
+    public ResultObject addSysRole(@RequestBody RoleForm roleForm) {
+        return ResultUtils.success("添加成功", roleService.addRole(roleForm.toDTO()));
     }
 
     @PutMapping("/role")
-    public ResultObject updateSysRole(@RequestBody RoleVO roleVo) {
-        return ResultUtils.success("修改成功", roleService.updateRole(roleVo.toRoleDO()));
+    public ResultObject updateSysRole(@RequestBody RoleForm roleForm) {
+        return ResultUtils.success("修改成功", roleService.updateRole(roleForm.toDTO()));
     }
 
     @DeleteMapping("/role/{roleId}")

@@ -3,6 +3,8 @@ package org.shanzhaozhen.dynamicadmin;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.shanzhaozhen.dynamicadmin.common.ResourceType;
+import org.shanzhaozhen.dynamicadmin.converter.UserDTOConverter;
+import org.shanzhaozhen.dynamicadmin.dto.ResourceDTO;
 import org.shanzhaozhen.dynamicadmin.entity.sys.ResourceDO;
 import org.shanzhaozhen.dynamicadmin.mapper.ResourceMapper;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,7 +26,7 @@ public class DynamicAdminApplicationTests {
 
     @Test
     public void testMybatisManyToMany() {
-        List<ResourceDO> list = resourceMapper.selectResourceRoleListByTypeAndUserId(ResourceType.API, null);
+        List<ResourceDTO> list = resourceMapper.getResourceRoleListByTypeAndUserId(ResourceType.API, null);
         System.out.println(list);
     }
 
@@ -37,5 +39,11 @@ public class DynamicAdminApplicationTests {
         resourceMapper.insert(new ResourceDO().setName("角色权限").setType(1).setPath("/role").setPid(1L).setPriority(4));
     }
 
+
+    @Test
+    public void testConverter() {
+        UserDTOConverter userDTOConverter = new UserDTOConverter();
+        userDTOConverter.convert(null);
+    }
 
 }

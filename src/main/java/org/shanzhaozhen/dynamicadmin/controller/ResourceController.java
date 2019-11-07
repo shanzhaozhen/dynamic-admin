@@ -1,10 +1,12 @@
 package org.shanzhaozhen.dynamicadmin.controller;
 
-import org.shanzhaozhen.dynamicadmin.entity.sys.ResourceDO;
+import org.shanzhaozhen.dynamicadmin.converter.ResourceConverter;
+import org.shanzhaozhen.dynamicadmin.form.ResourceForm;
 import org.shanzhaozhen.dynamicadmin.param.ResultObject;
 import org.shanzhaozhen.dynamicadmin.service.ResourceService;
 import org.shanzhaozhen.dynamicadmin.utils.ResultUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,13 +26,13 @@ public class ResourceController {
     }
 
     @PostMapping("/resource")
-    public ResultObject addResource(@RequestBody ResourceDO resourceDO) {
-        return ResultUtils.success("添加成功", resourceService.addResource(resourceDO));
+    public ResultObject addResource(@RequestBody @Validated ResourceForm resourceForm) {
+        return ResultUtils.success("添加成功", resourceService.addResource(ResourceConverter.formToDTO(resourceForm)));
     }
 
     @PutMapping("/resource")
-    public ResultObject updateResource(@RequestBody ResourceDO resourceDO) {
-        return ResultUtils.success("修改成功", resourceService.updateResource(resourceDO));
+    public ResultObject updateResource(@RequestBody @Validated ResourceForm resourceForm) {
+        return ResultUtils.success("修改成功", resourceService.updateResource(ResourceConverter.formToDTO(resourceForm)));
     }
 
     @DeleteMapping("/resource/{resourceId}")

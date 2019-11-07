@@ -18,13 +18,13 @@
         <result column="last_modified_date" property="lastModifiedDate" />
     </resultMap>
 
-    <resultMap autoMapping="true" type="org.shanzhaozhen.dynamicadmin.entity.sys.ResourceDO" id="ResourceRoleMap">
+    <resultMap autoMapping="true" type="org.shanzhaozhen.dynamicadmin.dto.ResourceDTO" id="ResourceRoleMap">
         <id property="id" column="id"></id>
-        <collection property="roleDOs" column="id" select="org.shanzhaozhen.dynamicadmin.mapper.RoleMapper.selectRoleByResourceId">
+        <collection property="roles" column="id" select="org.shanzhaozhen.dynamicadmin.mapper.RoleMapper.getRoleByResourceId">
         </collection>
     </resultMap>
 
-    <select id="selectResourceRoleListByTypeAndUserId" resultMap="ResourceRoleMap">
+    <select id="getResourceRoleListByTypeAndUserId" resultMap="ResourceRoleMap">
         select * from sys_resource re
         <if test="userId != null">
             inner join sys_role_resource srr on srr.resource_id = re.id

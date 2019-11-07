@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Date;
@@ -18,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(value="User对象", description="")
-public class UserDTO {
+public class UserDTO implements UserDetails {
 
     private static final long serialVersionUID = 7834774697441283248L;
 
@@ -46,9 +47,6 @@ public class UserDTO {
     @ApiModelProperty(value = "是否被禁用,禁用的用户不能身份验证")
     private boolean enabled;
 
-    @TableField(exist = false)
-    private List<RoleDTO> roleDOs;
-
     @ApiModelProperty(value = "姓名")
     private String name;
 
@@ -75,5 +73,8 @@ public class UserDTO {
 
     @ApiModelProperty(value = "个人介绍")
     private String introduction;
+
+    @ApiModelProperty(value = "记录用户的角色")
+    private List<RoleDTO> roleDOs;
 
 }
