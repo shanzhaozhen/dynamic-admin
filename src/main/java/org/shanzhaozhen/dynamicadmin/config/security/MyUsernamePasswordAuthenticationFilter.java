@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import org.shanzhaozhen.dynamicadmin.common.JwtErrorConst;
+import org.shanzhaozhen.dynamicadmin.dto.UserDTO;
 import org.shanzhaozhen.dynamicadmin.entity.sys.UserDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Component
@@ -54,7 +56,7 @@ public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticati
             throw new AuthenticationServiceException("Authentication method not supported: " + httpServletRequest.getMethod());
         } else {
             //从json中获取username和password
-            String body = StreamUtils.copyToString(httpServletRequest.getInputStream(), Charset.forName("UTF-8"));
+            String body = StreamUtils.copyToString(httpServletRequest.getInputStream(), StandardCharsets.UTF_8);
 
             String username = null;
             String password = null;
@@ -98,7 +100,7 @@ public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticati
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
 
-        UserDO userDO = (UserDO) authResult.getPrincipal();
+        UserDTO userDTO = (UserDTO) authResult.getPrincipal();
 
         List<GrantedAuthority> authorities = (List<GrantedAuthority>) authResult.getAuthorities();
         List<String> roles = new ArrayList<>();
@@ -106,7 +108,7 @@ public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticati
             roles.add(g.getAuthority());
         }
 
-        String token = myJwtTokenProvider.createToken(userDO.getId(), userDO.getUsername(), roles);
+        String token = myJwtTokenProvider.createToken(userDTO.getId(), userDTO.getUsername(), roles);
 
 //         返回创建成功的token
 //        response.setHeader(header, token);

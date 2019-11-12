@@ -8,9 +8,6 @@ import org.shanzhaozhen.dynamicadmin.entity.sys.UserDO;
 
 public interface UserMapper extends BaseMapper<UserDO> {
 
-    @Select("select * from sys_user where id = #{id}")
-    UserDO selectUserByUserId(@Param("id") Long id);
-
     @Select("select * from sys_user where username = #{username}")
     UserDO selectUserByUsername(@Param("username") String username);
 
@@ -21,10 +18,12 @@ public interface UserMapper extends BaseMapper<UserDO> {
     Integer countByUsername(@Param("username") String username);
 
 
-    @Select("select id, username, password, name, nickname, sex, birthday, avatar, email, phoneNumber, address, introduction from sys_user where id = #{id}")
+    @Select("select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled, " +
+            "name, nickname, sex, birthday, avatar, email, phone_number, address, introduction from sys_user where id = #{id}")
     UserDTO getUserByUserId(@Param("id") Long id);
 
-    @Select("select id, username, password, name, nickname, sex, birthday, avatar, email, phoneNumber, address, introduction from sys_user where username = #{username}")
+    @Select("select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled, " +
+            "name, nickname, sex, birthday, avatar, email, phone_number, address, introduction from sys_user where username = #{username}")
     UserDTO getUserByUsername(@Param("username") String username);
 
 }

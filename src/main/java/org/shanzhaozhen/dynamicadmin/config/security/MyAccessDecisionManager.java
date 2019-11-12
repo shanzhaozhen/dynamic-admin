@@ -36,9 +36,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
             return;
         }
         //所请求的资源拥有的权限(一个资源对多个权限)
-        Iterator<ConfigAttribute> iterator = configAttributes.iterator();
-        while (iterator.hasNext()) {
-            ConfigAttribute configAttribute = iterator.next();
+        for (ConfigAttribute configAttribute : configAttributes) {
             //访问所请求资源所需要的权限
             String needRole = configAttribute.getAttribute();
             for (GrantedAuthority grantedAuthority : authentication.getAuthorities()) {

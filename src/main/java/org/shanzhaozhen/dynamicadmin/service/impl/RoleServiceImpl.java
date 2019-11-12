@@ -27,7 +27,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<RoleDTO> getRolesByUserId(Long userId) {
-        return roleMapper.getRoleByUserId(userId);
+        return roleMapper.getRoleListByUserId(userId);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public RoleDTO getRoleById(Long roleId) {
         Assert.notNull(roleId, "获取失败：没有找到该角色");
-        RoleDO roleDO = roleMapper.selectRoleByRoleId(roleId);
+        RoleDO roleDO = roleMapper.selectById(roleId);
         Assert.notNull(roleDO, "获取失败：没有找到该角色");
         return RoleConverter.doToDTO(roleDO);
     }

@@ -19,9 +19,9 @@ public class ResourceUtils {
      */
     public static AsyncRoute resourceToAsyncRoute(ResourceDTO resourceDTO) {
         AsyncRoute asyncRoute = new AsyncRoute();
-        List<RoleDTO> roleDOList = resourceDTO.getRoles();
+        List<RoleDTO> roleDTOList = resourceDTO.getRoles();
         List<String> roles = new ArrayList<>();
-        for (RoleDTO roleDTO : roleDOList) {
+        for (RoleDTO roleDTO : roleDTOList) {
             roles.add(roleDTO.getIdentification());
         }
         Meta meta = new Meta();

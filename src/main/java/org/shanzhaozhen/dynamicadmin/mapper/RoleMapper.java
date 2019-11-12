@@ -12,25 +12,23 @@ import java.util.List;
 public interface RoleMapper extends BaseMapper<RoleDO> {
 
     @Select("select r.id, r.name, r.identification, r.description, " +
-            "r.createBy, r.createdDate, r.lastModifiedBy, r.lastModifiedDate " +
+            "r.create_by, r.created_date, r.last_modified_by, r.last_modified_date " +
             "from sys_role r " +
             "inner join sys_role_resource srr on srr.resource_id = #{resourceId} and r.id = srr.role_id")
-    List<RoleDO> getRoleByResourceId(@Param("resourceId") Long resourceId);
+    List<RoleDTO> getRoleByResourceId(@Param("resourceId") Long resourceId);
 
     @Select("select r.id, r.name, r.identification, r.description, " +
-            "r.createBy, r.createdDate, r.lastModifiedBy, r.lastModifiedDate " +
+            "r.create_by, r.created_date, r.last_modified_by, r.last_modified_date " +
             "from sys_role r inner join sys_user_role sur on sur.user_id = #{userId} and r.id = sur.role_id")
-    List<RoleDTO> getRoleByUserId(@Param("userId") Long userId);
+    List<RoleDTO> getRoleListByUserId(@Param("userId") Long userId);
 
-    @Select("select r.id, r.name, r.identification, r.description, " +
-            "r.createBy, r.createdDate, r.lastModifiedBy, r.lastModifiedDate " +
+    @Select("select id, name, identification, description, " +
+            "create_by, created_date, last_modified_by, last_modified_date " +
             "from sys_role where name like '%${keyword}%' or identification like '%${keyword}%' or description like '%${keyword}%'")
     Page<RoleDTO> getRolePage(Page page, String keyword);
 
-    RoleDO selectRoleByRoleId(@Param("roleId") Long roleId);
-
-    @Select("select r.id, r.name, r.identification, r.description, " +
-            "r.createBy, r.createdDate, r.lastModifiedBy, r.lastModifiedDate " +
+    @Select("select id, name, identification, description, " +
+            "create_by, created_date, last_modified_by, last_modified_date " +
             "from sys_role where identification = ${identification}")
     RoleDTO getRoleByIdentification(String identification);
 }
