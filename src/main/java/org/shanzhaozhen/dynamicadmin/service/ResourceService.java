@@ -15,12 +15,6 @@ public interface ResourceService {
     List<ResourceDTO> getResourceRoleListByType(Integer type);
 
     /**
-     * 通过当前用户的信息获取前端可访问的路由
-     * @return
-     */
-    List<ResourceDTO> getResourcesByCurrentUser();
-
-    /**
      * 通过当前用户的信息生成对应的前端路由
      * @return
      */

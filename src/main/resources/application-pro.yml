@@ -42,7 +42,7 @@ logging:
 swagger2:
   title: 动态权限管理后台接口文档
   description: 动态权限管理后台相关接口的文档
-  termsOfServiceUrl: http://localhost:8080/swagger2
+  termsOfServiceUrl: http://localhost:8080/dynamic/swagger2
   contact:
     name: 神大人
     url: https://github.com/shanzhaozhen

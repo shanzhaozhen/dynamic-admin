@@ -1,6 +1,6 @@
 package org.shanzhaozhen.dynamicadmin.utils;
 
-import org.shanzhaozhen.dynamicadmin.param.JWTUser;
+import org.shanzhaozhen.dynamicadmin.vo.JWTUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -66,11 +66,11 @@ public class UserDetailsUtils {
      */
     public static List<String> getAuthorities() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        List<String> resLst = new ArrayList<>();
+        List<String> authorities = new ArrayList<>();
         for (GrantedAuthority granted : authentication.getAuthorities()) {
-            resLst.add(granted.getAuthority());
+            authorities.add(granted.getAuthority());
         }
-        return resLst;
+        return authorities;
     }
 
     /**

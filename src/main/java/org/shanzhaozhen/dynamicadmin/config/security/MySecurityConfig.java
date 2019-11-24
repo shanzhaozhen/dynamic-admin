@@ -78,8 +78,11 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
             .authorizeRequests()
 //                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/", "/login", "/register/**", "/druid/**", "/webjars/**", "/upload", "/test", "/files/**", "/error").permitAll()
+                .antMatchers("/", "/login", "/register/**", "/swagger-resources/**", "/v2/api-docs/**", "/swagger-ui.html", "/druid/**", "/webjars/**", "/upload", "/test", "/files/**", "/error").permitAll()
                 .anyRequest().authenticated()
+                .and()
+            .headers()
+                .frameOptions().disable()       //允许iframe
                 .and()
             .formLogin()
                 .disable()

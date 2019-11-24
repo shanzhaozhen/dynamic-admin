@@ -1,4 +1,4 @@
-package org.shanzhaozhen.dynamicadmin.param;
+package org.shanzhaozhen.dynamicadmin.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
@@ -50,7 +50,13 @@ public class ResultObject<T> {
         this.message = msg;
     }
 
+    public ResultObject(Integer code, T data) {
+        this.code = code;
+        this.data = data;
+    }
+
     public ResultObject(Integer code, String msg, T data) {
+        this.code = code;
         this.message = msg;
         this.data = data;
     }

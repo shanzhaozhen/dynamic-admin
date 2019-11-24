@@ -28,14 +28,9 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public List<ResourceDTO> getResourcesByCurrentUser() {
-        Long userId = UserDetailsUtils.getUserId();
-        return resourceMapper.getResourceRoleListByTypeAndUserId(ResourceType.MENU, userId);
-    }
-
-    @Override
     public List<AsyncRoute> getMenusByCurrentUser() {
-        List<ResourceDTO> resourceDTOList = this.getResourcesByCurrentUser();
+        Long userId = UserDetailsUtils.getUserId();
+        List<ResourceDTO> resourceDTOList = resourceMapper.getResourceRoleListByTypeAndUserId(ResourceType.MENU, userId);
         return ResourceUtils.builtAsyncRouteTreeByResourceList(resourceDTOList);
     }
 

@@ -5,7 +5,8 @@ import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import org.shanzhaozhen.dynamicadmin.common.JwtErrorConst;
 import org.shanzhaozhen.dynamicadmin.dto.UserDTO;
-import org.shanzhaozhen.dynamicadmin.entity.sys.UserDO;
+import org.shanzhaozhen.dynamicadmin.vo.ResultObject;
+import org.shanzhaozhen.dynamicadmin.utils.ResultUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,12 +22,10 @@ import org.springframework.util.StreamUtils;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -49,7 +48,7 @@ public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticati
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws AuthenticationException, IOException, ServletException {
+    public Authentication attemptAuthentication(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws AuthenticationException, IOException {
 
         //非post请求处理
         if (!httpServletRequest.getMethod().equals("POST")) {
@@ -98,7 +97,7 @@ public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticati
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException {
 
         UserDTO userDTO = (UserDTO) authResult.getPrincipal();
 
@@ -120,7 +119,7 @@ public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticati
     }
 
     @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException {
 //        super.unsuccessfulAuthentication(request, response, failed);
 
 //        String msg = "authentication failed, reason: " + (failed == null ? "param error" : failed.getMessage());
@@ -132,7 +131,7 @@ public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticati
     }
 
     private void sendResult(HttpServletResponse response, boolean success, String token, String msg) throws IOException {
-        Map<String, Object> map = new HashMap<>();
+        ResultObject resultObject;
 
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
@@ -140,15 +139,12 @@ public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticati
 
         if (success) {
             response.setStatus(HttpServletResponse.SC_OK);
-            map.put("code", JwtErrorConst.LOGIN_SUCCESS.getCode());
-            map.put("token", token);
+            resultObject = ResultUtils.defaultResult(JwtErrorConst.LOGIN_SUCCESS.getCode(), msg, token);
         } else {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            map.put("code", JwtErrorConst.LOGIN_ERROR.getCode());
+            resultObject = ResultUtils.defaultResult(JwtErrorConst.LOGIN_ERROR.getCode(), msg);
         }
-        map.put("message", msg);
-        map.put("timestamp", System.currentTimeMillis());
-        writer.write(JSONObject.toJSONString(map));
+        writer.write(JSONObject.toJSONString(resultObject));
 
     }
 

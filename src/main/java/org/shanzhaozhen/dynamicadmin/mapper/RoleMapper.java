@@ -11,6 +11,8 @@ import java.util.List;
 
 public interface RoleMapper extends BaseMapper<RoleDO> {
 
+    RoleDTO getRoleByRoleId(@Param("roleId") Long roleId);
+
     @Select("select r.id, r.name, r.identification, r.description, " +
             "r.create_by, r.created_date, r.last_modified_by, r.last_modified_date " +
             "from sys_role r " +
@@ -25,10 +27,15 @@ public interface RoleMapper extends BaseMapper<RoleDO> {
     @Select("select id, name, identification, description, " +
             "create_by, created_date, last_modified_by, last_modified_date " +
             "from sys_role where name like '%${keyword}%' or identification like '%${keyword}%' or description like '%${keyword}%'")
-    Page<RoleDTO> getRolePage(Page page, String keyword);
+    Page<RoleDTO> getRolePage(Page page, @Param("keyword") String keyword);
 
     @Select("select id, name, identification, description, " +
             "create_by, created_date, last_modified_by, last_modified_date " +
             "from sys_role where identification = ${identification}")
-    RoleDTO getRoleByIdentification(String identification);
+    RoleDTO getRoleByIdentification(@Param("identification") String identification);
+
+    @Select("select id, name, identification, description, " +
+            "create_by, created_date, last_modified_by, last_modified_date " +
+            "from sys_role where id = ${id} and identification = ${identification}")
+    RoleDTO getRoleByIdNotInAndIdentification(@Param("id") Long id, @Param("identification") String identification);
 }

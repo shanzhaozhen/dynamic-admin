@@ -7,6 +7,7 @@ import org.shanzhaozhen.dynamicadmin.mapper.UserMapper;
 import org.shanzhaozhen.dynamicadmin.service.ResourceService;
 import org.shanzhaozhen.dynamicadmin.service.UserService;
 import org.shanzhaozhen.dynamicadmin.utils.UserDetailsUtils;
+import org.shanzhaozhen.dynamicadmin.vo.UserInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,15 +60,16 @@ public class UserServiceImpl implements UserService {
         return userDO == null;
     }
 
-    public Map<String, Object> getUserInfo() {
+    public UserInfo getUserInfo() {
         UserDTO userDTO = this.getCurrentUser();
-        Map<String, Object> map = new HashMap<>();
-        map.put("nickname", userDTO.getNickname());
-        map.put("avatar", userDTO.getAvatar());
-        map.put("introduction", userDTO.getIntroduction());
-        map.put("roles", UserDetailsUtils.getAuthorities());
-        map.put("menus", resourceService.getMenusByCurrentUser());
-        return map;
+
+        UserInfo userInfo = new UserInfo();
+        userInfo.setNickname(userDTO.getNickname())
+                .setAvatar(userDTO.getAvatar())
+                .setIntroduction(userDTO.getIntroduction())
+                .setRoles(UserDetailsUtils.getAuthorities())
+                .setMenus(resourceService.getMenusByCurrentUser());
+        return userInfo;
     }
 
 }

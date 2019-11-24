@@ -3,6 +3,7 @@ package org.shanzhaozhen.dynamicadmin.service;
 import org.shanzhaozhen.dynamicadmin.dto.UserDTO;
 import org.shanzhaozhen.dynamicadmin.entity.sys.UserDO;
 import org.shanzhaozhen.dynamicadmin.form.UserForm;
+import org.shanzhaozhen.dynamicadmin.vo.UserInfo;
 
 import java.util.Map;
 
@@ -46,5 +47,5 @@ public interface UserService {
      * 获取当前用户的主要信息
      * @return
      */
-    Map<String, Object> getUserInfo();
+    UserInfo getUserInfo();
 }

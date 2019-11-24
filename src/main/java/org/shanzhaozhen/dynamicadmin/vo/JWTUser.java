@@ -1,4 +1,4 @@
-package org.shanzhaozhen.dynamicadmin.param;
+package org.shanzhaozhen.dynamicadmin.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

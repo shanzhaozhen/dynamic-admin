@@ -1,7 +1,7 @@
 package org.shanzhaozhen.dynamicadmin.utils;
 
 import org.shanzhaozhen.dynamicadmin.common.ResultType;
-import org.shanzhaozhen.dynamicadmin.param.ResultObject;
+import org.shanzhaozhen.dynamicadmin.vo.ResultObject;
 
 public class ResultUtils {
 
@@ -21,14 +21,6 @@ public class ResultUtils {
         return new ResultObject<>(ResultType.SUCCESS, message, data);
     }
 
-    public static ResultObject success(Integer code, String message) {
-        return new ResultObject(code, message);
-    }
-
-    public static <T> ResultObject<T> success(Integer code, String message, T data) {
-        return new ResultObject<>(code, message, data);
-    }
-
     public static ResultObject failure() {
         return new ResultObject(ResultType.FAILURE, "failure");
     }
@@ -41,8 +33,20 @@ public class ResultUtils {
         return new ResultObject(code, message);
     }
 
-    public static ResultObject resultCode(Integer code) {
+    public static ResultObject defaultResult(boolean success) {
+        return success ? ResultUtils.success() : ResultUtils.failure();
+    }
+
+    public static ResultObject defaultResult(Integer code) {
         return new ResultObject(code);
+    }
+
+    public static ResultObject defaultResult(Integer code, String message) {
+        return new ResultObject(code, message);
+    }
+
+    public static <T> ResultObject<T> defaultResult(Integer code, String message, T data) {
+        return new ResultObject(code, message, data);
     }
 
 

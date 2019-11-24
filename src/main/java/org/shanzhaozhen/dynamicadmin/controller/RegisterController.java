@@ -2,7 +2,7 @@ package org.shanzhaozhen.dynamicadmin.controller;
 
 import org.shanzhaozhen.dynamicadmin.converter.UserConverter;
 import org.shanzhaozhen.dynamicadmin.form.UserForm;
-import org.shanzhaozhen.dynamicadmin.param.ResultObject;
+import org.shanzhaozhen.dynamicadmin.vo.ResultObject;
 import org.shanzhaozhen.dynamicadmin.service.UserService;
 import org.shanzhaozhen.dynamicadmin.utils.ResultUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class RegisterController {
     @GetMapping("/{username}")
     @ResponseBody
     public ResultObject checkUserName(@PathVariable("username") String username) {
-        return sysUserService.isExistUser(username) ? ResultUtils.success() : ResultUtils.failure();
+        return ResultUtils.defaultResult(sysUserService.isExistUser(username));
     }
 
 }

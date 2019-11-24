@@ -1,6 +1,6 @@
 package org.shanzhaozhen.dynamicadmin.controller;
 
-import org.shanzhaozhen.dynamicadmin.param.ResultObject;
+import org.shanzhaozhen.dynamicadmin.vo.ResultObject;
 import org.shanzhaozhen.dynamicadmin.service.UserService;
 import org.shanzhaozhen.dynamicadmin.utils.ResultUtils;
 import org.springframework.beans.factory.annotation.Autowired;

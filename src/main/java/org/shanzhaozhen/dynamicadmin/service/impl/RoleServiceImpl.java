@@ -1,6 +1,7 @@
 package org.shanzhaozhen.dynamicadmin.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import org.shanzhaozhen.dynamicadmin.converter.RoleConverter;
 import org.shanzhaozhen.dynamicadmin.dto.RoleDTO;
 import org.shanzhaozhen.dynamicadmin.entity.sys.RoleDO;
@@ -9,6 +10,9 @@ import org.shanzhaozhen.dynamicadmin.entity.sys.RoleResourceDO;
 import org.shanzhaozhen.dynamicadmin.mapper.RoleMapper;
 import org.shanzhaozhen.dynamicadmin.mapper.RoleResourceMapper;
 import org.shanzhaozhen.dynamicadmin.service.RoleService;
+import org.shanzhaozhen.dynamicadmin.utils.MyBeanUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -37,17 +41,16 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleDTO getRoleById(Long roleId) {
-        Assert.notNull(roleId, "获取失败：没有找到该角色");
-        RoleDO roleDO = roleMapper.selectById(roleId);
-        Assert.notNull(roleDO, "获取失败：没有找到该角色");
-        return RoleConverter.doToDTO(roleDO);
+        RoleDTO roleDTO = roleMapper.getRoleByRoleId(roleId);
+        Assert.notNull(roleDTO, "获取失败：没有找到该角色或已被删除");
+        return roleDTO;
     }
 
     @Override
     @Transactional
     public RoleDTO addRole(RoleDTO roleDTO) {
-        RoleDTO tempRoleDO = roleMapper.getRoleByIdentification(roleDTO.getIdentification());
-        Assert.isNull(tempRoleDO, "创建失败：标识名称已被占用");
+        RoleDTO roleInDB = roleMapper.getRoleByIdentification(roleDTO.getIdentification());
+        Assert.isNull(roleInDB, "创建失败：标识名称已被占用");
         RoleDO roleDO = RoleConverter.dtoToDO(roleDTO);
         roleMapper.insert(roleDO);
         if (roleDTO.getResourceIds() != null && roleDTO.getResourceIds().size() > 0) {
@@ -61,12 +64,14 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional
     public RoleDTO updateRole(RoleDTO roleDTO) {
-        RoleDTO tempRoleDO = roleMapper.getRoleByIdentification(roleDTO.getIdentification());
-        Assert.isNull(tempRoleDO, "创建失败：标识名称已被占用");
-        RoleDO roleDO = RoleConverter.dtoToDO(roleDTO);
+        Assert.isNull(roleDTO.getId(), "角色id不能为空");
+        RoleDTO roleInDB = roleMapper.getRoleByIdNotInAndIdentification(roleDTO.getId(), roleDTO.getIdentification());
+        Assert.isNull(roleInDB, "创建失败：标识名称已被占用");
+        RoleDO roleDO = roleMapper.selectById(roleDTO.getId());
+        Assert.notNull(roleDO, "更新失败：没有找到该角色或已被删除");
+        MyBeanUtils.copyPropertiesExcludeMeta(roleDTO, roleDO);
         roleMapper.updateById(roleDO);
         if (roleDTO.getResourceIds() != null && roleDTO.getResourceIds().size() > 0) {
-            assert roleDO != null;
             Long roleId = roleDO.getId();
             roleResourceMapper.deleteByRoleId(roleId);
             this.bathAddRoleResource(roleId, roleDTO.getResourceIds());
@@ -77,8 +82,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional
     public Boolean deleteRole(Long roleId) {
-        int count = roleMapper.deleteById(roleId);
-        return count > 0;
+        return SqlHelper.retBool(roleMapper.deleteById(roleId));
     }
 
     @Override

@@ -1,23 +1,31 @@
 package org.shanzhaozhen.dynamicadmin.form;
 
 import io.swagger.annotations.ApiModelProperty;
-import org.shanzhaozhen.dynamicadmin.dto.RoleDTO;
-import org.springframework.beans.BeanUtils;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Update;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class RoleForm {
 
     @ApiModelProperty(value = "主键ID")
+    @NotNull(groups = {Update.class}, message = "角色id不能为空")
     private Long id;
 
-    @NotEmpty(message = "角色名称不能为空")
     @ApiModelProperty(value = "名称")
+    @NotEmpty(groups = {Insert.class, Update.class}, message = "角色名称不能为空")
     private String name;
 
-    @NotEmpty(message = "标识名称不能为空")
     @ApiModelProperty(value = "标识名称")
+    @NotEmpty(groups = {Insert.class, Update.class}, message = "标识名称不能为空")
     private String identification;
 
     @ApiModelProperty(value = "描述")
@@ -25,11 +33,5 @@ public class RoleForm {
 
     @ApiModelProperty(value = "关联的资源id")
     private List<Long> resourceIds;
-
-    public RoleDTO toDTO() {
-        RoleDTO roleDTO = new RoleDTO();
-        BeanUtils.copyProperties(this, roleDTO);
-        return roleDTO;
-    }
 
 }

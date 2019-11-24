@@ -3,12 +3,13 @@ package org.shanzhaozhen.dynamicadmin.config.security;
 import com.alibaba.fastjson.JSONObject;
 import io.jsonwebtoken.*;
 import org.shanzhaozhen.dynamicadmin.common.JwtErrorConst;
-import org.shanzhaozhen.dynamicadmin.param.JWTUser;
-import org.shanzhaozhen.dynamicadmin.param.ResultObject;
+import org.shanzhaozhen.dynamicadmin.vo.JWTUser;
+import org.shanzhaozhen.dynamicadmin.vo.ResultObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -53,14 +54,7 @@ public class MyJwtTokenProvider {
      * jti：JWT ID用于标识该JWT
      */
     // 创建token
-    public String createToken(Long userId, String username, List<String> roles) {
-
-        Map<String, Object> claims = new HashMap<>();
-
-        claims.put("id", userId);
-        claims.put("username", username);
-        claims.put("roles", roles);
-
+    public String buildToken(String username, Map<String, Object> claims) {
         /**
          * 按照jwt的规定，最后请求的时候应该是 `Bearer token`
          */
@@ -78,6 +72,53 @@ public class MyJwtTokenProvider {
                 .compact();
     }
 
+
+    /**
+     * iss：发行人
+     * exp：到期时间
+     * sub：主题
+     * aud：用户
+     * nbf：在此之前不可用
+     * iat：发布时间
+     * jti：JWT ID用于标识该JWT
+     */
+    // 创建token
+    public String createToken(Long userId, String username, List<String> roles) {
+
+        Map<String, Object> claims = new HashMap<>();
+
+        claims.put("id", userId);
+        claims.put("username", username);
+        claims.put("roles", roles);
+
+        return this.buildToken(username, claims);
+    }
+
+    /**
+     * iss：发行人
+     * exp：到期时间
+     * sub：主题
+     * aud：用户
+     * nbf：在此之前不可用
+     * iat：发布时间
+     * jti：JWT ID用于标识该JWT
+     */
+    // 创建token
+    public String updateToken(String token) {
+        Assert.hasText(token, "token不能为空");
+
+        Claims oldClaims = this.getTokenBody(token);
+        String username = oldClaims.getSubject();
+
+        Map<String, Object> newClaims = new HashMap<>();
+
+        newClaims.put("id", oldClaims.get("id", Long.class));
+        newClaims.put("username", username);
+        newClaims.put("roles", oldClaims.get("roles", List.class));
+
+        return this.buildToken(username, newClaims);
+    }
+
     /**
      * 校验token的签名
      * @param httpServletResponse
@@ -87,6 +128,10 @@ public class MyJwtTokenProvider {
     public boolean validateToken(HttpServletResponse httpServletResponse, String authToken) throws IOException {
         try {
             Jwts.parser().setSigningKey(secret).parseClaimsJws(authToken);
+            /**
+             * 验证通过同时更新token（延长过期时间）
+             * 但是该方法不可取，每次更新旧的Token后，新旧的Token同时能使用问题就大了
+             */
             return true;
         } catch (SignatureException ex) {
             logger.error("Invalid JWT signature");
@@ -156,7 +201,7 @@ public class MyJwtTokenProvider {
      * @return
      */
     public List<String> getUserRoles(String token) {
-        return (List<String>) getTokenBody(token).get("roles");
+        return getTokenBody(token).get("roles", List.class);
     }
 
     /**
@@ -169,7 +214,7 @@ public class MyJwtTokenProvider {
         return JWTUser.builder()
                 .id(Long.parseLong(String.valueOf(claims.get("id"))))
                 .username(claims.getSubject())
-                .authorities((List<String>) claims.get("roles"))
+                .authorities(claims.get("roles", List.class))
                 .build();
     }
 

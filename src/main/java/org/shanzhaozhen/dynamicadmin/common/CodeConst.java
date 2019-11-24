@@ -30,7 +30,12 @@ public enum CodeConst {
 
     JWT_ILLEGALARGUMENT(4015, "token参数异常"),
 
-    JWT_ERROR(4016, "token错误");
+    JWT_ERROR(4016, "token错误"),
+
+
+
+
+    ;
 
     private int code;
     private String reason;

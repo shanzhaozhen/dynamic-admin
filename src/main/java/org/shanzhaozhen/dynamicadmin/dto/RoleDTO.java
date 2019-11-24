@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -30,7 +29,7 @@ public class RoleDTO {
     private String description;
 
     @ApiModelProperty(value = "关联的资源")
-    private List<ResourceDTO> resourceDOList;
+    private List<ResourceDTO> resourceDTOList;
 
     @ApiModelProperty(value = "关联的资源id")
     private List<Long> resourceIds;

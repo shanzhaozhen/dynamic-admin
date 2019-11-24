@@ -1,11 +1,15 @@
 package org.shanzhaozhen.dynamicadmin.controller;
 
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Update;
+import org.shanzhaozhen.dynamicadmin.converter.RoleConverter;
 import org.shanzhaozhen.dynamicadmin.form.BaseSearchForm;
 import org.shanzhaozhen.dynamicadmin.form.RoleForm;
-import org.shanzhaozhen.dynamicadmin.param.ResultObject;
 import org.shanzhaozhen.dynamicadmin.service.RoleService;
 import org.shanzhaozhen.dynamicadmin.utils.ResultUtils;
+import org.shanzhaozhen.dynamicadmin.vo.ResultObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,22 +25,22 @@ public class RoleController {
 
     @GetMapping("/role/{roleId}")
     public ResultObject getSysRoleByRoleId(@PathVariable("roleId") Long roleId) {
-        return ResultUtils.success(roleService.getRoleById(roleId));
+        return ResultUtils.success(RoleConverter.dtoToVO(roleService.getRoleById(roleId)));
     }
 
     @PostMapping("/role")
-    public ResultObject addSysRole(@RequestBody RoleForm roleForm) {
-        return ResultUtils.success("添加成功", roleService.addRole(roleForm.toDTO()));
+    public ResultObject addSysRole(@RequestBody @Validated({Insert.class}) RoleForm roleForm) {
+        return ResultUtils.success(roleService.addRole(RoleConverter.formToDTO(roleForm)));
     }
 
     @PutMapping("/role")
-    public ResultObject updateSysRole(@RequestBody RoleForm roleForm) {
-        return ResultUtils.success("修改成功", roleService.updateRole(roleForm.toDTO()));
+    public ResultObject updateSysRole(@RequestBody @Validated({Update.class}) RoleForm roleForm) {
+        return ResultUtils.success(roleService.updateRole(RoleConverter.formToDTO(roleForm)));
     }
 
     @DeleteMapping("/role/{roleId}")
     public ResultObject updateSysRole(@PathVariable("roleId") Long roleId) {
-        return roleService.deleteRole(roleId) ? ResultUtils.success("删除成功") : ResultUtils.failure("删除失败");
+        return ResultUtils.defaultResult(roleService.deleteRole(roleId));
     }
 
 }
