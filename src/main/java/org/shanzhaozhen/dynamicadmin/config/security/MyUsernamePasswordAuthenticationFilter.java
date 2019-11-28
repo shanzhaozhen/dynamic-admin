@@ -3,7 +3,7 @@ package org.shanzhaozhen.dynamicadmin.config.security;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
-import org.shanzhaozhen.dynamicadmin.common.JwtErrorConst;
+import org.shanzhaozhen.dynamicadmin.common.sys.JwtErrorConst;
 import org.shanzhaozhen.dynamicadmin.dto.UserDTO;
 import org.shanzhaozhen.dynamicadmin.vo.ResultObject;
 import org.shanzhaozhen.dynamicadmin.utils.ResultUtils;

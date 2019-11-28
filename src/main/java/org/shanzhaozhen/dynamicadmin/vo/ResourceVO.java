@@ -33,6 +33,15 @@ public class ResourceVO {
     @ApiModelProperty(value = "权限路由")
     private String path;
 
+    @ApiModelProperty(value = "重定向路径")
+    private String redirect;
+
+    @ApiModelProperty(value = "前端组件")
+    private String component;
+
+    @ApiModelProperty(value = "参数")
+    private String props;
+
     @ApiModelProperty(value = "父级ID")
     private Long pid;
 

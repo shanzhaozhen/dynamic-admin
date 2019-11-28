@@ -10,13 +10,20 @@ import org.springframework.util.StringUtils;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class MyBeanUtils extends BeanUtils {
 
-    public static void copyPropertiesExcludeMeta(Object source, Object target) {
-        MyBeanUtils.copyProperties(source, target, "createdDate", "createBy", "lastModifiedDate", "lastModifiedBy");
+    private static List<String> metaList = Arrays.asList("createdDate", "createBy", "lastModifiedDate", "lastModifiedBy");
+
+    public static void copyPropertiesExcludeMeta(Object source, Object target, @Nullable String... ignoreProperties) {
+        List<String> newMetas = new ArrayList<>(metaList);
+        if (ignoreProperties != null && ignoreProperties.length > 0) {
+            newMetas = Arrays.asList(ignoreProperties);
+        }
+        MyBeanUtils.copyProperties(source, target, newMetas.toArray(new String[0]));
     }
 
     public static void copyPropertiesExcludeNull(Object source, Object target, @Nullable Class<?> editable, @Nullable String... ignoreProperties) {

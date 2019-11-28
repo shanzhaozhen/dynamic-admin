@@ -14,8 +14,6 @@ import java.util.List;
 @ApiModel(value="Role对象", description="")
 public class RoleDTO {
 
-    private static final long serialVersionUID = 1274983152798091196L;
-
     @ApiModelProperty(value = "主键ID")
     private Long id;
 

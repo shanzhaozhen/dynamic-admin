@@ -2,9 +2,8 @@ package org.shanzhaozhen.dynamicadmin.utils;
 
 import org.shanzhaozhen.dynamicadmin.dto.ResourceDTO;
 import org.shanzhaozhen.dynamicadmin.dto.RoleDTO;
-import org.shanzhaozhen.dynamicadmin.entity.sys.ResourceDO;
 import org.shanzhaozhen.dynamicadmin.vo.AsyncRoute;
-import org.shanzhaozhen.dynamicadmin.param.Meta;
+import org.shanzhaozhen.dynamicadmin.vo.Meta;
 
 import java.util.ArrayList;
 import java.util.Comparator;

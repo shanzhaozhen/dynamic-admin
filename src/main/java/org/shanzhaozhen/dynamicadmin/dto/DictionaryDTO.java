@@ -12,8 +12,6 @@ import lombok.NoArgsConstructor;
 @ApiModel(value="Dictionary对象", description="")
 public class DictionaryDTO {
 
-    private static final long serialVersionUID = -2009177074092284894L;
-
     @ApiModelProperty(value = "主键ID")
     private Long id;
 

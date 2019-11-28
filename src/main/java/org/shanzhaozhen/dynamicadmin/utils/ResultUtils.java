@@ -1,6 +1,6 @@
 package org.shanzhaozhen.dynamicadmin.utils;
 
-import org.shanzhaozhen.dynamicadmin.common.ResultType;
+import org.shanzhaozhen.dynamicadmin.common.sys.ResultType;
 import org.shanzhaozhen.dynamicadmin.vo.ResultObject;
 
 public class ResultUtils {

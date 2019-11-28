@@ -11,8 +11,6 @@ import org.shanzhaozhen.dynamicadmin.mapper.RoleMapper;
 import org.shanzhaozhen.dynamicadmin.mapper.RoleResourceMapper;
 import org.shanzhaozhen.dynamicadmin.service.RoleService;
 import org.shanzhaozhen.dynamicadmin.utils.MyBeanUtils;
-import org.springframework.beans.BeanUtils;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -54,7 +52,6 @@ public class RoleServiceImpl implements RoleService {
         RoleDO roleDO = RoleConverter.dtoToDO(roleDTO);
         roleMapper.insert(roleDO);
         if (roleDTO.getResourceIds() != null && roleDTO.getResourceIds().size() > 0) {
-            assert roleDO != null;
             Long roleId = roleDO.getId();
             this.bathAddRoleResource(roleId, roleDTO.getResourceIds());
         }
@@ -64,9 +61,9 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional
     public RoleDTO updateRole(RoleDTO roleDTO) {
-        Assert.isNull(roleDTO.getId(), "角色id不能为空");
+        Assert.notNull(roleDTO.getId(), "角色id不能为空");
         RoleDTO roleInDB = roleMapper.getRoleByIdNotInAndIdentification(roleDTO.getId(), roleDTO.getIdentification());
-        Assert.isNull(roleInDB, "创建失败：标识名称已被占用");
+        Assert.isNull(roleInDB, "更新失败：标识名称已被占用");
         RoleDO roleDO = roleMapper.selectById(roleDTO.getId());
         Assert.notNull(roleDO, "更新失败：没有找到该角色或已被删除");
         MyBeanUtils.copyPropertiesExcludeMeta(roleDTO, roleDO);
@@ -82,6 +79,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional
     public Boolean deleteRole(Long roleId) {
+        roleResourceMapper.deleteByRoleId(roleId);
         return SqlHelper.retBool(roleMapper.deleteById(roleId));
     }
 

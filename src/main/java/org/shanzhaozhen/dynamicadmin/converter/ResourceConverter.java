@@ -4,27 +4,38 @@ import org.shanzhaozhen.dynamicadmin.dto.ResourceDTO;
 import org.shanzhaozhen.dynamicadmin.entity.sys.ResourceDO;
 import org.shanzhaozhen.dynamicadmin.form.ResourceForm;
 import org.shanzhaozhen.dynamicadmin.vo.ResourceVO;
+import org.springframework.beans.BeanUtils;
 
 public class ResourceConverter {
 
     public static ResourceDTO formToDTO(ResourceForm resourceForm) {
-        return null;
+        ResourceDTO resourceDTO = new ResourceDTO();
+        BeanUtils.copyProperties(resourceForm, resourceDTO);
+        return resourceDTO;
     }
 
     public static ResourceDO dtoToDO(ResourceDTO resourceDTO) {
-        return null;
+        ResourceDO resourceDO = new ResourceDO();
+        BeanUtils.copyProperties(resourceDTO, resourceDO);
+        return resourceDO;
     }
 
     public static ResourceDTO doToDTO(ResourceDO resourceDO) {
-        return null;
+        ResourceDTO resourceDTO = new ResourceDTO();
+        BeanUtils.copyProperties(resourceDO, resourceDTO);
+        return resourceDTO;
     }
 
     public static ResourceVO dtoToVO(ResourceDTO resourceDTO) {
-        return null;
+        ResourceVO resourceVO = new ResourceVO();
+        BeanUtils.copyProperties(resourceDTO, resourceVO);
+        return resourceVO;
     }
 
     public static ResourceDTO voToDTO(ResourceVO resourceVO) {
-        return null;
+        ResourceDTO resourceDTO = new ResourceDTO();
+        BeanUtils.copyProperties(resourceVO, resourceDTO);
+        return resourceDTO;
     }
 
 }

@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.shanzhaozhen.dynamicadmin.common.ResultType;
+import org.shanzhaozhen.dynamicadmin.common.sys.ResultType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

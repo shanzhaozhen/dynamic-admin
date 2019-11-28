@@ -1,10 +1,12 @@
 package org.shanzhaozhen.dynamicadmin.service.impl;
 
-import org.shanzhaozhen.dynamicadmin.common.ResourceType;
+import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import org.shanzhaozhen.dynamicadmin.common.sys.ResourceType;
 import org.shanzhaozhen.dynamicadmin.converter.ResourceConverter;
 import org.shanzhaozhen.dynamicadmin.dto.ResourceDTO;
 import org.shanzhaozhen.dynamicadmin.entity.sys.ResourceDO;
 import org.shanzhaozhen.dynamicadmin.mapper.ResourceMapper;
+import org.shanzhaozhen.dynamicadmin.utils.MyBeanUtils;
 import org.shanzhaozhen.dynamicadmin.vo.AsyncRoute;
 import org.shanzhaozhen.dynamicadmin.service.ResourceService;
 import org.shanzhaozhen.dynamicadmin.utils.ResourceUtils;
@@ -42,11 +44,9 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public ResourceDTO getResourceById(Long resourceId) {
-        Assert.notNull(resourceId, "获取失败：没有找到该资源");
         ResourceDO resourceDO = resourceMapper.selectById(resourceId);
-        Assert.notNull(resourceDO, "获取失败：没有找到该资源");
-        ResourceDTO resourceDTO = ResourceConverter.doToDTO(resourceDO);
-        return resourceDTO;
+        Assert.notNull(resourceDO, "获取失败：没有找到该资源或已被删除");
+        return ResourceConverter.doToDTO(resourceDO);
     }
 
     @Override
@@ -60,7 +60,10 @@ public class ResourceServiceImpl implements ResourceService {
     @Override
     @Transactional
     public ResourceDTO updateResource(ResourceDTO resourceDTO) {
-        ResourceDO resourceDO = ResourceConverter.dtoToDO(resourceDTO);
+        Assert.notNull(resourceDTO.getId(), "资源id不能为空");
+        ResourceDO resourceDO = resourceMapper.selectById(resourceDTO.getId());
+        Assert.notNull(resourceDO, "更新失败：没有找到该资源或已被删除");
+        MyBeanUtils.copyPropertiesExcludeMeta(resourceDTO, resourceDO);
         resourceMapper.updateById(resourceDO);
         return resourceDTO;
     }
@@ -68,8 +71,7 @@ public class ResourceServiceImpl implements ResourceService {
     @Override
     @Transactional
     public Boolean deleteResource(Long resourceId) {
-        int count = resourceMapper.deleteById(resourceId);
-        return count > 0;
+        return SqlHelper.retBool(resourceMapper.deleteById(resourceId));
     }
 
 }

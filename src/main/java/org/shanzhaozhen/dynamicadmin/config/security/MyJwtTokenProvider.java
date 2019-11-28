@@ -2,7 +2,7 @@ package org.shanzhaozhen.dynamicadmin.config.security;
 
 import com.alibaba.fastjson.JSONObject;
 import io.jsonwebtoken.*;
-import org.shanzhaozhen.dynamicadmin.common.JwtErrorConst;
+import org.shanzhaozhen.dynamicadmin.common.sys.JwtErrorConst;
 import org.shanzhaozhen.dynamicadmin.vo.JWTUser;
 import org.shanzhaozhen.dynamicadmin.vo.ResultObject;
 import org.slf4j.Logger;

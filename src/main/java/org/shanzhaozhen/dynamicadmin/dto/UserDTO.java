@@ -21,8 +21,6 @@ import java.util.List;
 @ApiModel(value="User对象", description="")
 public class UserDTO implements UserDetails {
 
-    private static final long serialVersionUID = 7834774697441283248L;
-
     @ApiModelProperty(value = "主键ID")
     private Long id;
 

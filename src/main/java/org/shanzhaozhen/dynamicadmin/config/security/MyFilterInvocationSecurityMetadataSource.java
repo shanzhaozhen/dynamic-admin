@@ -1,9 +1,8 @@
 package org.shanzhaozhen.dynamicadmin.config.security;
 
-import org.shanzhaozhen.dynamicadmin.common.ResourceType;
+import org.shanzhaozhen.dynamicadmin.common.sys.ResourceType;
 import org.shanzhaozhen.dynamicadmin.dto.ResourceDTO;
 import org.shanzhaozhen.dynamicadmin.dto.RoleDTO;
-import org.shanzhaozhen.dynamicadmin.entity.sys.RoleDO;
 import org.shanzhaozhen.dynamicadmin.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;

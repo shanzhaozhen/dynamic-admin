@@ -14,8 +14,6 @@ import java.util.List;
 @ApiModel(value="Resource对象", description="")
 public class ResourceDTO {
 
-    private static final long serialVersionUID = -1191774933022664362L;
-
     @ApiModelProperty(value = "主键ID")
     private Long id;
 
@@ -30,6 +28,15 @@ public class ResourceDTO {
 
     @ApiModelProperty(value = "权限路由")
     private String path;
+
+    @ApiModelProperty(value = "重定向路径")
+    private String redirect;
+
+    @ApiModelProperty(value = "前端组件")
+    private String component;
+
+    @ApiModelProperty(value = "参数")
+    private String props;
 
     @ApiModelProperty(value = "父级ID")
     private Long pid;

@@ -1,4 +1,4 @@
-package org.shanzhaozhen.dynamicadmin.common;
+package org.shanzhaozhen.dynamicadmin.common.sys;
 
 public enum JwtErrorConst {
 

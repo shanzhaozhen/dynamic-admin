@@ -2,7 +2,7 @@ package org.shanzhaozhen.dynamicadmin;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.shanzhaozhen.dynamicadmin.common.ResourceType;
+import org.shanzhaozhen.dynamicadmin.common.sys.ResourceType;
 import org.shanzhaozhen.dynamicadmin.converter.UserDTOConverter;
 import org.shanzhaozhen.dynamicadmin.dto.ResourceDTO;
 import org.shanzhaozhen.dynamicadmin.entity.sys.ResourceDO;

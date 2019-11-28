@@ -1,7 +1,6 @@
 package org.shanzhaozhen.dynamicadmin.entity.sys;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
@@ -9,7 +8,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import org.shanzhaozhen.dynamicadmin.entity.BaseEntity;
 
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -24,10 +22,10 @@ public class ResourceDO extends BaseEntity {
     @TableId(type = IdType.AUTO)
     private Long id;
 
-    @ApiModelProperty(value = "权限名称")
+    @ApiModelProperty(value = "路由名称")
     private String name;
 
-    @ApiModelProperty(value = "权限描述")
+    @ApiModelProperty(value = "路由描述")
     private String description;
 
     @ApiModelProperty(value = "权限类型")
@@ -36,8 +34,20 @@ public class ResourceDO extends BaseEntity {
     @ApiModelProperty(value = "权限路由")
     private String path;
 
+    @ApiModelProperty(value = "重定向路径")
+    private String redirect;
+
+    @ApiModelProperty(value = "前端组件")
+    private String component;
+
+    @ApiModelProperty(value = "参数")
+    private String props;
+
     @ApiModelProperty(value = "父级ID")
     private Long pid;
+
+    @ApiModelProperty(value = "显示名称")
+    private String title;
 
     @ApiModelProperty(value = "图标")
     private String icon;

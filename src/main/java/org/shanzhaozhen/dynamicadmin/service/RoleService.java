@@ -56,4 +56,5 @@ public interface RoleService {
      * @param resourceIds
      */
     void bathAddRoleResource(Long roleId, List<Long> resourceIds);
+
 }
