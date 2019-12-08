@@ -1,6 +1,6 @@
 package org.shanzhaozhen.dynamicadmin.converter;
 
-import org.shanzhaozhen.dynamicadmin.dto.ResourceDTO;
+import org.shanzhaozhen.dynamicadmin.dto.MenuDTO;
 import org.shanzhaozhen.dynamicadmin.dto.RoleDTO;
 import org.shanzhaozhen.dynamicadmin.entity.sys.RoleDO;
 import org.shanzhaozhen.dynamicadmin.form.RoleForm;
@@ -33,10 +33,10 @@ public class RoleConverter {
     public static RoleVO dtoToVO(RoleDTO roleDTO) {
         RoleVO roleVO = new RoleVO();
         BeanUtils.copyProperties(roleDTO, roleVO);
-        List<ResourceDTO> resourceDTOList = roleDTO.getResourceDTOList();
+        List<MenuDTO> resourceDTOList = roleDTO.getResourceDTOList();
         if (resourceDTOList != null && resourceDTOList.size() > 0) {
             List<Long> resourceIds = new ArrayList<>();
-            for (ResourceDTO resourceDTO : resourceDTOList) {
+            for (MenuDTO resourceDTO : resourceDTOList) {
                 resourceIds.add(resourceDTO.getId());
             }
             roleVO.setResourceIds(resourceIds);

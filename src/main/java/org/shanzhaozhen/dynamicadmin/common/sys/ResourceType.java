@@ -1,21 +1,31 @@
 package org.shanzhaozhen.dynamicadmin.common.sys;
 
-public interface ResourceType {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import org.shanzhaozhen.dynamicadmin.param.EnumParam;
 
-    /**
-     * 菜单
-     */
-    public static final int MENU = 0;
+import java.util.ArrayList;
+import java.util.List;
 
-    /**
-     * 按钮
-     */
-    public static final int BUTTON = 1;
+@Getter
+@AllArgsConstructor
+public enum ResourceType {
 
-    /**
-     * API用于访问后台资源的路由
-     */
-    public static final int API = 2;
+    PATH("路径" ,0),
+    MENU("菜单" ,1),
+    API("API" ,2),
+    BUTTON("按钮" ,3);
 
+    private String name;
 
+    private Integer value;
+
+    public static List<EnumParam> toList() {
+        List<EnumParam> list = new ArrayList<>();
+        for (ResourceType menuType : ResourceType.values()) {
+            EnumParam enumParam = new EnumParam(menuType.getName(), menuType.getValue());
+            list.add(enumParam);
+        }
+        return list;
+    }
 }

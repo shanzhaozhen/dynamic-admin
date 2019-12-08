@@ -2,9 +2,8 @@ package org.shanzhaozhen.dynamicadmin.service.impl;
 
 import org.shanzhaozhen.dynamicadmin.dto.UserDTO;
 import org.shanzhaozhen.dynamicadmin.entity.sys.UserDO;
-import org.shanzhaozhen.dynamicadmin.form.UserForm;
 import org.shanzhaozhen.dynamicadmin.mapper.UserMapper;
-import org.shanzhaozhen.dynamicadmin.service.ResourceService;
+import org.shanzhaozhen.dynamicadmin.service.MenuService;
 import org.shanzhaozhen.dynamicadmin.service.UserService;
 import org.shanzhaozhen.dynamicadmin.utils.UserDetailsUtils;
 import org.shanzhaozhen.dynamicadmin.vo.UserInfo;
@@ -15,8 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -25,7 +22,7 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Autowired
-    private ResourceService resourceService;
+    private MenuService resourceService;
 
     @Override
     public UserDTO getUserByUserId(Long userId) {

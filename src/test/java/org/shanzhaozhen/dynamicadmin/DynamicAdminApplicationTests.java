@@ -2,11 +2,11 @@ package org.shanzhaozhen.dynamicadmin;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.shanzhaozhen.dynamicadmin.common.sys.ResourceType;
+import org.shanzhaozhen.dynamicadmin.common.sys.MenuType;
 import org.shanzhaozhen.dynamicadmin.converter.UserDTOConverter;
-import org.shanzhaozhen.dynamicadmin.dto.ResourceDTO;
-import org.shanzhaozhen.dynamicadmin.entity.sys.ResourceDO;
-import org.shanzhaozhen.dynamicadmin.mapper.ResourceMapper;
+import org.shanzhaozhen.dynamicadmin.dto.MenuDTO;
+import org.shanzhaozhen.dynamicadmin.entity.sys.MenuDO;
+import org.shanzhaozhen.dynamicadmin.mapper.MenuMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -18,7 +18,7 @@ import java.util.List;
 public class DynamicAdminApplicationTests {
 
     @Resource
-    private ResourceMapper resourceMapper;
+    private MenuMapper menuMapper;
 
     @Test
     public void contextLoads() {
@@ -26,17 +26,17 @@ public class DynamicAdminApplicationTests {
 
     @Test
     public void testMybatisManyToMany() {
-        List<ResourceDTO> list = resourceMapper.getResourceRoleListByTypeAndUserId(ResourceType.API, null);
+        List<MenuDTO> list = menuMapper.getMenuRoleListByTypeAndUserId(MenuType.API.getValue(), null);
         System.out.println(list);
     }
 
     @Test
-    public void addDefaultResource() {
-        resourceMapper.insert(new ResourceDO().setName("权限控制").setType(1).setPath("/permission").setIcon("lock").setPriority(1));
-        resourceMapper.insert(new ResourceDO().setName("角色切换").setType(1).setPath("/page").setPid(1L).setPriority(1));
-        resourceMapper.insert(new ResourceDO().setName("权限指令").setType(1).setPath("/directive").setPid(1L).setPriority(2));
-        resourceMapper.insert(new ResourceDO().setName("资源管理").setType(1).setPath("/resource").setPid(1L).setPriority(3));
-        resourceMapper.insert(new ResourceDO().setName("角色权限").setType(1).setPath("/role").setPid(1L).setPriority(4));
+    public void addDefaultMenu() {
+        menuMapper.insert(new MenuDO().setName("权限控制").setPath("/permission").setIcon("lock").setPriority(1));
+        menuMapper.insert(new MenuDO().setName("角色切换").setPath("/page").setPid(1L).setPriority(1));
+        menuMapper.insert(new MenuDO().setName("权限指令").setPath("/directive").setPid(1L).setPriority(2));
+        menuMapper.insert(new MenuDO().setName("资源管理").setPath("/menu").setPid(1L).setPriority(3));
+        menuMapper.insert(new MenuDO().setName("角色权限").setPath("/role").setPid(1L).setPriority(4));
     }
 
 

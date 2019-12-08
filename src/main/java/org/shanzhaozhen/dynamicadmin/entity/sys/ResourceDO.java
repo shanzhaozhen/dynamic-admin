@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.shanzhaozhen.dynamicadmin.entity.BaseEntity;
 
 
@@ -22,52 +24,18 @@ public class ResourceDO extends BaseEntity {
     @TableId(type = IdType.AUTO)
     private Long id;
 
-    @ApiModelProperty(value = "路由名称")
+    @ApiModelProperty(value = "资源名称")
     private String name;
 
-    @ApiModelProperty(value = "路由描述")
-    private String description;
-
-    @ApiModelProperty(value = "权限类型")
-    private Integer type;
-
-    @ApiModelProperty(value = "权限路由")
+    @ApiModelProperty(value = "资源路由")
     private String path;
 
-    @ApiModelProperty(value = "重定向路径")
-    private String redirect;
+    @ApiModelProperty(value = "资源类型")
+    private Integer type;
 
-    @ApiModelProperty(value = "前端组件")
-    private String component;
+    @ApiModelProperty(value = "资源描述")
+    private String description;
 
-    @ApiModelProperty(value = "参数")
-    private String props;
 
-    @ApiModelProperty(value = "父级ID")
-    private Long pid;
-
-    @ApiModelProperty(value = "显示名称")
-    private String title;
-
-    @ApiModelProperty(value = "图标")
-    private String icon;
-
-    @ApiModelProperty(value = "排序等级")
-    private Integer priority;
-
-    @ApiModelProperty(value = "菜单是否隐藏")
-    private Boolean hidden;
-
-    @ApiModelProperty(value = "菜单是否总是显示")
-    private Boolean alwaysShow;
-
-    @ApiModelProperty(value = "是否需要缓存")
-    private Boolean noCache;
-
-    @ApiModelProperty(value = "固钉")
-    private Boolean affix;
-
-    @ApiModelProperty(value = "面包屑")
-    private Boolean breadcrumb;
 
 }

@@ -48,18 +48,19 @@ CREATE TABLE sys_role
 );
 
 /*
-资源表
+菜单表
  */
-DROP TABLE IF EXISTS sys_resource;
+DROP TABLE IF EXISTS sys_menu;
 
-CREATE TABLE sys_resource
+CREATE TABLE sys_menu
 (
 	id BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-	name VARCHAR(30) NOT NULL COMMENT '权限名称',
-	description VARCHAR(255) COMMENT '权限描述',
-	type INT(11) NOT NULL COMMENT '权限类型',
-	path VARCHAR(255) COMMENT '权限路由',
+	name VARCHAR(30) NOT NULL COMMENT '菜单名称',
+    path VARCHAR(255) COMMENT '菜单路由',
     pid BIGINT(20) NULL DEFAULT NULL COMMENT '父级ID',
+	component VARCHAR(255) COMMENT '前端组件',
+	redirect VARCHAR(255) COMMENT '重定向路径',
+	title VARCHAR(255) COMMENT '显示名称',
 	icon VARCHAR(255) COMMENT '图标',
     priority INT(11) NULL DEFAULT NULL COMMENT '排序等级',
     hidden bit(1) NOT NULL DEFAULT 0 COMMENT '菜单是否隐藏',
@@ -67,6 +68,27 @@ CREATE TABLE sys_resource
     no_cache bit(1) NOT NULL DEFAULT 0 COMMENT '是否不打开缓存',
     affix bit(1) NOT NULL DEFAULT 0 COMMENT '是否打开固钉',
     breadcrumb bit(1) NOT NULL DEFAULT 1 COMMENT '是否打开面包屑',
+    props VARCHAR(255) COMMENT '参数',
+    description VARCHAR(255) COMMENT '菜单描述',
+	create_by BIGINT(20) NULL DEFAULT NULL COMMENT '创建人',
+    created_date datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+    last_modified_by BIGINT(20) NULL DEFAULT NULL COMMENT '修改人',
+    last_modified_date datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
+	PRIMARY KEY (id)
+);
+
+/*
+资源表
+ */
+DROP TABLE IF EXISTS sys_resource;
+
+CREATE TABLE sys_resource
+(
+	id BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+	name VARCHAR(30) NOT NULL COMMENT '资源名称',
+    path VARCHAR(255) COMMENT '资源路由',
+    type INT(11) NOT NULL COMMENT '资源类型',
+	description VARCHAR(255) COMMENT '资源描述',
 	create_by BIGINT(20) NULL DEFAULT NULL COMMENT '创建人',
     created_date datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
     last_modified_by BIGINT(20) NULL DEFAULT NULL COMMENT '修改人',
@@ -84,6 +106,23 @@ CREATE TABLE sys_user_role
 	id BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
 	user_id BIGINT(20) NOT NULL COMMENT '用户ID',
 	role_id BIGINT(20) NOT NULL COMMENT '角色ID',
+	create_by BIGINT(20) NULL DEFAULT NULL COMMENT '创建人',
+    created_date datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+    last_modified_by BIGINT(20) NULL DEFAULT NULL COMMENT '修改人',
+    last_modified_date datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
+	PRIMARY KEY (id)
+);
+
+/*
+角色-菜单关系表
+ */
+DROP TABLE IF EXISTS sys_role_menu;
+
+CREATE TABLE sys_role_menu
+(
+	id BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+	role_id BIGINT(20) NOT NULL COMMENT '角色ID',
+	menu_id BIGINT(20) NOT NULL COMMENT '权限ID',
 	create_by BIGINT(20) NULL DEFAULT NULL COMMENT '创建人',
     created_date datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
     last_modified_by BIGINT(20) NULL DEFAULT NULL COMMENT '修改人',

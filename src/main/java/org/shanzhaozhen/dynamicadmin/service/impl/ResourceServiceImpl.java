@@ -6,11 +6,11 @@ import org.shanzhaozhen.dynamicadmin.converter.ResourceConverter;
 import org.shanzhaozhen.dynamicadmin.dto.ResourceDTO;
 import org.shanzhaozhen.dynamicadmin.entity.sys.ResourceDO;
 import org.shanzhaozhen.dynamicadmin.mapper.ResourceMapper;
-import org.shanzhaozhen.dynamicadmin.utils.MyBeanUtils;
-import org.shanzhaozhen.dynamicadmin.vo.AsyncRoute;
 import org.shanzhaozhen.dynamicadmin.service.ResourceService;
 import org.shanzhaozhen.dynamicadmin.utils.ResourceUtils;
+import org.shanzhaozhen.dynamicadmin.utils.MyBeanUtils;
 import org.shanzhaozhen.dynamicadmin.utils.UserDetailsUtils;
+import org.shanzhaozhen.dynamicadmin.vo.AsyncRoute;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -30,9 +30,9 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public List<AsyncRoute> getMenusByCurrentUser() {
+    public List<AsyncRoute> getResourcesByCurrentUser() {
         Long userId = UserDetailsUtils.getUserId();
-        List<ResourceDTO> resourceDTOList = resourceMapper.getResourceRoleListByTypeAndUserId(ResourceType.MENU, userId);
+        List<ResourceDTO> resourceDTOList = resourceMapper.getResourceRoleListByTypeAndUserId(ResourceType.MENU.getValue(), userId);
         return ResourceUtils.builtAsyncRouteTreeByResourceList(resourceDTOList);
     }
 
