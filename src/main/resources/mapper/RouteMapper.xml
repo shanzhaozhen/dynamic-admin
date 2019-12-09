@@ -33,11 +33,11 @@
     </resultMap>
 
     <select id="getRouteRoleListByUserId" resultMap="RouteRoleMap">
-        select * from sys_menu sm
+        select * from sys_route r1
         <if test="userId != null">
-            inner join sys_role_menu srm on srm.menu_id = sm.id
-            inner join sys_role ro on ro.id = srm.role_id
-            inner join sys_user_role sur on sur.user_id = #{userId} and ro.id = sur.role_id
+            inner join sys_role_route srr on srr.route_id = r1.id
+            inner join sys_role r2 on r2.id = srr.role_id
+            inner join sys_user_role sur on sur.user_id = #{userId} and r2.id = sur.role_id
         </if>
     </select>
 

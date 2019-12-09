@@ -22,8 +22,8 @@ public enum RouteType {
 
     public static List<EnumParam> toList() {
         List<EnumParam> list = new ArrayList<>();
-        for (RouteType menuType : RouteType.values()) {
-            EnumParam enumParam = new EnumParam(menuType.getName(), menuType.getValue());
+        for (RouteType routeType : RouteType.values()) {
+            EnumParam enumParam = new EnumParam(routeType.getName(), routeType.getValue());
             list.add(enumParam);
         }
         return list;

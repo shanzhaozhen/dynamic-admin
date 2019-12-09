@@ -9,10 +9,10 @@ import java.util.List;
 
 public interface RouteMapper extends BaseMapper<RouteDO> {
 
-    @Select("select m.id, m.name, m.path, m.pid, m.component, m.redirect, m.title, m.icon, m.priority, " +
-            "m.hidden, m.always_show, m.no_cache, m.affix, m.breadcrumb, m.props, m.description " +
-            "from sys_route m " +
-            "inner join sys_role_route srm on srm.role_id = #{roleId} and m.id = srm.route_id")
+    @Select("select r.id, r.name, r.path, r.pid, r.component, r.redirect, r.title, r.icon, r.priority, " +
+            "r.hidden, r.always_show, r.no_cache, r.affix, r.breadcrumb, r.props, r.description " +
+            "from sys_route r " +
+            "inner join sys_role_route srr on srr.role_id = #{roleId} and r.id = srr.route_id")
     List<RouteDTO> getRouteByRoleId(@Param("roleId") Long roleId);
 
     @Select("select id, name, path, pid, component, redirect, title, icon, priority, " +

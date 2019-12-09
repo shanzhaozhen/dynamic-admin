@@ -12,9 +12,8 @@ import java.util.List;
 public enum ResourceType {
 
     PATH("路径" ,0),
-    MENU("菜单" ,1),
-    API("API" ,2),
-    BUTTON("按钮" ,3);
+    API("API" ,1),
+    BUTTON("按钮" ,2);
 
     private String name;
 
@@ -22,8 +21,8 @@ public enum ResourceType {
 
     public static List<EnumParam> toList() {
         List<EnumParam> list = new ArrayList<>();
-        for (ResourceType menuType : ResourceType.values()) {
-            EnumParam enumParam = new EnumParam(menuType.getName(), menuType.getValue());
+        for (ResourceType routeType : ResourceType.values()) {
+            EnumParam enumParam = new EnumParam(routeType.getName(), routeType.getValue());
             list.add(enumParam);
         }
         return list;

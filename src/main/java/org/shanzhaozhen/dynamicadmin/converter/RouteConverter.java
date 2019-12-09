@@ -8,34 +8,34 @@ import org.springframework.beans.BeanUtils;
 
 public class RouteConverter {
 
-    public static RouteDTO formToDTO(RouteForm menuForm) {
-        RouteDTO menuDTO = new RouteDTO();
-        BeanUtils.copyProperties(menuForm, menuDTO);
-        return menuDTO;
+    public static RouteDTO formToDTO(RouteForm routeForm) {
+        RouteDTO routeDTO = new RouteDTO();
+        BeanUtils.copyProperties(routeForm, routeDTO);
+        return routeDTO;
     }
 
-    public static RouteDO dtoToDO(RouteDTO menuDTO) {
-        RouteDO menuDO = new RouteDO();
-        BeanUtils.copyProperties(menuDTO, menuDO);
-        return menuDO;
+    public static RouteDO dtoToDO(RouteDTO routeDTO) {
+        RouteDO routeDO = new RouteDO();
+        BeanUtils.copyProperties(routeDTO, routeDO);
+        return routeDO;
     }
 
-    public static RouteDTO doToDTO(RouteDO menuDO) {
-        RouteDTO menuDTO = new RouteDTO();
-        BeanUtils.copyProperties(menuDO, menuDTO);
-        return menuDTO;
+    public static RouteDTO doToDTO(RouteDO routeDO) {
+        RouteDTO routeDTO = new RouteDTO();
+        BeanUtils.copyProperties(routeDO, routeDTO);
+        return routeDTO;
     }
 
-    public static RouteVO dtoToVO(RouteDTO menuDTO) {
-        RouteVO menuVO = new RouteVO();
-        BeanUtils.copyProperties(menuDTO, menuVO);
-        return menuVO;
+    public static RouteVO dtoToVO(RouteDTO routeDTO) {
+        RouteVO routeVO = new RouteVO();
+        BeanUtils.copyProperties(routeDTO, routeVO);
+        return routeVO;
     }
 
-    public static RouteDTO voToDTO(RouteVO menuVO) {
-        RouteDTO menuDTO = new RouteDTO();
-        BeanUtils.copyProperties(menuVO, menuDTO);
-        return menuDTO;
+    public static RouteDTO voToDTO(RouteVO routeVO) {
+        RouteDTO routeDTO = new RouteDTO();
+        BeanUtils.copyProperties(routeVO, routeDTO);
+        return routeDTO;
     }
 
 }

@@ -32,7 +32,7 @@ public class ResourceServiceImpl implements ResourceService {
     @Override
     public List<AsyncRoute> getResourcesByCurrentUser() {
         Long userId = UserDetailsUtils.getUserId();
-        List<ResourceDTO> resourceDTOList = resourceMapper.getResourceRoleListByTypeAndUserId(ResourceType.MENU.getValue(), userId);
+        List<ResourceDTO> resourceDTOList = resourceMapper.getResourceRoleListByTypeAndUserId(ResourceType.API.getValue(), userId);
         return ResourceUtils.builtAsyncRouteTreeByResourceList(resourceDTOList);
     }
 

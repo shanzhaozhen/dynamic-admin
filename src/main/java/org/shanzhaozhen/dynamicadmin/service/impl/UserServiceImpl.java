@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Autowired
-    private RouteService menuService;
+    private RouteService routeService;
 
     @Override
     public UserDTO getUserByUserId(Long userId) {
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
                             userDTO.getAvatar(),
                             userDTO.getIntroduction(),
                             UserDetailsUtils.getAuthorities(),
-                            menuService.getRoutesByCurrentUser());
+                            routeService.getRoutesByCurrentUser());
     }
 
 }
