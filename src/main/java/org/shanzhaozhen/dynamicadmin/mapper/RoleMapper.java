@@ -16,6 +16,12 @@ public interface RoleMapper extends BaseMapper<RoleDO> {
     @Select("select r.id, r.name, r.identification, r.description, " +
             "r.create_by, r.created_date, r.last_modified_by, r.last_modified_date " +
             "from sys_role r " +
+            "inner join sys_role_route srm on srm.route_id = #{routeId} and r.id = srm.role_id")
+    List<RoleDTO> getRoleByRouteId(@Param("routeId") Long routeId);
+
+    @Select("select r.id, r.name, r.identification, r.description, " +
+            "r.create_by, r.created_date, r.last_modified_by, r.last_modified_date " +
+            "from sys_role r " +
             "inner join sys_role_resource srr on srr.resource_id = #{resourceId} and r.id = srr.role_id")
     List<RoleDTO> getRoleByResourceId(@Param("resourceId") Long resourceId);
 

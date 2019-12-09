@@ -9,7 +9,7 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public enum MenuType {
+public enum RouteType {
 
     PATH("路径" ,0),
     MENU("菜单" ,1),
@@ -22,7 +22,7 @@ public enum MenuType {
 
     public static List<EnumParam> toList() {
         List<EnumParam> list = new ArrayList<>();
-        for (MenuType menuType : MenuType.values()) {
+        for (RouteType menuType : RouteType.values()) {
             EnumParam enumParam = new EnumParam(menuType.getName(), menuType.getValue());
             list.add(enumParam);
         }

@@ -13,8 +13,8 @@ import javax.validation.constraints.NotEmpty;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value="MenuForm对象", description="")
-public class MenuForm {
+@ApiModel(value="RouteForm对象", description="")
+public class RouteForm {
 
     @ApiModelProperty(value = "主键ID")
     @NotEmpty(groups = {Update.class}, message = "资源id不能为空")

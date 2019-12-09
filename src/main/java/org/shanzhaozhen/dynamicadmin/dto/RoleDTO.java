@@ -27,7 +27,7 @@ public class RoleDTO {
     private String description;
 
     @ApiModelProperty(value = "关联的资源")
-    private List<MenuDTO> resourceDTOList;
+    private List<RouteDTO> resourceDTOList;
 
     @ApiModelProperty(value = "关联的资源id")
     private List<Long> resourceIds;

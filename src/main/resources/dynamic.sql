@@ -50,9 +50,9 @@ CREATE TABLE sys_role
 /*
 菜单表
  */
-DROP TABLE IF EXISTS sys_menu;
+DROP TABLE IF EXISTS sys_route;
 
-CREATE TABLE sys_menu
+CREATE TABLE sys_route
 (
 	id BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
 	name VARCHAR(30) NOT NULL COMMENT '菜单名称',
@@ -116,13 +116,13 @@ CREATE TABLE sys_user_role
 /*
 角色-菜单关系表
  */
-DROP TABLE IF EXISTS sys_role_menu;
+DROP TABLE IF EXISTS sys_role_route;
 
-CREATE TABLE sys_role_menu
+CREATE TABLE sys_role_route
 (
 	id BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
 	role_id BIGINT(20) NOT NULL COMMENT '角色ID',
-	menu_id BIGINT(20) NOT NULL COMMENT '权限ID',
+	route_id BIGINT(20) NOT NULL COMMENT '权限ID',
 	create_by BIGINT(20) NULL DEFAULT NULL COMMENT '创建人',
     created_date datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
     last_modified_by BIGINT(20) NULL DEFAULT NULL COMMENT '修改人',
@@ -181,3 +181,50 @@ CREATE TABLE sys_dictionary
     last_modified_date datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
 	PRIMARY KEY (id)
 );
+
+
+/*
+初始数据插入
+ */
+
+/**
+用户表初始数据
+*/
+INSERT INTO `dynamic`.`sys_user`(`id`, `username`, `password`, `account_non_expired`, `account_non_locked`, `credentials_non_expired`, `enabled`, `name`, `nickname`, `sex`, `birthday`, `avatar`, `email`, `phone_number`, `address`, `introduction`, `create_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1, 'admin', '$2a$10$ZHloNREZMCnmeSqGlPL4tudSt4QdR4JnFwODJnVsXoWoxAkNMaqda', b'1', b'1', b'1', b'1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+/**
+角色表基础数据
+ */
+INSERT INTO `dynamic`.`sys_role`(`id`, `name`, `identification`, `description`, `create_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1, '开发者', 'developer', '开发者', NULL, NULL, NULL, NULL);
+INSERT INTO `dynamic`.`sys_role`(`id`, `name`, `identification`, `description`, `create_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (2, '管理员', 'admin', '管理员', NULL, NULL, NULL, NULL);
+
+/**
+用户-角色关联表基础数据
+ */
+INSERT INTO `dynamic`.`sys_user_role`(`id`, `user_id`, `role_id`, `create_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1, 1, 1, NULL, NULL, NULL, NULL);
+
+/**
+菜单表基础数据
+ */
+INSERT INTO `dynamic`.`sys_route`(`id`, `name`, `path`, `pid`, `component`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `create_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1, 'Permission', '/permission', NULL, 'Layout', '/permission/page', '权限控制', 'lock', 1, b'0', b'0', b'0', b'0', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `dynamic`.`sys_route`(`id`, `name`, `path`, `pid`, `component`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `create_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (2, 'PagePermission', 'page', 1, '@/views/permission/page', NULL, '角色切换', NULL, 1, b'0', b'0', b'0', b'0', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `dynamic`.`sys_route`(`id`, `name`, `path`, `pid`, `component`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `create_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (3, 'DirectivePermission', 'directive', 1, '@/views/permission/directive', NULL, '权限指令', NULL, 2, b'0', b'0', b'0', b'0', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `dynamic`.`sys_route`(`id`, `name`, `path`, `pid`, `component`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `create_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (4, 'RoutePermission', 'route', 1, '@/views/permission/page', NULL, '菜单管理', NULL, 3, b'0', b'0', b'0', b'0', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `dynamic`.`sys_route`(`id`, `name`, `path`, `pid`, `component`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `create_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (5, 'ResourcePermission', 'resource', 1, '@/views/permission/resource', NULL, '资源管理', NULL, 4, b'0', b'0', b'0', b'0', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `dynamic`.`sys_route`(`id`, `name`, `path`, `pid`, `component`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `create_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (6, 'RolePermission', 'role', 1, '@/views/permission/role', NULL, '角色权限', NULL, 5, b'0', b'0', b'0', b'0', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `dynamic`.`sys_route`(`id`, `name`, `path`, `pid`, `component`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `create_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (7, 'Iframe', '/iframe', NULL, 'Layout', 'noRedirect', '开发者工具', 'link', 99, b'0', b'0', b'0', b'0', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `dynamic`.`sys_route`(`id`, `name`, `path`, `pid`, `component`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `create_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (8, 'Druid', 'druid', 7, '@/views/iframe/index', NULL, 'Druid', 'link', 1, b'0', b'0', b'0', b'0', b'1', '{ redirect: \'http://localhost:8080/dynamic/druid\' }', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `dynamic`.`sys_route`(`id`, `name`, `path`, `pid`, `component`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `create_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (9, 'Swagger', 'swagger', 7, '@/views/iframe/index', NULL, 'Swagger', 'link', 2, b'0', b'0', b'0', b'0', b'1', '{ redirect: \'http://localhost:8080/dynamic/swagger-ui.html\' }', NULL, NULL, NULL, NULL, NULL);
+
+/**
+角色-菜单关联表基础数据
+ */
+INSERT INTO `dynamic`.`sys_role_route`(`id`, `role_id`, `route_id`, `create_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1, 1, 1, NULL, NULL, NULL, NULL);
+INSERT INTO `dynamic`.`sys_role_route`(`id`, `role_id`, `route_id`, `create_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (2, 1, 2, NULL, NULL, NULL, NULL);
+INSERT INTO `dynamic`.`sys_role_route`(`id`, `role_id`, `route_id`, `create_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (3, 1, 3, NULL, NULL, NULL, NULL);
+INSERT INTO `dynamic`.`sys_role_route`(`id`, `role_id`, `route_id`, `create_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (4, 1, 4, NULL, NULL, NULL, NULL);
+INSERT INTO `dynamic`.`sys_role_route`(`id`, `role_id`, `route_id`, `create_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (5, 1, 5, NULL, NULL, NULL, NULL);
+INSERT INTO `dynamic`.`sys_role_route`(`id`, `role_id`, `route_id`, `create_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (6, 1, 6, NULL, NULL, NULL, NULL);
+INSERT INTO `dynamic`.`sys_role_route`(`id`, `role_id`, `route_id`, `create_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (7, 1, 7, NULL, NULL, NULL, NULL);
+INSERT INTO `dynamic`.`sys_role_route`(`id`, `role_id`, `route_id`, `create_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (8, 1, 8, NULL, NULL, NULL, NULL);
+INSERT INTO `dynamic`.`sys_role_route`(`id`, `role_id`, `route_id`, `create_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (9, 1, 9, NULL, NULL, NULL, NULL);

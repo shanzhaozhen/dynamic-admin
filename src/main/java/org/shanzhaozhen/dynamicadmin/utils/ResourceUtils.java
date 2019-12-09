@@ -103,8 +103,8 @@ public class ResourceUtils {
      */
     public static List<AsyncRoute> builtAsyncRouteTreeByResourceList(List<ResourceDTO> resourceDTOList) {
         List<AsyncRoute> asyncRouteList = ResourceUtils.resourceListToAsyncRouteList(resourceDTOList);
-        List<AsyncRoute> menuList = ResourceUtils.builtAsyncRouteTree(asyncRouteList);
-        return menuList;
+        List<AsyncRoute> routeList = ResourceUtils.builtAsyncRouteTree(asyncRouteList);
+        return routeList;
     }
 
     /**

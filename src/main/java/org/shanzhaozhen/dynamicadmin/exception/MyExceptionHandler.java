@@ -1,7 +1,5 @@
-package org.shanzhaozhen.dynamicadmin.controller;
+package org.shanzhaozhen.dynamicadmin.exception;
 
-import org.shanzhaozhen.dynamicadmin.exception.ResultErrorException;
-import org.shanzhaozhen.dynamicadmin.exception.ResultException;
 import org.shanzhaozhen.dynamicadmin.utils.ResultUtils;
 import org.shanzhaozhen.dynamicadmin.vo.ResultObject;
 import org.springframework.web.bind.MethodArgumentNotValidException;

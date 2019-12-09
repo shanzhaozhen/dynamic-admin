@@ -3,8 +3,9 @@ package org.shanzhaozhen.dynamicadmin.service.impl;
 import org.shanzhaozhen.dynamicadmin.dto.UserDTO;
 import org.shanzhaozhen.dynamicadmin.entity.sys.UserDO;
 import org.shanzhaozhen.dynamicadmin.mapper.UserMapper;
-import org.shanzhaozhen.dynamicadmin.service.MenuService;
+import org.shanzhaozhen.dynamicadmin.service.RouteService;
 import org.shanzhaozhen.dynamicadmin.service.UserService;
+import org.shanzhaozhen.dynamicadmin.utils.PasswordUtils;
 import org.shanzhaozhen.dynamicadmin.utils.UserDetailsUtils;
 import org.shanzhaozhen.dynamicadmin.vo.UserInfo;
 import org.springframework.beans.BeanUtils;
@@ -22,7 +23,7 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Autowired
-    private MenuService resourceService;
+    private RouteService menuService;
 
     @Override
     public UserDTO getUserByUserId(Long userId) {
@@ -44,9 +45,10 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public Long register(UserDTO userDTO) {
-        Assert.state(this.isExistUser(userDTO.getUsername()), "注册失败，该用户名已存在！");
+        Assert.isNull(userMapper.selectUserByUsername(userDTO.getUsername()), "注册失败，该用户名已存在！");
         UserDO newUser = new UserDO();
-        BeanUtils.copyProperties(userDTO, newUser);
+        BeanUtils.copyProperties(userDTO, newUser, "accountNonExpired", "accountNonLocked", "credentialsNonExpired", "enabled");
+        newUser.setPassword(PasswordUtils.encryption(userDTO.getPassword()));
         userMapper.insert(newUser);
         return newUser.getId();
     }
@@ -59,14 +61,11 @@ public class UserServiceImpl implements UserService {
 
     public UserInfo getUserInfo() {
         UserDTO userDTO = this.getCurrentUser();
-
-        UserInfo userInfo = new UserInfo();
-        userInfo.setNickname(userDTO.getNickname())
-                .setAvatar(userDTO.getAvatar())
-                .setIntroduction(userDTO.getIntroduction())
-                .setRoles(UserDetailsUtils.getAuthorities())
-                .setMenus(resourceService.getMenusByCurrentUser());
-        return userInfo;
+        return new UserInfo(userDTO.getNickname(),
+                            userDTO.getAvatar(),
+                            userDTO.getIntroduction(),
+                            UserDetailsUtils.getAuthorities(),
+                            menuService.getRoutesByCurrentUser());
     }
 
 }

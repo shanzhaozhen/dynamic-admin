@@ -6,9 +6,9 @@ import org.shanzhaozhen.dynamicadmin.converter.RoleConverter;
 import org.shanzhaozhen.dynamicadmin.dto.RoleDTO;
 import org.shanzhaozhen.dynamicadmin.entity.sys.RoleDO;
 import org.shanzhaozhen.dynamicadmin.form.BaseSearchForm;
-import org.shanzhaozhen.dynamicadmin.entity.sys.RoleMenuDO;
+import org.shanzhaozhen.dynamicadmin.entity.sys.RoleRouteDO;
 import org.shanzhaozhen.dynamicadmin.mapper.RoleMapper;
-import org.shanzhaozhen.dynamicadmin.mapper.RoleMenuMapper;
+import org.shanzhaozhen.dynamicadmin.mapper.RoleRouteMapper;
 import org.shanzhaozhen.dynamicadmin.service.RoleService;
 import org.shanzhaozhen.dynamicadmin.utils.MyBeanUtils;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class RoleServiceImpl implements RoleService {
     private RoleMapper roleMapper;
 
     @Resource
-    private RoleMenuMapper roleMenuMapper;
+    private RoleRouteMapper roleRouteMapper;
 
     @Override
     public List<RoleDTO> getRolesByUserId(Long userId) {
@@ -70,7 +70,7 @@ public class RoleServiceImpl implements RoleService {
         roleMapper.updateById(roleDO);
         if (roleDTO.getResourceIds() != null && roleDTO.getResourceIds().size() > 0) {
             Long roleId = roleDO.getId();
-            roleMenuMapper.deleteByRoleId(roleId);
+            roleRouteMapper.deleteByRoleId(roleId);
             this.bathAddRoleResource(roleId, roleDTO.getResourceIds());
         }
         return roleDTO;
@@ -79,7 +79,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional
     public Boolean deleteRole(Long roleId) {
-        roleMenuMapper.deleteByRoleId(roleId);
+        roleRouteMapper.deleteByRoleId(roleId);
         return SqlHelper.retBool(roleMapper.deleteById(roleId));
     }
 
@@ -87,8 +87,8 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     public void bathAddRoleResource(Long roleId, List<Long> resourceIds) {
         for (Long resourceId : resourceIds) {
-            RoleMenuDO RoleMenuDO = new RoleMenuDO(null, roleId, resourceId);
-            roleMenuMapper.insert(RoleMenuDO);
+            RoleRouteDO RoleRouteDO = new RoleRouteDO(null, roleId, resourceId);
+            roleRouteMapper.insert(RoleRouteDO);
         }
     }
 

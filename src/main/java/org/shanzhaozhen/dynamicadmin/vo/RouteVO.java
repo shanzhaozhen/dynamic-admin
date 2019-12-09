@@ -13,8 +13,8 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value="MenuVO对象", description="")
-public class MenuVO {
+@ApiModel(value="RouteVO对象", description="")
+public class RouteVO {
 
     @ApiModelProperty(value = "主键ID")
     private Long id;
@@ -66,6 +66,6 @@ public class MenuVO {
 
     private List<RoleVO> roleVOList;
 
-    private List<MenuVO> children;
+    private List<RouteVO> children;
 
 }

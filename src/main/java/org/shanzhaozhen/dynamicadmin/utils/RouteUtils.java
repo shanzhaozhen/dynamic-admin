@@ -1,6 +1,6 @@
 package org.shanzhaozhen.dynamicadmin.utils;
 
-import org.shanzhaozhen.dynamicadmin.dto.MenuDTO;
+import org.shanzhaozhen.dynamicadmin.dto.RouteDTO;
 import org.shanzhaozhen.dynamicadmin.dto.RoleDTO;
 import org.shanzhaozhen.dynamicadmin.vo.AsyncRoute;
 import org.shanzhaozhen.dynamicadmin.vo.Meta;
@@ -9,49 +9,54 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class MenuUtils {
+public class RouteUtils {
 
     /**
-     * 将Menu转换成AsyncRoute供给前端渲染使用
-     * @param menuDTO
+     * 将Route转换成AsyncRoute供给前端渲染使用
+     * @param routeDTO
      * @return
      */
-    public static AsyncRoute menuToAsyncRoute(MenuDTO menuDTO) {
+    public static AsyncRoute routeToAsyncRoute(RouteDTO routeDTO) {
         AsyncRoute asyncRoute = new AsyncRoute();
-        List<RoleDTO> roleDTOList = menuDTO.getRoles();
+        List<RoleDTO> roleDTOList = routeDTO.getRoles();
         List<String> roles = new ArrayList<>();
         for (RoleDTO roleDTO : roleDTOList) {
             roles.add(roleDTO.getIdentification());
         }
         Meta meta = new Meta();
         meta
-                .setTitle(menuDTO.getName())
-                .setIcon(menuDTO.getIcon())
-                .setNoCache(menuDTO.getNoCache())
-                .setAffix(menuDTO.getAffix())
-                .setBreadcrumb(menuDTO.getBreadcrumb())
+                .setTitle(routeDTO.getTitle())
+                .setIcon(routeDTO.getIcon())
+                .setNoCache(routeDTO.getNoCache())
+                .setAffix(routeDTO.getAffix())
+                .setBreadcrumb(routeDTO.getBreadcrumb())
                 .setRoles(roles);
         asyncRoute
-                .setId(menuDTO.getId())
-                .setPid(menuDTO.getPid())
-                .setPath(menuDTO.getPath())
-                .setHidden(menuDTO.getHidden())
-                .setAlwaysShow(menuDTO.getAlwaysShow())
-                .setPriority(menuDTO.getPriority())
-                .setMeta(meta);
+                .setId(routeDTO.getId())
+                .setName(routeDTO.getName())
+                .setPath(routeDTO.getPath())
+                .setPid(routeDTO.getPid())
+                .setComponent(routeDTO.getComponent())
+                .setRedirect(routeDTO.getRedirect())
+                .setPriority(routeDTO.getPriority())
+                .setHidden(routeDTO.getHidden())
+                .setAlwaysShow(routeDTO.getAlwaysShow())
+                .setProps(routeDTO.getProps())
+                .setMeta(meta)
+                .setDescription(routeDTO.getDescription());
         return asyncRoute;
     }
 
     /**
-     * 批量将Menu转换成AsyncRoute供给前端渲染使用
+     * 批量将Route转换成AsyncRoute供给前端渲染使用
      *
-     * @param menuDTOList
+     * @param routeDTOList
      * @return
      */
-    public static List<AsyncRoute> menuListToAsyncRouteList(List<MenuDTO> menuDTOList) {
+    public static List<AsyncRoute> routeListToAsyncRouteList(List<RouteDTO> routeDTOList) {
         List<AsyncRoute> asyncRouteList = new ArrayList<>();
-        for (MenuDTO menuDTO : menuDTOList) {
-            AsyncRoute asyncRoute = MenuUtils.menuToAsyncRoute(menuDTO);
+        for (RouteDTO routeDTO : routeDTOList) {
+            AsyncRoute asyncRoute = RouteUtils.routeToAsyncRoute(routeDTO);
             asyncRouteList.add(asyncRoute);
         }
         return asyncRouteList;
@@ -105,36 +110,35 @@ public class MenuUtils {
     }
 
     /**
-     * 将menuList生成AsyncRoute的树状结构
-     * @param menuDTOList
+     * 将routeList生成AsyncRoute的树状结构
+     * @param routeDTOList
      * @return
      */
-    public static List<AsyncRoute> builtAsyncRouteTreeByMenuList(List<MenuDTO> menuDTOList) {
-        List<AsyncRoute> asyncRouteList = MenuUtils.menuListToAsyncRouteList(menuDTOList);
-        List<AsyncRoute> menuList = MenuUtils.builtAsyncRouteTree(asyncRouteList);
-        return menuList;
+    public static List<AsyncRoute> builtAsyncRouteTreeByRouteList(List<RouteDTO> routeDTOList) {
+        List<AsyncRoute> asyncRouteList = RouteUtils.routeListToAsyncRouteList(routeDTOList);
+        return RouteUtils.builtAsyncRouteTree(asyncRouteList);
     }
 
     /**
      * 装资源list转成树状结构
-     * @param menuDTOList
+     * @param routeDTOList
      * @return
      */
-    public static List<MenuDTO> builtMenuTree(List<MenuDTO> menuDTOList) {
-        List<MenuDTO> rootList = new ArrayList<>();
-        List<MenuDTO> noRootList = new ArrayList<>();
+    public static List<RouteDTO> builtRouteTree(List<RouteDTO> routeDTOList) {
+        List<RouteDTO> rootList = new ArrayList<>();
+        List<RouteDTO> noRootList = new ArrayList<>();
 
-        for (MenuDTO menuDTO : menuDTOList) {
-            if (menuDTO.getPid() == null || menuDTO.getPid() <= 0) {
-                rootList.add(menuDTO);
+        for (RouteDTO routeDTO : routeDTOList) {
+            if (routeDTO.getPid() == null || routeDTO.getPid() <= 0) {
+                rootList.add(routeDTO);
             } else {
-                noRootList.add(menuDTO);
+                noRootList.add(routeDTO);
             }
         }
 
-        getMenuChildren(noRootList, menuDTOList);
+        getRouteChildren(noRootList, routeDTOList);
 
-        rootList.sort((Comparator.comparing(MenuDTO::getPriority)));
+        rootList.sort((Comparator.comparing(RouteDTO::getPriority)));
 
         return rootList;
     }
@@ -145,19 +149,19 @@ public class MenuUtils {
      * @param children
      * @return
      */
-    public static List<MenuDTO> getMenuChildren(List<MenuDTO> noRootList, List<MenuDTO> children) {
-        for (MenuDTO child : children) {
-            List<MenuDTO> grandsons = new ArrayList<>();
-            for (MenuDTO noRoot : noRootList) {
+    public static List<RouteDTO> getRouteChildren(List<RouteDTO> noRootList, List<RouteDTO> children) {
+        for (RouteDTO child : children) {
+            List<RouteDTO> grandsons = new ArrayList<>();
+            for (RouteDTO noRoot : noRootList) {
                 if (child.getId().equals(noRoot.getPid())) {
                     grandsons.add(noRoot);
                 }
             }
             if (grandsons.size() > 0) {
-                child.setChildren(getMenuChildren(noRootList, grandsons));
+                child.setChildren(getRouteChildren(noRootList, grandsons));
             }
         }
-        children.sort((Comparator.comparing(MenuDTO::getPriority)));
+        children.sort((Comparator.comparing(RouteDTO::getPriority)));
 
         return children;
     }

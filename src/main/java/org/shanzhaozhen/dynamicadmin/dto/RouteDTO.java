@@ -1,25 +1,20 @@
-package org.shanzhaozhen.dynamicadmin.entity.sys;
+package org.shanzhaozhen.dynamicadmin.dto;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
-import org.shanzhaozhen.dynamicadmin.entity.BaseEntity;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("sys_menu")
-@ApiModel(value="Menu对象", description="")
-public class MenuDO extends BaseEntity {
-
-    private static final long serialVersionUID = 4485640590947953262L;
+@ApiModel(value="RouteDTO对象", description="")
+public class RouteDTO {
 
     @ApiModelProperty(value = "主键ID")
-    @TableId(type = IdType.AUTO)
     private Long id;
 
     @ApiModelProperty(value = "菜单名称")
@@ -67,4 +62,7 @@ public class MenuDO extends BaseEntity {
     @ApiModelProperty(value = "菜单描述")
     private String description;
 
+    private List<RoleDTO> roles;
+
+    private List<RouteDTO> children;
 }

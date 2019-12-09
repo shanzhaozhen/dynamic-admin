@@ -29,6 +29,6 @@ public class UserInfo {
     private List<String> roles;
 
     @ApiModelProperty(value = "菜单")
-    private List<AsyncRoute> menus;
+    private List<AsyncRoute> routes;
 
 }

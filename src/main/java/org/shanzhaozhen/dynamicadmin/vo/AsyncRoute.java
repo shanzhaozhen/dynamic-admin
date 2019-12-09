@@ -16,11 +16,26 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AsyncRoute {
 
-    @ApiModelProperty(value = "主键id")
+    @ApiModelProperty(value = "主键ID")
     private Long id;
+
+    @ApiModelProperty(value = "菜单名称")
+    private String name;
 
     @ApiModelProperty(value = "菜单路由")
     private String path;
+
+    @ApiModelProperty(value = "父级ID")
+    private Long pid;
+
+    @ApiModelProperty(value = "前端组件")
+    private String component;
+
+    @ApiModelProperty(value = "重定向路径")
+    private String redirect;
+
+    @ApiModelProperty(value = "排序等级")
+    private Integer priority;
 
     @ApiModelProperty(value = "菜单是否隐藏")
     private Boolean hidden;
@@ -31,11 +46,11 @@ public class AsyncRoute {
     @ApiModelProperty(value = "菜单是否总是显示")
     private Meta meta;
 
-    @ApiModelProperty(value = "父级id")
-    private Long pid;
+    @ApiModelProperty(value = "参数")
+    private String props;
 
-    @ApiModelProperty(value = "排序等级")
-    private Integer priority;
+    @ApiModelProperty(value = "菜单描述")
+    private String description;
 
     @ApiModelProperty(value = "下级菜单")
     private List<AsyncRoute> children;

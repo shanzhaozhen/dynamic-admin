@@ -1,9 +1,9 @@
 package org.shanzhaozhen.dynamicadmin.config.security;
 
 import org.shanzhaozhen.dynamicadmin.common.sys.ResourceType;
-import org.shanzhaozhen.dynamicadmin.dto.MenuDTO;
+import org.shanzhaozhen.dynamicadmin.dto.ResourceDTO;
 import org.shanzhaozhen.dynamicadmin.dto.RoleDTO;
-import org.shanzhaozhen.dynamicadmin.service.MenuService;
+import org.shanzhaozhen.dynamicadmin.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
@@ -26,7 +26,7 @@ import java.util.*;
 public class MyFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
     @Autowired
-    private MenuService menuService;
+    private ResourceService resourceService;
 
     private HashMap<String, Collection<ConfigAttribute>> resourceMap;
 
@@ -35,8 +35,8 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
      */
     public void loadResourceDefine() {
         resourceMap = new HashMap<>();
-        List<MenuDTO> resourceDOList = menuService.getMenuRoleListByType(ResourceType.API.getValue());
-        for (MenuDTO resourceDTO : resourceDOList) {
+        List<ResourceDTO> resourceDOList = resourceService.getResourceRoleListByType(ResourceType.API.getValue());
+        for (ResourceDTO resourceDTO : resourceDOList) {
             Collection<ConfigAttribute> configAttributes = new ArrayList<>();
             //此处只添加了用户的名字，其实还可以添加更多权限的信息，例如请求方法到ConfigAttribute的集合中去。
             //此处添加的信息将会作为MyAccessDecisionManager类的decide的第三个参数

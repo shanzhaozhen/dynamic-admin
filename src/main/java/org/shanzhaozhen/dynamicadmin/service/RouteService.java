@@ -1,57 +1,57 @@
 package org.shanzhaozhen.dynamicadmin.service;
 
-import org.shanzhaozhen.dynamicadmin.dto.MenuDTO;
+import org.shanzhaozhen.dynamicadmin.dto.RouteDTO;
 import org.shanzhaozhen.dynamicadmin.vo.AsyncRoute;
 
 import java.util.List;
 
-public interface MenuService {
+public interface RouteService {
 
     /**
-     * 通过 MenuType 类型获取所有的Menu（多对多含有角色信息）
+     * 通过 RouteType 类型获取所有的Route（多对多含有角色信息）
      * @param type
      * @return
      */
-    List<MenuDTO> getMenuRoleListByType(Integer type);
+    List<RouteDTO> getRouteRoleListByType(Integer type);
 
     /**
      * 通过当前用户的信息生成对应的前端路由
      * @return
      */
-    List<AsyncRoute> getMenusByCurrentUser();
+    List<AsyncRoute> getRoutesByCurrentUser();
 
     /**
      * 获取所有资源的树形结构
      * @return
      */
-    List<MenuDTO> getAllMenuTree();
+    List<RouteDTO> getAllRouteTree();
 
     /**
      * 通过资源id获取资源实体
-     * @param menuId
+     * @param routeId
      * @return
      */
-    MenuDTO getMenuById(Long menuId);
+    RouteDTO getRouteById(Long routeId);
 
     /**
      * 增加资源
-     * @param menuDTO
+     * @param routeDTO
      * @return
      */
-    MenuDTO addMenu(MenuDTO menuDTO);
+    RouteDTO addRoute(RouteDTO routeDTO);
 
     /**
      * 修改资源
-     * @param menuDTO
+     * @param routeDTO
      * @return
      */
-    MenuDTO updateMenu(MenuDTO menuDTO);
+    RouteDTO updateRoute(RouteDTO routeDTO);
 
     /**
      * 删除资源(通过资源id删除)
-     * @param menuId
+     * @param routeId
      * @return true 则删除成功，否则删除失败
      */
-    Boolean deleteMenu(Long menuId);
+    Boolean deleteRoute(Long routeId);
 
 }

@@ -11,9 +11,9 @@ import org.shanzhaozhen.dynamicadmin.entity.BaseEntity;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("sys_role_menu")
-@ApiModel(value="RoleMenu对象", description="")
-public class RoleMenuDO extends BaseEntity {
+@TableName("sys_role_route")
+@ApiModel(value="RoleRoute对象", description="")
+public class RoleRouteDO extends BaseEntity {
 
     private static final long serialVersionUID = 1642473344166749722L;
 
@@ -25,6 +25,6 @@ public class RoleMenuDO extends BaseEntity {
     private Long roleId;
 
     @ApiModelProperty(value = "菜单ID")
-    private Long menuId;
+    private Long routeId;
 
 }
