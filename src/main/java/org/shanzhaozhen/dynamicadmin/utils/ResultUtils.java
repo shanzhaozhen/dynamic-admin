@@ -5,7 +5,7 @@ import org.shanzhaozhen.dynamicadmin.vo.ResultObject;
 
 public class ResultUtils {
 
-    public static ResultObject success() {
+    public static ResultObject<?> success() {
         return new ResultObject(ResultType.SUCCESS, "success");
     }
 
@@ -13,7 +13,7 @@ public class ResultUtils {
         return new ResultObject<>(ResultType.SUCCESS, "success", data);
     }
 
-    public static ResultObject success(String message) {
+    public static ResultObject<?> success(String message) {
         return new ResultObject(ResultType.SUCCESS, message);
     }
 
@@ -21,27 +21,27 @@ public class ResultUtils {
         return new ResultObject<>(ResultType.SUCCESS, message, data);
     }
 
-    public static ResultObject failure() {
+    public static ResultObject<?> failure() {
         return new ResultObject(ResultType.FAILURE, "failure");
     }
 
-    public static ResultObject failure(String message) {
+    public static ResultObject<?> failure(String message) {
         return new ResultObject(ResultType.FAILURE, message);
     }
 
-    public static ResultObject failure(Integer code, String message) {
+    public static ResultObject<?> failure(Integer code, String message) {
         return new ResultObject(code, message);
     }
 
-    public static ResultObject defaultResult(boolean success) {
+    public static ResultObject<?> defaultResult(boolean success) {
         return success ? ResultUtils.success() : ResultUtils.failure();
     }
 
-    public static ResultObject defaultResult(Integer code) {
+    public static ResultObject<?> defaultResult(Integer code) {
         return new ResultObject(code);
     }
 
-    public static ResultObject defaultResult(Integer code, String message) {
+    public static ResultObject<?> defaultResult(Integer code, String message) {
         return new ResultObject(code, message);
     }
 

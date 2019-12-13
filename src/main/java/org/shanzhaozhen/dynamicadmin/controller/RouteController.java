@@ -39,7 +39,7 @@ public class RouteController {
     }
 
     @DeleteMapping("/route/{routeId}")
-    public ResultObject updateRoute(@PathVariable("routeId") Long routeId) {
+    public ResultObject<?> updateRoute(@PathVariable("routeId") Long routeId) {
         return ResultUtils.defaultResult(routeService.deleteRoute(routeId));
     }
 
