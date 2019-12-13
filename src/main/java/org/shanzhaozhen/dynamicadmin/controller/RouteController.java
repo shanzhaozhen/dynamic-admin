@@ -5,9 +5,12 @@ import org.shanzhaozhen.dynamicadmin.form.RouteForm;
 import org.shanzhaozhen.dynamicadmin.vo.ResultObject;
 import org.shanzhaozhen.dynamicadmin.service.RouteService;
 import org.shanzhaozhen.dynamicadmin.utils.ResultUtils;
+import org.shanzhaozhen.dynamicadmin.vo.RouteVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class RouteController {
@@ -16,23 +19,23 @@ public class RouteController {
     private RouteService routeService;
 
     @GetMapping("/route/tree")
-    public ResultObject getAllRouteTree() {
-        return ResultUtils.success(routeService.getAllRouteTree());
+    public ResultObject<List<RouteVO>> getAllRouteTree() {
+        return ResultUtils.success(RouteConverter.dtoToVO(routeService.getAllRouteTree()));
     }
 
     @GetMapping("/route/{routeId}")
-    public ResultObject getRouteByRouteId(@PathVariable("routeId") Long routeId) {
-        return ResultUtils.success(routeService.getRouteById(routeId));
+    public ResultObject<RouteVO> getRouteByRouteId(@PathVariable("routeId") Long routeId) {
+        return ResultUtils.success(RouteConverter.dtoToVO(routeService.getRouteById(routeId)));
     }
 
     @PostMapping("/route")
-    public ResultObject addRoute(@RequestBody @Validated RouteForm routeForm) {
-        return ResultUtils.success(routeService.addRoute(RouteConverter.formToDTO(routeForm)));
+    public ResultObject<RouteVO> addRoute(@RequestBody @Validated RouteForm routeForm) {
+        return ResultUtils.success(RouteConverter.dtoToVO(routeService.addRoute(RouteConverter.formToDTO(routeForm))));
     }
 
     @PutMapping("/route")
-    public ResultObject updateRoute(@RequestBody @Validated RouteForm routeForm) {
-        return ResultUtils.success(routeService.updateRoute(RouteConverter.formToDTO(routeForm)));
+    public ResultObject<RouteVO> updateRoute(@RequestBody @Validated RouteForm routeForm) {
+        return ResultUtils.success(RouteConverter.dtoToVO(routeService.updateRoute(RouteConverter.formToDTO(routeForm))));
     }
 
     @DeleteMapping("/route/{routeId}")

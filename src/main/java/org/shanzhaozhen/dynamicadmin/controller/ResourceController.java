@@ -1,13 +1,17 @@
 package org.shanzhaozhen.dynamicadmin.controller;
 
 import org.shanzhaozhen.dynamicadmin.converter.ResourceConverter;
+import org.shanzhaozhen.dynamicadmin.dto.ResourceDTO;
 import org.shanzhaozhen.dynamicadmin.form.ResourceForm;
 import org.shanzhaozhen.dynamicadmin.service.ResourceService;
 import org.shanzhaozhen.dynamicadmin.utils.ResultUtils;
+import org.shanzhaozhen.dynamicadmin.vo.ResourceVO;
 import org.shanzhaozhen.dynamicadmin.vo.ResultObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class ResourceController {
@@ -16,7 +20,7 @@ public class ResourceController {
     private ResourceService resourceService;
 
     @GetMapping("/resource/tree")
-    public ResultObject getAllResourceTree() {
+    public ResultObject<Object> getAllResourceTree() {
         return ResultUtils.success(resourceService.getAllResourceTree());
     }
 

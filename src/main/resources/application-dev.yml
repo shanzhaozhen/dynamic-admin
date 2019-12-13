@@ -40,7 +40,8 @@ upload:
   realPath: C:/devFile/
 
 logging:
-  file: log/dynamic.log
+  file:
+    name: log/dynamic.log
   level:
     org.shanzhaozhen.dynamicadmin.mapper: debug
 swagger2:

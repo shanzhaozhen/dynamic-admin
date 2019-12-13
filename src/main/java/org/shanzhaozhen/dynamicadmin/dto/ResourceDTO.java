@@ -28,6 +28,24 @@ public class ResourceDTO extends BaseEntity {
     @ApiModelProperty(value = "资源类型")
     private Integer type;
 
+    @ApiModelProperty(value = "排序等级")
+    private Integer priority;
+
+    @ApiModelProperty(value = "支持Get请求")
+    private Boolean supportGet;
+
+    @ApiModelProperty(value = "支持Post请求")
+    private Boolean supportPost;
+
+    @ApiModelProperty(value = "支持Put请求")
+    private Boolean supportPut;
+
+    @ApiModelProperty(value = "支持Delete请求")
+    private Boolean supportDelete;
+
+    @ApiModelProperty(value = "支持Patch请求")
+    private Boolean supportPatch;
+
     @ApiModelProperty(value = "资源描述")
     private String description;
 

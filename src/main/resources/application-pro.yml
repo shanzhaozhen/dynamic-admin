@@ -37,7 +37,8 @@ upload:
 
 
 logging:
-  file: log/dynamic.log
+  file:
+    name: log/dynamic.log
 
 swagger2:
   title: 动态权限管理后台接口文档
