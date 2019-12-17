@@ -1,16 +1,12 @@
 package org.shanzhaozhen.dynamicadmin.service.impl;
 
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-import org.shanzhaozhen.dynamicadmin.common.sys.ResourceType;
 import org.shanzhaozhen.dynamicadmin.converter.ResourceConverter;
 import org.shanzhaozhen.dynamicadmin.dto.ResourceDTO;
 import org.shanzhaozhen.dynamicadmin.domain.sys.ResourceDO;
 import org.shanzhaozhen.dynamicadmin.mapper.ResourceMapper;
 import org.shanzhaozhen.dynamicadmin.service.ResourceService;
-import org.shanzhaozhen.dynamicadmin.utils.ResourceUtils;
 import org.shanzhaozhen.dynamicadmin.utils.MyBeanUtils;
-import org.shanzhaozhen.dynamicadmin.utils.UserDetailsUtils;
-import org.shanzhaozhen.dynamicadmin.vo.AsyncRoute;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
