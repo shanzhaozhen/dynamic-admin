@@ -4,7 +4,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.shanzhaozhen.dynamicadmin.converter.UserDTOConverter;
 import org.shanzhaozhen.dynamicadmin.dto.RouteDTO;
-import org.shanzhaozhen.dynamicadmin.entity.sys.RouteDO;
+import org.shanzhaozhen.dynamicadmin.domain.sys.RouteDO;
 import org.shanzhaozhen.dynamicadmin.mapper.RouteMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;

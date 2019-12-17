@@ -1,4 +1,4 @@
-package org.shanzhaozhen.dynamicadmin.entity.sys;
+package org.shanzhaozhen.dynamicadmin.domain.sys;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
-import org.shanzhaozhen.dynamicadmin.entity.BaseEntity;
+import org.shanzhaozhen.dynamicadmin.domain.BaseEntity;
 
 
 @Data
@@ -28,7 +28,7 @@ public class RouteDO extends BaseEntity {
     @ApiModelProperty(value = "菜单路由")
     private String path;
 
-    @ApiModelProperty(value = "父级ID")
+    @ApiModelProperty(value = "上级ID")
     private Long pid;
 
     @ApiModelProperty(value = "前端组件")

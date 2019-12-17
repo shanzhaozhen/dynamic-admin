@@ -1,7 +1,7 @@
 package org.shanzhaozhen.dynamicadmin.service.impl;
 
 import org.shanzhaozhen.dynamicadmin.dto.UserDTO;
-import org.shanzhaozhen.dynamicadmin.entity.sys.UserDO;
+import org.shanzhaozhen.dynamicadmin.domain.sys.UserDO;
 import org.shanzhaozhen.dynamicadmin.mapper.UserMapper;
 import org.shanzhaozhen.dynamicadmin.service.RouteService;
 import org.shanzhaozhen.dynamicadmin.service.UserService;
@@ -9,21 +9,21 @@ import org.shanzhaozhen.dynamicadmin.utils.PasswordUtils;
 import org.shanzhaozhen.dynamicadmin.utils.UserDetailsUtils;
 import org.shanzhaozhen.dynamicadmin.vo.UserInfo;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import javax.annotation.Resource;
-
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Resource
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
-    @Autowired
-    private RouteService routeService;
+    private final RouteService routeService;
+
+    public UserServiceImpl(RouteService routeService, UserMapper userMapper) {
+        this.routeService = routeService;
+        this.userMapper = userMapper;
+    }
 
     @Override
     public UserDTO getUserByUserId(Long userId) {

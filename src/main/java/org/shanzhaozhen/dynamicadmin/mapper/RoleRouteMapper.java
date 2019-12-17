@@ -2,7 +2,7 @@ package org.shanzhaozhen.dynamicadmin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Delete;
-import org.shanzhaozhen.dynamicadmin.entity.sys.RoleRouteDO;
+import org.shanzhaozhen.dynamicadmin.domain.sys.RoleRouteDO;
 
 public interface RoleRouteMapper extends BaseMapper<RoleRouteDO> {
 

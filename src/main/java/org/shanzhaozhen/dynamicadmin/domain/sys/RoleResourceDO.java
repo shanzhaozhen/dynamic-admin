@@ -1,4 +1,4 @@
-package org.shanzhaozhen.dynamicadmin.entity.sys;
+package org.shanzhaozhen.dynamicadmin.domain.sys;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.shanzhaozhen.dynamicadmin.entity.BaseEntity;
+import org.shanzhaozhen.dynamicadmin.domain.BaseEntity;
 
 @Data
 @NoArgsConstructor

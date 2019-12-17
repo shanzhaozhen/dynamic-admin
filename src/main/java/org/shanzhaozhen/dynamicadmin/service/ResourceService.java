@@ -15,16 +15,10 @@ public interface ResourceService {
     List<ResourceDTO> getResourceRoleListByType(Integer type);
 
     /**
-     * 通过当前用户的信息生成对应的前端路由
-     * @return
-     */
-    List<AsyncRoute> getResourcesByCurrentUser();
-
-    /**
      * 获取所有资源的树形结构
      * @return
      */
-    List<ResourceDTO> getAllResourceTree();
+    List<ResourceDTO> getAllResourceTreeByType(Integer type);
 
     /**
      * 通过资源id获取资源实体

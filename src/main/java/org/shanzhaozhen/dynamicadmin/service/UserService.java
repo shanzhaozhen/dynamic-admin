@@ -1,11 +1,7 @@
 package org.shanzhaozhen.dynamicadmin.service;
 
 import org.shanzhaozhen.dynamicadmin.dto.UserDTO;
-import org.shanzhaozhen.dynamicadmin.entity.sys.UserDO;
-import org.shanzhaozhen.dynamicadmin.form.UserForm;
 import org.shanzhaozhen.dynamicadmin.vo.UserInfo;
-
-import java.util.Map;
 
 public interface UserService {
 

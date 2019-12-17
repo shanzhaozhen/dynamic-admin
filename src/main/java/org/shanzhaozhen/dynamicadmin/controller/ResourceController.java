@@ -1,13 +1,11 @@
 package org.shanzhaozhen.dynamicadmin.controller;
 
+import org.shanzhaozhen.dynamicadmin.common.sys.ResourceType;
 import org.shanzhaozhen.dynamicadmin.converter.ResourceConverter;
-import org.shanzhaozhen.dynamicadmin.dto.ResourceDTO;
 import org.shanzhaozhen.dynamicadmin.form.ResourceForm;
 import org.shanzhaozhen.dynamicadmin.service.ResourceService;
-import org.shanzhaozhen.dynamicadmin.utils.ResultUtils;
 import org.shanzhaozhen.dynamicadmin.vo.ResourceVO;
 import org.shanzhaozhen.dynamicadmin.vo.ResultObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,32 +14,48 @@ import java.util.List;
 @RestController
 public class ResourceController {
 
-    @Autowired
-    private ResourceService resourceService;
+    private final String GET_ALL_RESOURCE_TREE = "/resource/tree";
+    private final String GET_ALL_RESOURCE_ROOT_TREE = "/resource/root-tree";
+    private final String GET_RESOURCE_BY_ID = "/resource/{resourceId}";
+    private final String ADD_RESOURCE = "/resource";
+    private final String UPDATE_RESOURCE = "/resource";
+    private final String DELETE_RESOURCE = "/resource/{resourceId}";
 
-    @GetMapping("/resource/tree")
-    public ResultObject<Object> getAllResourceTree() {
-        return ResultUtils.success(resourceService.getAllResourceTree());
+    private final ResourceService resourceService;
+
+    public ResourceController(ResourceService resourceService) {
+        this.resourceService = resourceService;
     }
 
-    @GetMapping("/resource/{resourceId}")
-    public ResultObject getResourceByResourceId(@PathVariable("resourceId") Long resourceId) {
-        return ResultUtils.success(resourceService.getResourceById(resourceId));
+    @GetMapping(GET_ALL_RESOURCE_TREE)
+    public ResultObject<List<ResourceVO>> getAllResourceTree() {
+        return ResultObject.getResultObject(result -> ResourceConverter.toVO(resourceService.getAllResourceTreeByType(null)));
     }
 
-    @PostMapping("/resource")
-    public ResultObject addResource(@RequestBody @Validated ResourceForm resourceForm) {
-        return ResultUtils.success(resourceService.addResource(ResourceConverter.formToDTO(resourceForm)));
+    @GetMapping(GET_ALL_RESOURCE_ROOT_TREE)
+    public ResultObject<List<ResourceVO>> getAllResourceRootTree() {
+        return ResultObject.getResultObject(result -> ResourceConverter.toVO(resourceService.getAllResourceTreeByType(ResourceType.KID.getValue())));
     }
 
-    @PutMapping("/resource")
-    public ResultObject updateResource(@RequestBody @Validated ResourceForm resourceForm) {
-        return ResultUtils.success(resourceService.updateResource(ResourceConverter.formToDTO(resourceForm)));
+
+    @GetMapping(GET_RESOURCE_BY_ID)
+    public ResultObject<ResourceVO> getResourceByResourceId(@PathVariable("resourceId") Long resourceId) {
+        return ResultObject.getResultObject(result -> ResourceConverter.toVO(resourceService.getResourceById(resourceId)));
     }
 
-    @DeleteMapping("/resource/{resourceId}")
-    public ResultObject updateResource(@PathVariable("resourceId") Long resourceId) {
-        return ResultUtils.defaultResult(resourceService.deleteResource(resourceId));
+    @PostMapping(ADD_RESOURCE)
+    public ResultObject<ResourceVO> addResource(@RequestBody @Validated ResourceForm resourceForm) {
+        return ResultObject.getResultObject(result -> ResourceConverter.toVO(resourceService.addResource(ResourceConverter.toDTO(resourceForm))));
+    }
+
+    @PutMapping(UPDATE_RESOURCE)
+    public ResultObject<ResourceVO> updateResource(@RequestBody @Validated ResourceForm resourceForm) {
+        return ResultObject.getResultObject(result -> ResourceConverter.toVO(resourceService.updateResource(ResourceConverter.toDTO(resourceForm))));
+    }
+
+    @DeleteMapping(DELETE_RESOURCE)
+    public ResultObject<Boolean> deleteResource(@PathVariable("resourceId") Long resourceId) {
+        return ResultObject.getResultObject(result -> resourceService.deleteResource(resourceId));
     }
 
 }

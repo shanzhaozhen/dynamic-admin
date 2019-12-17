@@ -1,6 +1,5 @@
 package org.shanzhaozhen.dynamicadmin.config.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
@@ -24,20 +23,23 @@ import java.util.Collections;
 @EnableWebSecurity
 public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private MyUserDetailsService myUserDetailsService;
+    private final MyUserDetailsService myUserDetailsService;
 
-    @Autowired
-    private MyAuthenticationEntryPoint myAuthenticationEntryPoint;
+    private final MyAuthenticationEntryPoint myAuthenticationEntryPoint;
 
-    @Autowired
-    private MyUsernamePasswordAuthenticationFilter myUsernamePasswordAuthenticationFilter;
+    private final MyUsernamePasswordAuthenticationFilter myUsernamePasswordAuthenticationFilter;
 
-    @Autowired
-    private MyJwtAuthenticationFilter myJwtAuthenticationFilter;
+    private final MyJwtAuthenticationFilter myJwtAuthenticationFilter;
 
-    @Autowired
-    private MyFilterSecurityInterceptor myFilterSecurityInterceptor;
+    private final MyFilterSecurityInterceptor myFilterSecurityInterceptor;
+
+    public MySecurityConfig(MyUserDetailsService myUserDetailsService, MyAuthenticationEntryPoint myAuthenticationEntryPoint, MyUsernamePasswordAuthenticationFilter myUsernamePasswordAuthenticationFilter, MyJwtAuthenticationFilter myJwtAuthenticationFilter, MyFilterSecurityInterceptor myFilterSecurityInterceptor) {
+        this.myUserDetailsService = myUserDetailsService;
+        this.myAuthenticationEntryPoint = myAuthenticationEntryPoint;
+        this.myUsernamePasswordAuthenticationFilter = myUsernamePasswordAuthenticationFilter;
+        this.myJwtAuthenticationFilter = myJwtAuthenticationFilter;
+        this.myFilterSecurityInterceptor = myFilterSecurityInterceptor;
+    }
 
     @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
     @Override

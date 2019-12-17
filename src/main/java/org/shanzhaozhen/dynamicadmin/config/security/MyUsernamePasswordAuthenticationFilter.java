@@ -35,16 +35,16 @@ public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticati
     @Value("${jwt.header}")
     private String header;
 
-    @Autowired
-    private MyJwtTokenProvider myJwtTokenProvider;
+    private final MyJwtTokenProvider myJwtTokenProvider;
 
     @Autowired
     public void setAuthenticationManager(AuthenticationManager authenticationManager) {
         super.setAuthenticationManager(authenticationManager);
     }
 
-    protected MyUsernamePasswordAuthenticationFilter() {
+    protected MyUsernamePasswordAuthenticationFilter(MyJwtTokenProvider myJwtTokenProvider) {
         super(new AntPathRequestMatcher("/login", "POST"));
+        this.myJwtTokenProvider = myJwtTokenProvider;
     }
 
     @Override

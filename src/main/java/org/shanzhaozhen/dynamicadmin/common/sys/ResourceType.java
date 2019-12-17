@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ResourceType {
 
-    PATH("类型" ,0),
+    KID("类型" ,0),
     API("API" ,1),
     BUTTON("按钮" ,2);
 

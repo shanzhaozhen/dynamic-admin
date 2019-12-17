@@ -21,8 +21,11 @@ import java.util.List;
 @Component
 public class MyJwtAuthenticationFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private MyJwtTokenProvider myJwtTokenProvider;
+    private final MyJwtTokenProvider myJwtTokenProvider;
+
+    public MyJwtAuthenticationFilter(MyJwtTokenProvider myJwtTokenProvider) {
+        this.myJwtTokenProvider = myJwtTokenProvider;
+    }
 
     // 1.从每个请求header获取token
     // 2.调用前面写的validateToken方法对token进行合法性验证

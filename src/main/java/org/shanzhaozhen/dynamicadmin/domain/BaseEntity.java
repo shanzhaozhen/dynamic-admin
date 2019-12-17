@@ -1,4 +1,4 @@
-package org.shanzhaozhen.dynamicadmin.entity;
+package org.shanzhaozhen.dynamicadmin.domain;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;

@@ -64,8 +64,8 @@ public class ResultObject<T> {
     public static <T> ResultObject<T> getResultObject(Supplier<T> s) {
         ResultObject<T> result = new ResultObject<>();
         try {
-            T t = s.get();
-            result.setData(t);
+            T data = s.get();
+            result.setData(data);
             result.setCode(ResultType.SUCCESS);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -79,9 +79,9 @@ public class ResultObject<T> {
     public static <T> ResultObject<T> getResultObject(Function<ResultObject<T>, T> s) {
         ResultObject<T> result = new ResultObject<>();
         try {
-            T r = s.apply(result);
+            T data = s.apply(result);
             if (result.getMessage() == null) {
-                result.setData(r);
+                result.setData(data);
                 result.setCode(ResultType.SUCCESS);
             }
         } catch (Exception e) {

@@ -3,7 +3,7 @@
 <mapper namespace="org.shanzhaozhen.dynamicadmin.mapper.DictionaryMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="org.shanzhaozhen.dynamicadmin.entity.sys.DictionaryDO">
+    <resultMap id="BaseResultMap" type="org.shanzhaozhen.dynamicadmin.domain.sys.DictionaryDO">
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="pid" property="pid" />

@@ -3,7 +3,7 @@ package org.shanzhaozhen.dynamicadmin.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.*;
 import org.shanzhaozhen.dynamicadmin.dto.RouteDTO;
-import org.shanzhaozhen.dynamicadmin.entity.sys.RouteDO;
+import org.shanzhaozhen.dynamicadmin.domain.sys.RouteDO;
 
 import java.util.List;
 

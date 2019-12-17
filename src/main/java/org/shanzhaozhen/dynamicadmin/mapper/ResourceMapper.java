@@ -4,25 +4,24 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.shanzhaozhen.dynamicadmin.dto.ResourceDTO;
-import org.shanzhaozhen.dynamicadmin.entity.sys.ResourceDO;
+import org.shanzhaozhen.dynamicadmin.domain.sys.ResourceDO;
 
 import java.util.List;
 
 public interface ResourceMapper extends BaseMapper<ResourceDO> {
 
-    @Select("select r.id, r.name, r.description, type, r.path, r.pid, r.icon, " +
-            "r.priority, r.hidden, r.always_show, r.no_cache, r.affix, r.breadcrumb " +
-            "from sys_route r " +
-            "inner join sys_role_resource srr on srr.role_id = #{roleId} and r.id = srr.resource_id")
+    @Select("select r.id, r.name, r.path, r.type, r.pid, r.priority, r.description, " +
+            "r.create_by, r.created_date, r.last_modified_by, r.last_modified_date " +
+            "from sys_resource r " +
+            "inner join sys_role_resource srr on srr.resource_id = #{roleId} and r.id = srr.resource_id")
     List<ResourceDTO> getResourceByRoleId(@Param("roleId") Long roleId);
 
-    @Select("select r.id, r.name, r.description, type, r.path, r.pid, r.icon, " +
-            "r.priority, r.hidden, r.always_show, r.no_cache, r.affix, r.breadcrumb " +
-            "from sys_route where type = #{type}")
-    List<ResourceDTO> getResourceListByType(@Param("type") int type);
+    List<ResourceDTO> getResourceListByType(@Param("type") Integer type);
 
-    List<ResourceDTO> getResourceRoleListByTypeAndUserId(@Param("type") int type, @Param("userId") Long userId);
+    List<ResourceDTO> getResourceRoleListByTypeAndUserId(@Param("type") Integer type, @Param("userId") Long userId);
 
-    @Select("select * from sys_route order by priority")
+    @Select("select id, name, path, type, pid, priority, description, " +
+            "create_by, created_date, last_modified_by, last_modified_date " +
+            "from sys_resource order by priority")
     List<ResourceDTO> getResourceList();
 }

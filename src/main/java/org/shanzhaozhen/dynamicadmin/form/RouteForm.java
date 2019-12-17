@@ -42,7 +42,7 @@ public class RouteForm {
     @ApiModelProperty(value = "参数")
     private String props;
 
-    @ApiModelProperty(value = "父级ID")
+    @ApiModelProperty(value = "上级ID")
     private Long pid;
 
     @ApiModelProperty(value = "图标")

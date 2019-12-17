@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.shanzhaozhen.dynamicadmin.entity.BaseEntity;
+import org.shanzhaozhen.dynamicadmin.domain.BaseEntity;
 
 import java.util.List;
 
@@ -27,6 +27,9 @@ public class ResourceDTO extends BaseEntity {
 
     @ApiModelProperty(value = "资源类型")
     private Integer type;
+
+    @ApiModelProperty(value = "上级ID")
+    private Long pid;
 
     @ApiModelProperty(value = "排序等级")
     private Integer priority;

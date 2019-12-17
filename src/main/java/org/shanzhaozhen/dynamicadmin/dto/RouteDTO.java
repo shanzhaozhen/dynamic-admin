@@ -23,7 +23,7 @@ public class RouteDTO {
     @ApiModelProperty(value = "菜单路由")
     private String path;
 
-    @ApiModelProperty(value = "父级ID")
+    @ApiModelProperty(value = "上级ID")
     private Long pid;
 
     @ApiModelProperty(value = "前端组件")

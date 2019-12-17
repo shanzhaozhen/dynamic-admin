@@ -25,10 +25,13 @@ import java.util.*;
 @Component
 public class MyFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
-    @Autowired
-    private ResourceService resourceService;
+    private final ResourceService resourceService;
 
     private HashMap<String, Collection<ConfigAttribute>> resourceMap;
+
+    public MyFilterInvocationSecurityMetadataSource(ResourceService resourceService) {
+        this.resourceService = resourceService;
+    }
 
     /**
      * 此方法用来将所有权限存至resourceMap，供给getAttributes判断

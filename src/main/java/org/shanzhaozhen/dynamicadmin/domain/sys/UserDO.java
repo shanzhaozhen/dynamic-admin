@@ -1,4 +1,4 @@
-package org.shanzhaozhen.dynamicadmin.entity.sys;
+package org.shanzhaozhen.dynamicadmin.domain.sys;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
-import org.shanzhaozhen.dynamicadmin.entity.BaseEntity;
+import org.shanzhaozhen.dynamicadmin.domain.BaseEntity;
 
 import java.util.Date;
 

@@ -18,7 +18,7 @@ public class DictionaryDTO {
     @ApiModelProperty(value = "名称")
     private String name;
 
-    @ApiModelProperty(value = "父级ID")
+    @ApiModelProperty(value = "上级ID")
     private Long pid;
 
 }

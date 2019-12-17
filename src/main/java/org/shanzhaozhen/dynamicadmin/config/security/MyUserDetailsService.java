@@ -2,10 +2,8 @@ package org.shanzhaozhen.dynamicadmin.config.security;
 
 import org.shanzhaozhen.dynamicadmin.dto.RoleDTO;
 import org.shanzhaozhen.dynamicadmin.dto.UserDTO;
-import org.shanzhaozhen.dynamicadmin.entity.sys.RoleDO;
 import org.shanzhaozhen.dynamicadmin.service.RoleService;
 import org.shanzhaozhen.dynamicadmin.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,11 +25,14 @@ import java.util.Set;
 @Service
 public class MyUserDetailsService implements UserDetailsService {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private RoleService roleService;
+    private final RoleService roleService;
+
+    public MyUserDetailsService(UserService userService, RoleService roleService) {
+        this.userService = userService;
+        this.roleService = roleService;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

@@ -1,8 +1,9 @@
 package org.shanzhaozhen.dynamicadmin.converter;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.shanzhaozhen.dynamicadmin.dto.RouteDTO;
 import org.shanzhaozhen.dynamicadmin.dto.RoleDTO;
-import org.shanzhaozhen.dynamicadmin.entity.sys.RoleDO;
+import org.shanzhaozhen.dynamicadmin.domain.sys.RoleDO;
 import org.shanzhaozhen.dynamicadmin.form.RoleForm;
 import org.shanzhaozhen.dynamicadmin.vo.RoleVO;
 import org.springframework.beans.BeanUtils;
@@ -50,4 +51,7 @@ public class RoleConverter {
         return roleDTO;
     }
 
+    public static Page<RoleVO> dtoToVO(Page<RoleDTO> rolePage) {
+        return null;
+    }
 }

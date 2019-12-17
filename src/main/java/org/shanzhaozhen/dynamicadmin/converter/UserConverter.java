@@ -1,7 +1,7 @@
 package org.shanzhaozhen.dynamicadmin.converter;
 
 import org.shanzhaozhen.dynamicadmin.dto.UserDTO;
-import org.shanzhaozhen.dynamicadmin.entity.sys.UserDO;
+import org.shanzhaozhen.dynamicadmin.domain.sys.UserDO;
 import org.shanzhaozhen.dynamicadmin.form.UserForm;
 import org.shanzhaozhen.dynamicadmin.vo.UserVO;
 import org.springframework.beans.BeanUtils;

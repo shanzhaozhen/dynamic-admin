@@ -3,7 +3,7 @@
 <mapper namespace="org.shanzhaozhen.dynamicadmin.mapper.RoleRouteMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="org.shanzhaozhen.dynamicadmin.entity.sys.RoleRouteDO">
+    <resultMap id="BaseResultMap" type="org.shanzhaozhen.dynamicadmin.domain.sys.RoleRouteDO">
         <id column="id" property="id" />
         <result column="role_id" property="roleId" />
         <result column="route_id" property="routeId" />

@@ -3,7 +3,7 @@
 <mapper namespace="org.shanzhaozhen.dynamicadmin.mapper.RouteMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="org.shanzhaozhen.dynamicadmin.entity.sys.RouteDO">
+    <resultMap id="BaseResultMap" type="org.shanzhaozhen.dynamicadmin.domain.sys.RouteDO">
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="path" property="path" />

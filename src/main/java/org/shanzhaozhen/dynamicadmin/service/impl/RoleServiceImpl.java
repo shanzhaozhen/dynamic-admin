@@ -4,9 +4,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import org.shanzhaozhen.dynamicadmin.converter.RoleConverter;
 import org.shanzhaozhen.dynamicadmin.dto.RoleDTO;
-import org.shanzhaozhen.dynamicadmin.entity.sys.RoleDO;
+import org.shanzhaozhen.dynamicadmin.domain.sys.RoleDO;
 import org.shanzhaozhen.dynamicadmin.form.BaseSearchForm;
-import org.shanzhaozhen.dynamicadmin.entity.sys.RoleRouteDO;
+import org.shanzhaozhen.dynamicadmin.domain.sys.RoleRouteDO;
 import org.shanzhaozhen.dynamicadmin.mapper.RoleMapper;
 import org.shanzhaozhen.dynamicadmin.mapper.RoleRouteMapper;
 import org.shanzhaozhen.dynamicadmin.service.RoleService;
@@ -15,17 +15,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 @Service
 public class RoleServiceImpl implements RoleService {
 
-    @Resource
-    private RoleMapper roleMapper;
+    private final RoleMapper roleMapper;
 
-    @Resource
-    private RoleRouteMapper roleRouteMapper;
+    private final RoleRouteMapper roleRouteMapper;
+
+    public RoleServiceImpl(RoleMapper roleMapper, RoleRouteMapper roleRouteMapper) {
+        this.roleMapper = roleMapper;
+        this.roleRouteMapper = roleRouteMapper;
+    }
 
     @Override
     public List<RoleDTO> getRolesByUserId(Long userId) {

@@ -14,8 +14,11 @@ import java.io.IOException;
 @Component
 public class MyFilterSecurityInterceptor extends AbstractSecurityInterceptor implements Filter {
 
-    @Autowired
-    private MyFilterInvocationSecurityMetadataSource myFilterInvocationSecurityMetadataSource;
+    private final MyFilterInvocationSecurityMetadataSource myFilterInvocationSecurityMetadataSource;
+
+    public MyFilterSecurityInterceptor(MyFilterInvocationSecurityMetadataSource myFilterInvocationSecurityMetadataSource) {
+        this.myFilterInvocationSecurityMetadataSource = myFilterInvocationSecurityMetadataSource;
+    }
 
     @Autowired
     public void setMyAccessDecisionManager(MyAccessDecisionManager myAccessDecisionManager) {
