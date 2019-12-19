@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
+import org.shanzhaozhen.dynamicadmin.vo.ResourceVO;
+import org.shanzhaozhen.dynamicadmin.vo.RouteVO;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -30,6 +32,9 @@ public class RoleForm {
 
     @ApiModelProperty(value = "描述")
     private String description;
+
+    @ApiModelProperty(value = "关联的路由id")
+    private List<Long> routeIds;
 
     @ApiModelProperty(value = "关联的资源id")
     private List<Long> resourceIds;

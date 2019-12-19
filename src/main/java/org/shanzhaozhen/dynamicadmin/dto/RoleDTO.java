@@ -26,8 +26,14 @@ public class RoleDTO {
     @ApiModelProperty(value = "描述")
     private String description;
 
+    @ApiModelProperty(value = "关联的路由")
+    private List<RouteDTO> routes;
+
+    @ApiModelProperty(value = "关联的路由id")
+    private List<Long> routeIds;
+
     @ApiModelProperty(value = "关联的资源")
-    private List<RouteDTO> resourceDTOList;
+    private List<ResourceDTO> resources;
 
     @ApiModelProperty(value = "关联的资源id")
     private List<Long> resourceIds;

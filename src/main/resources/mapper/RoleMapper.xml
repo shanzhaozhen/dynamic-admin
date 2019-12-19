@@ -3,10 +3,10 @@
 <mapper namespace="org.shanzhaozhen.dynamicadmin.mapper.RoleMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="org.shanzhaozhen.dynamicadmin.dto.RoleDTO">
+    <resultMap id="BaseResultMap" type="org.shanzhaozhen.dynamicadmin.domain.sys.RoleDO">
         <id column="id" property="id" />
         <result column="name" property="name" />
-        <result column="roleDO" property="roleDO" />
+        <result column="identification" property="identification" />
         <result column="description" property="description" />
         <result column="create_by" property="createBy" />
         <result column="created_date" property="createdDate" />
@@ -16,7 +16,9 @@
 
     <resultMap autoMapping="true" type="org.shanzhaozhen.dynamicadmin.dto.RoleDTO" id="RoleResourceMap">
         <id property="id" column="id"></id>
-        <collection property="resourceDTOList" column="id" select="org.shanzhaozhen.dynamicadmin.mapper.ResourceMapper.getResourceByRoleId">
+        <collection property="routes" column="id" select="org.shanzhaozhen.dynamicadmin.mapper.RouteMapper.getRouteByRoleId">
+        </collection>
+        <collection property="resources" column="id" select="org.shanzhaozhen.dynamicadmin.mapper.ResourceMapper.getResourceByRoleId">
         </collection>
     </resultMap>
 

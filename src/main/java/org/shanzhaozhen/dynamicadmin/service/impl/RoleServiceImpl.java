@@ -51,7 +51,7 @@ public class RoleServiceImpl implements RoleService {
     public RoleDTO addRole(RoleDTO roleDTO) {
         RoleDTO roleInDB = roleMapper.getRoleByIdentification(roleDTO.getIdentification());
         Assert.isNull(roleInDB, "创建失败：标识名称已被占用");
-        RoleDO roleDO = RoleConverter.dtoToDO(roleDTO);
+        RoleDO roleDO = RoleConverter.toDO(roleDTO);
         roleMapper.insert(roleDO);
         if (roleDTO.getResourceIds() != null && roleDTO.getResourceIds().size() > 0) {
             Long roleId = roleDO.getId();

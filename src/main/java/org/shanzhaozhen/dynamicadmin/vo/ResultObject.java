@@ -63,32 +63,20 @@ public class ResultObject<T> {
 
     public static <T> ResultObject<T> getResultObject(Supplier<T> s) {
         ResultObject<T> result = new ResultObject<>();
-        try {
-            T data = s.get();
-            result.setData(data);
-            result.setCode(ResultType.SUCCESS);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            result.setCode(ResultType.FAILURE);
-        }
-
+        T data = s.get();
+        result.setData(data);
+        result.setCode(ResultType.SUCCESS);
         return result;
     }
 
 
     public static <T> ResultObject<T> getResultObject(Function<ResultObject<T>, T> s) {
         ResultObject<T> result = new ResultObject<>();
-        try {
-            T data = s.apply(result);
-            if (result.getMessage() == null) {
-                result.setData(data);
-                result.setCode(ResultType.SUCCESS);
-            }
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            result.setCode(ResultType.FAILURE);
+        T data = s.apply(result);
+        if (result.getMessage() == null) {
+            result.setData(data);
+            result.setCode(ResultType.SUCCESS);
         }
-
         return result;
     }
 

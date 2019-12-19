@@ -29,22 +29,22 @@ public class RoleController {
 
     @PostMapping(GET_ROLE_PAGE)
     public ResultObject<Page<RoleVO>> getRolePage(@RequestBody BaseSearchForm baseSearchForm) {
-        return ResultObject.getResultObject(result -> RoleConverter.dtoToVO(roleService.getRolePage(baseSearchForm)));
+        return ResultObject.getResultObject(result -> RoleConverter.toVO(roleService.getRolePage(baseSearchForm)));
     }
 
     @GetMapping(GET_ROLE_BY_ID)
     public ResultObject<RoleVO> getRoleByRoleId(@PathVariable("roleId") Long roleId) {
-        return ResultObject.getResultObject(result -> RoleConverter.dtoToVO(roleService.getRoleById(roleId)));
+        return ResultObject.getResultObject(result -> RoleConverter.toVO(roleService.getRoleById(roleId)));
     }
 
     @PostMapping(ADD_ROLE)
     public ResultObject<RoleVO> addRole(@RequestBody @Validated({Insert.class}) RoleForm roleForm) {
-        return ResultObject.getResultObject(result -> RoleConverter.dtoToVO(roleService.addRole(RoleConverter.formToDTO(roleForm))));
+        return ResultObject.getResultObject(result -> RoleConverter.toVO(roleService.addRole(RoleConverter.toDTO(roleForm))));
     }
 
     @PutMapping(UPDATE_ROLE)
     public ResultObject<RoleVO> updateRole(@RequestBody @Validated({Update.class}) RoleForm roleForm) {
-        return ResultObject.getResultObject(result -> RoleConverter.dtoToVO(roleService.updateRole(RoleConverter.formToDTO(roleForm))));
+        return ResultObject.getResultObject(result -> RoleConverter.toVO(roleService.updateRole(RoleConverter.toDTO(roleForm))));
     }
 
     @DeleteMapping(DELETE_ROLE)

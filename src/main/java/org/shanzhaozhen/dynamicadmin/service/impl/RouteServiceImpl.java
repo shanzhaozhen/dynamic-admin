@@ -61,11 +61,22 @@ public class RouteServiceImpl implements RouteService {
     @Override
     @Transactional
     public RouteDTO updateRoute(RouteDTO routeDTO) {
-        Assert.notNull(routeDTO.getId(), "菜单id不能为空");
+        Assert.notNull(routeDTO.getId(), "更新失败：路由id不能为空");
+        Assert.isTrue(!routeDTO.getId().equals(routeDTO.getPid()), "更新失败：上级节点不能选择自己");
+        if (routeDTO.getPid() != null) {
+            RouteDO routePNode = routeMapper.selectById(routeDTO.getPid());
+            Assert.notNull(routePNode, "更新失败：没有找到该路由的上级节点或已被删除");
+            Assert.isTrue(!routeDTO.getId().equals(routePNode.getPid()), "更新失败：节点之间不能互相引用");
+        }
         RouteDO routeDO = routeMapper.selectById(routeDTO.getId());
-        Assert.notNull(routeDO, "更新失败：没有找到该菜单或已被删除");
+        Assert.notNull(routeDO, "更新失败：没有找到该路由或已被删除");
         MyBeanUtils.copyPropertiesExcludeMeta(routeDTO, routeDO);
         routeMapper.updateById(routeDO);
+        try {
+            this.getAllRouteTree();
+        } catch (StackOverflowError e) {
+            throw new IllegalArgumentException("更新失败：请检查路由的节点设置是否有问题");
+        }
         return routeDTO;
     }
 

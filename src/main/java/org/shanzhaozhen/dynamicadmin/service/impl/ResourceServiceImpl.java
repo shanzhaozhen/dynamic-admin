@@ -51,11 +51,22 @@ public class ResourceServiceImpl implements ResourceService {
     @Override
     @Transactional
     public ResourceDTO updateResource(ResourceDTO resourceDTO) {
-        Assert.notNull(resourceDTO.getId(), "资源id不能为空");
+        Assert.notNull(resourceDTO.getId(), "更新失败：资源id不能为空");
+        Assert.isTrue(!resourceDTO.getId().equals(resourceDTO.getPid()), "更新失败：上级节点不能选择自己");
+        if (resourceDTO.getPid() != null) {
+            ResourceDO resourcePNode = resourceMapper.selectById(resourceDTO.getPid());
+            Assert.notNull(resourcePNode, "更新失败：没有找到该资源的上级节点或已被删除");
+            Assert.isTrue(!resourceDTO.getId().equals(resourcePNode.getPid()), "更新失败：节点之间不能互相引用");
+        }
         ResourceDO resourceDO = resourceMapper.selectById(resourceDTO.getId());
         Assert.notNull(resourceDO, "更新失败：没有找到该资源或已被删除");
         MyBeanUtils.copyPropertiesExcludeMeta(resourceDTO, resourceDO);
         resourceMapper.updateById(resourceDO);
+        try {
+            this.getAllResourceTreeByType(null);
+        } catch (StackOverflowError e) {
+            throw new IllegalArgumentException("更新失败：请检查资源的节点设置是否有问题");
+        }
         return resourceDTO;
     }
 
