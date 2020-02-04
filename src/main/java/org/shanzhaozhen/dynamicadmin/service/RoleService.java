@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.shanzhaozhen.dynamicadmin.dto.RoleDTO;
 import org.shanzhaozhen.dynamicadmin.form.BaseSearchForm;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public interface RoleService {
@@ -49,6 +50,20 @@ public interface RoleService {
      * @return true 则删除成功，否则删除失败
      */
     Boolean deleteRole(Long roleId);
+
+    /**
+     * 更新角色与路由和资源的关系表
+     * @param roleId
+     * @param routeIds
+     */
+    void updateRouteAndResource(@NotNull Long roleId, List<Long> routeIds, List<Long> resourceIds);
+
+    /**
+     * 批量插入角色-路由关系表
+     * @param roleId
+     * @param routeIds
+     */
+    void bathAddRoleRoute(Long roleId, List<Long> routeIds);
 
     /**
      * 批量插入角色-资源关系表

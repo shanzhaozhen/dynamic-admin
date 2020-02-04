@@ -7,9 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.shanzhaozhen.dynamicadmin.common.sys.ResultType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -20,10 +19,8 @@ import java.util.function.Supplier;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @ApiModel(description = "API公共返回对象")
+@Log4j2
 public class ResultObject<T> {
-
-    private static final Logger logger = LoggerFactory.getLogger(ResultObject.class);
-
 
     @ApiModelProperty(value = "业务状态码", name = "code")
     private Integer code;

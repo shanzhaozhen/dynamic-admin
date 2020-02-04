@@ -8,7 +8,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import java.util.Locale;
 
 /**
- * 该类主要用来将SpringSecurity的错误信息提示本地化
+ * 该类主要用来将SpringSecurity的错误信息提示本地化（即是中文化）
  */
 @Configuration
 public class MySecurityMessageLocalConfig {

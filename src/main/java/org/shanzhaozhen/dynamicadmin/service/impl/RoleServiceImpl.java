@@ -3,11 +3,13 @@ package org.shanzhaozhen.dynamicadmin.service.impl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import org.shanzhaozhen.dynamicadmin.converter.RoleConverter;
+import org.shanzhaozhen.dynamicadmin.domain.sys.RoleResourceDO;
 import org.shanzhaozhen.dynamicadmin.dto.RoleDTO;
 import org.shanzhaozhen.dynamicadmin.domain.sys.RoleDO;
 import org.shanzhaozhen.dynamicadmin.form.BaseSearchForm;
 import org.shanzhaozhen.dynamicadmin.domain.sys.RoleRouteDO;
 import org.shanzhaozhen.dynamicadmin.mapper.RoleMapper;
+import org.shanzhaozhen.dynamicadmin.mapper.RoleResourceMapper;
 import org.shanzhaozhen.dynamicadmin.mapper.RoleRouteMapper;
 import org.shanzhaozhen.dynamicadmin.service.RoleService;
 import org.shanzhaozhen.dynamicadmin.utils.MyBeanUtils;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Service
@@ -24,9 +27,12 @@ public class RoleServiceImpl implements RoleService {
 
     private final RoleRouteMapper roleRouteMapper;
 
-    public RoleServiceImpl(RoleMapper roleMapper, RoleRouteMapper roleRouteMapper) {
+    private final RoleResourceMapper roleResourceMapper;
+
+    public RoleServiceImpl(RoleMapper roleMapper, RoleRouteMapper roleRouteMapper, RoleResourceMapper roleResourceMapper) {
         this.roleMapper = roleMapper;
         this.roleRouteMapper = roleRouteMapper;
+        this.roleResourceMapper = roleResourceMapper;
     }
 
     @Override
@@ -53,10 +59,7 @@ public class RoleServiceImpl implements RoleService {
         Assert.isNull(roleInDB, "创建失败：标识名称已被占用");
         RoleDO roleDO = RoleConverter.toDO(roleDTO);
         roleMapper.insert(roleDO);
-        if (roleDTO.getResourceIds() != null && roleDTO.getResourceIds().size() > 0) {
-            Long roleId = roleDO.getId();
-            this.bathAddRoleResource(roleId, roleDTO.getResourceIds());
-        }
+        updateRouteAndResource(roleDO.getId(), roleDTO.getRouteIds(), roleDTO.getResourceIds());
         return roleDTO;
     }
 
@@ -70,11 +73,7 @@ public class RoleServiceImpl implements RoleService {
         Assert.notNull(roleDO, "更新失败：没有找到该角色或已被删除");
         MyBeanUtils.copyPropertiesExcludeMeta(roleDTO, roleDO);
         roleMapper.updateById(roleDO);
-        if (roleDTO.getResourceIds() != null && roleDTO.getResourceIds().size() > 0) {
-            Long roleId = roleDO.getId();
-            roleRouteMapper.deleteByRoleId(roleId);
-            this.bathAddRoleResource(roleId, roleDTO.getResourceIds());
-        }
+        updateRouteAndResource(roleDO.getId(), roleDTO.getRouteIds(), roleDTO.getResourceIds());
         return roleDTO;
     }
 
@@ -87,10 +86,34 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
+    public void updateRouteAndResource(@NotNull Long roleId, List<Long> routeIds, List<Long> resourceIds) {
+        // 添加角色-路由关联
+        if (routeIds != null && routeIds.size() > 0) {
+            roleRouteMapper.deleteByRoleId(roleId);
+            this.bathAddRoleRoute(roleId, routeIds);
+        }
+        // 添加角色-资源关联
+        if (resourceIds != null && resourceIds.size() > 0) {
+            roleResourceMapper.deleteByRoleId(roleId);
+            this.bathAddRoleResource(roleId, resourceIds);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void bathAddRoleRoute(Long roleId, List<Long> routeIds) {
+        for (Long routeId : routeIds) {
+            RoleRouteDO RoleRouteDO = new RoleRouteDO(null, roleId, routeId);
+            roleRouteMapper.insert(RoleRouteDO);
+        }
+    }
+
+    @Override
+    @Transactional
     public void bathAddRoleResource(Long roleId, List<Long> resourceIds) {
         for (Long resourceId : resourceIds) {
-            RoleRouteDO RoleRouteDO = new RoleRouteDO(null, roleId, resourceId);
-            roleRouteMapper.insert(RoleRouteDO);
+            RoleResourceDO roleResourceDO = new RoleResourceDO(null, roleId, resourceId);
+            roleResourceMapper.insert(roleResourceDO);
         }
     }
 

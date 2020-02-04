@@ -1,5 +1,6 @@
 package org.shanzhaozhen.dynamicadmin.service.impl;
 
+import org.shanzhaozhen.dynamicadmin.converter.RoleConverter;
 import org.shanzhaozhen.dynamicadmin.dto.UserDTO;
 import org.shanzhaozhen.dynamicadmin.domain.sys.UserDO;
 import org.shanzhaozhen.dynamicadmin.mapper.UserMapper;
@@ -37,7 +38,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getCurrentUser() {
-        UserDTO userDTO = userMapper.getUserByUserId(UserDetailsUtils.getUserId());
+        UserDTO userDTO = userMapper.getUserAndRolesByUserId(UserDetailsUtils.getUserId());
         Assert.notNull(userDTO, "没有找到当前用户信息");
         return userDTO;
     }
@@ -64,7 +65,7 @@ public class UserServiceImpl implements UserService {
         return new UserInfo(userDTO.getNickname(),
                             userDTO.getAvatar(),
                             userDTO.getIntroduction(),
-                            UserDetailsUtils.getAuthorities(),
+                            RoleConverter.toBase(userDTO.getRoles()),
                             routeService.getRoutesByCurrentUser());
     }
 

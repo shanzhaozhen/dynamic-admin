@@ -131,7 +131,7 @@ public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticati
     }
 
     private void sendResult(HttpServletResponse response, boolean success, String token, String msg) throws IOException {
-        ResultObject resultObject;
+        ResultObject<?> resultObject;
 
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");

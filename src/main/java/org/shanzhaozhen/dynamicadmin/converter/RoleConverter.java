@@ -6,6 +6,7 @@ import org.shanzhaozhen.dynamicadmin.dto.RouteDTO;
 import org.shanzhaozhen.dynamicadmin.dto.RoleDTO;
 import org.shanzhaozhen.dynamicadmin.domain.sys.RoleDO;
 import org.shanzhaozhen.dynamicadmin.form.RoleForm;
+import org.shanzhaozhen.dynamicadmin.vo.RoleBase;
 import org.shanzhaozhen.dynamicadmin.vo.RoleVO;
 import org.springframework.beans.BeanUtils;
 
@@ -110,4 +111,29 @@ public class RoleConverter {
         roleVOPage.setRecords(toVO(roleDTOList));
         return roleVOPage;
     }
+
+    /**
+     * List<RoleDTO> 转换 List<RoleBase>
+     * @param roleDTOList
+     * @return
+     */
+    public static List<RoleBase> toBase(List<RoleDTO> roleDTOList) {
+        List<RoleBase> roleVOList = new ArrayList<>();
+        for (RoleDTO roleDTO : roleDTOList) {
+            roleVOList.add(toBase(roleDTO));
+        }
+        return roleVOList;
+    }
+
+    /**
+     * RoleDTO 转换 RoleBase
+     * @param roleDTO
+     * @return
+     */
+    public static RoleBase toBase(RoleDTO roleDTO) {
+        RoleBase roleBase = new RoleBase();
+        BeanUtils.copyProperties(roleDTO, roleBase);
+        return roleBase;
+    }
+
 }

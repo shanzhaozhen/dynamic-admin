@@ -24,7 +24,7 @@ public class RoleRouteDO extends BaseEntity {
     @ApiModelProperty(value = "角色ID")
     private Long roleId;
 
-    @ApiModelProperty(value = "菜单ID")
+    @ApiModelProperty(value = "路由ID")
     private Long routeId;
 
 }

@@ -17,10 +17,10 @@ public class RouteDTO {
     @ApiModelProperty(value = "主键ID")
     private Long id;
 
-    @ApiModelProperty(value = "菜单名称")
+    @ApiModelProperty(value = "路由名称")
     private String name;
 
-    @ApiModelProperty(value = "菜单路由")
+    @ApiModelProperty(value = "路由地址")
     private String path;
 
     @ApiModelProperty(value = "上级ID")

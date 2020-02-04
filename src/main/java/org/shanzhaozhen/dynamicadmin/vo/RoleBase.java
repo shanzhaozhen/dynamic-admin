@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(value="Role对象", description="")
-public class RoleVO {
+public class RoleBase {
 
     @ApiModelProperty(value = "主键ID")
     private Long id;
@@ -24,14 +24,5 @@ public class RoleVO {
 
     @ApiModelProperty(value = "标识名称")
     private String identification;
-
-    @ApiModelProperty(value = "描述")
-    private String description;
-
-    @ApiModelProperty(value = "关联的路由id")
-    private List<Long> routeIds;
-
-    @ApiModelProperty(value = "关联的资源id")
-    private List<Long> resourceIds;
 
 }

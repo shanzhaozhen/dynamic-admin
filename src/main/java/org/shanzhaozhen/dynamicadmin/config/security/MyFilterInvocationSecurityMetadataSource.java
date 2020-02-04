@@ -38,16 +38,18 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
      */
     public void loadResourceDefine() {
         resourceMap = new HashMap<>();
-        List<ResourceDTO> resourceDOList = resourceService.getResourceRoleListByType(ResourceType.API.getValue());
-        for (ResourceDTO resourceDTO : resourceDOList) {
+        List<ResourceDTO> resourceDTOList = resourceService.getResourceRoleListByType(ResourceType.API.getValue());
+        for (ResourceDTO resourceDTO : resourceDTOList) {
             Collection<ConfigAttribute> configAttributes = new ArrayList<>();
             //此处只添加了用户的名字，其实还可以添加更多权限的信息，例如请求方法到ConfigAttribute的集合中去。
-            //此处添加的信息将会作为MyAccessDecisionManager类的decide的第三个参数
+            //此处添加的信息将会作为MyAccessDecisionManager类的decide的第三个参数z
             List<RoleDTO> roles = resourceDTO.getRoles();
-            for (RoleDTO roleDTO : roles) {
-                configAttributes.add(new SecurityConfig(roleDTO.getIdentification()));
+            if (roles != null && roles.size() > 0) {
+                for (RoleDTO roleDTO : roles) {
+                    configAttributes.add(new SecurityConfig(roleDTO.getIdentification()));
+                }
+                resourceMap.put(resourceDTO.getPath(), configAttributes);
             }
-            resourceMap.put(resourceDTO.getPath(), configAttributes);
         }
     }
 
@@ -66,10 +68,7 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
         //取出拦截的 object 对象中包含用户的 request 请求信息
         HttpServletRequest httpRequest = ((FilterInvocation) object).getHttpRequest();
         AntPathRequestMatcher antPathRequestMatcher;
-        String requestUrl;
-        Iterator<String> iterator = resourceMap.keySet().iterator();
-        while (iterator.hasNext()) {
-            requestUrl = iterator.next();
+        for (String requestUrl : resourceMap.keySet()) {
             antPathRequestMatcher = new AntPathRequestMatcher(requestUrl);
             if (antPathRequestMatcher.matches(httpRequest)) {
                 return resourceMap.get(requestUrl);

@@ -2,11 +2,10 @@ package org.shanzhaozhen.dynamicadmin.config.security;
 
 import com.alibaba.fastjson.JSONObject;
 import io.jsonwebtoken.*;
+import lombok.extern.log4j.Log4j2;
 import org.shanzhaozhen.dynamicadmin.common.sys.JwtErrorConst;
 import org.shanzhaozhen.dynamicadmin.vo.JWTUser;
 import org.shanzhaozhen.dynamicadmin.vo.ResultObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -22,9 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 @Component
+@Log4j2
 public class MyJwtTokenProvider {
-
-    private static final Logger logger = LoggerFactory.getLogger(MyJwtTokenProvider.class);
 
     @Value("${jwt.issuer}")
     private String issuer;
@@ -134,22 +132,22 @@ public class MyJwtTokenProvider {
              */
             return true;
         } catch (SignatureException ex) {
-            logger.error("Invalid JWT signature");
+            log.error("Invalid JWT signature");
             this.sendError(httpServletResponse, JwtErrorConst.JWT_SIGNATURE);
         } catch (MalformedJwtException ex) {
-            logger.error("Invalid JWT token");
+            log.error("Invalid JWT token");
             this.sendError(httpServletResponse, JwtErrorConst.JWT_MALFORMED);
         } catch (ExpiredJwtException ex) {
-            logger.error("Expired JWT token");
+            log.error("Expired JWT token");
             this.sendError(httpServletResponse, JwtErrorConst.JWT_EXPIRED);
         } catch (UnsupportedJwtException ex) {
-            logger.error("Unsupported JWT token");
+            log.error("Unsupported JWT token");
             this.sendError(httpServletResponse, JwtErrorConst.JWT_UNSUPPORTED);
         } catch (IllegalArgumentException ex) {
-            logger.error("JWT claims string is empty.");
+            log.error("JWT claims string is empty.");
             this.sendError(httpServletResponse, JwtErrorConst.JWT_ILLEGALARGUMENT);
         } catch (JwtException ex) {
-            logger.error("JWT error.");
+            log.error("JWT error.");
             this.sendError(httpServletResponse, JwtErrorConst.JWT_ERROR);
         }
         return false;
@@ -161,7 +159,7 @@ public class MyJwtTokenProvider {
         httpServletResponse.setContentType("application/json; charset=utf-8");
         httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         PrintWriter writer = httpServletResponse.getWriter();
-        writer.write(JSONObject.toJSONString(new ResultObject(jwtErrorConst.getCode(), jwtErrorConst.getReason())));
+        writer.write(JSONObject.toJSONString(new ResultObject<>(jwtErrorConst.getCode(), jwtErrorConst.getReason())));
     }
 
     /**

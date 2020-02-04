@@ -73,6 +73,6 @@ public class UserDTO implements UserDetails {
     private String introduction;
 
     @ApiModelProperty(value = "记录用户的角色")
-    private List<RoleDTO> roleDOs;
+    private List<RoleDTO> roles;
 
 }

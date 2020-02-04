@@ -13,7 +13,7 @@ public interface ResourceMapper extends BaseMapper<ResourceDO> {
     @Select("select r.id, r.name, r.path, r.type, r.pid, r.priority, r.description, " +
             "r.create_by, r.created_date, r.last_modified_by, r.last_modified_date " +
             "from sys_resource r " +
-            "inner join sys_role_resource srr on srr.resource_id = #{roleId} and r.id = srr.resource_id")
+            "inner join sys_role_resource srr on srr.role_id = #{roleId} and r.id = srr.resource_id")
     List<ResourceDTO> getResourceByRoleId(@Param("roleId") Long roleId);
 
     List<ResourceDTO> getResourceListByType(@Param("type") Integer type);

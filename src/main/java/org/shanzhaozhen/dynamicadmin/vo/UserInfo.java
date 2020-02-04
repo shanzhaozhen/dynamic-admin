@@ -26,7 +26,7 @@ public class UserInfo {
     private String introduction;
 
     @ApiModelProperty(value = "角色")
-    private List<String> roles;
+    private List<RoleBase> roles;
 
     @ApiModelProperty(value = "菜单")
     private List<AsyncRoute> asyncRoutes;
