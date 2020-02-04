@@ -6,7 +6,7 @@ import org.shanzhaozhen.dynamicadmin.dto.ResourceDTO;
 import org.shanzhaozhen.dynamicadmin.domain.sys.ResourceDO;
 import org.shanzhaozhen.dynamicadmin.mapper.ResourceMapper;
 import org.shanzhaozhen.dynamicadmin.service.ResourceService;
-import org.shanzhaozhen.dynamicadmin.utils.MyBeanUtils;
+import org.shanzhaozhen.dynamicadmin.utils.CustomBeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -60,7 +60,7 @@ public class ResourceServiceImpl implements ResourceService {
         }
         ResourceDO resourceDO = resourceMapper.selectById(resourceDTO.getId());
         Assert.notNull(resourceDO, "更新失败：没有找到该资源或已被删除");
-        MyBeanUtils.copyPropertiesExcludeMeta(resourceDTO, resourceDO);
+        CustomBeanUtils.copyPropertiesExcludeMeta(resourceDTO, resourceDO);
         resourceMapper.updateById(resourceDO);
         try {
             this.getAllResourceTreeByType(null);

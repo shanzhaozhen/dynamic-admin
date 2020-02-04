@@ -7,17 +7,14 @@ import org.shanzhaozhen.dynamicadmin.common.sys.JwtErrorConst;
 import org.shanzhaozhen.dynamicadmin.dto.UserDTO;
 import org.shanzhaozhen.dynamicadmin.vo.ResultObject;
 import org.shanzhaozhen.dynamicadmin.utils.ResultUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StreamUtils;
 import org.springframework.util.StringUtils;
 
@@ -29,22 +26,13 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-@Component
-public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+public class CustomUsernamePasswordAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
-    @Value("${jwt.header}")
-    private String header;
+    private final CustomJwtTokenProvider customJwtTokenProvider;
 
-    private final MyJwtTokenProvider myJwtTokenProvider;
-
-    @Autowired
-    public void setAuthenticationManager(AuthenticationManager authenticationManager) {
-        super.setAuthenticationManager(authenticationManager);
-    }
-
-    protected MyUsernamePasswordAuthenticationFilter(MyJwtTokenProvider myJwtTokenProvider) {
+    protected CustomUsernamePasswordAuthenticationFilter(CustomJwtTokenProvider customJwtTokenProvider) {
         super(new AntPathRequestMatcher("/login", "POST"));
-        this.myJwtTokenProvider = myJwtTokenProvider;
+        this.customJwtTokenProvider = customJwtTokenProvider;
     }
 
     @Override
@@ -52,48 +40,56 @@ public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticati
 
         //非post请求处理
         if (!httpServletRequest.getMethod().equals("POST")) {
-            throw new AuthenticationServiceException("Authentication method not supported: " + httpServletRequest.getMethod());
-        } else {
-            //从json中获取username和password
-            String body = StreamUtils.copyToString(httpServletRequest.getInputStream(), StandardCharsets.UTF_8);
-
-            String username = null;
-            String password = null;
-
-            try {
-                if (StringUtils.hasText(body)) {
-                    JSONObject jsonObj = JSON.parseObject(body);
-                    username = jsonObj.getString("username");
-                    password = jsonObj.getString("password");
-                }
-            } catch (JSONException e) {
-                this.unsuccessfulAuthentication(httpServletRequest, httpServletResponse, null);
-                return null;
-            }
-
-            if (username == null) {
-                username = "";
-            }
-            if (password == null) {
-                password = "";
-            }
-            username = username.trim();
-
-            /**
-             * UsernamePasswordAuthenticationToken 是 Authentication 的实现类
-             *
-             * 封装到token中提交
-             */
-            UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username, password);
-
-
-            /**
-             * authenticate()接受一个token参数,返回一个完全经过身份验证的对象，包括证书.
-             * 里并没有对用户名密码进行验证,而是使用 AuthenticationProvider 提供的 authenticate 方法返回一个完全经过身份验证的对象，包括证书.
-             * Authentication authenticate = authenticationManager.authenticate(authenticationToken);
-             */
-            return this.getAuthenticationManager().authenticate(authRequest);
+            throw new AuthenticationServiceException("不支持该授权方式: " + httpServletRequest.getMethod());
         }
+
+        //从json中获取username和password
+        String body = StreamUtils.copyToString(httpServletRequest.getInputStream(), StandardCharsets.UTF_8);
+
+        String username;
+        String password;
+
+        try {
+            if (StringUtils.hasText(body)) {
+                JSONObject jsonObj = JSON.parseObject(body);
+                username = jsonObj.getString("username");
+                password = jsonObj.getString("password");
+            } else {
+                throw new InternalAuthenticationServiceException("登陆失败：用户名和密码不能为空");
+            }
+        } catch (JSONException e) {
+            throw new InternalAuthenticationServiceException("登陆失败：" + e.getMessage());
+        }
+
+        if (username == null) {
+            username = "";
+        }
+        if (password == null) {
+            password = "";
+        }
+        username = username.trim();
+
+        /**
+         * UsernamePasswordAuthenticationToken 是 Authentication 的实现类
+         *
+         * 封装到token中提交
+         */
+        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username, password);
+
+        /**
+         * authenticate()接受一个token参数,返回一个完全经过身份验证的对象，包括证书.
+         * 里并没有对用户名密码进行验证,而是使用 AuthenticationProvider 提供的 authenticate 方法返回一个完全经过身份验证的对象，包括证书.
+         * Authentication authenticate = authenticationManager.authenticate(authenticationToken);
+         */
+
+        setDetails(httpServletRequest, authRequest);
+
+        return this.getAuthenticationManager().authenticate(authRequest);
+    }
+
+    protected void setDetails(HttpServletRequest httpServletRequest,
+                              UsernamePasswordAuthenticationToken authRequest) {
+        authRequest.setDetails(authenticationDetailsSource.buildDetails(httpServletRequest));
     }
 
     @Override
@@ -107,7 +103,7 @@ public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticati
             roles.add(g.getAuthority());
         }
 
-        String token = myJwtTokenProvider.createToken(userDTO.getId(), userDTO.getUsername(), roles);
+        String token = customJwtTokenProvider.createToken(userDTO.getId(), userDTO.getUsername(), roles);
 
 //         返回创建成功的token
 //        response.setHeader(header, token);
@@ -127,7 +123,6 @@ public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticati
 
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, msg);
         this.sendResult(response, false, null, msg);
-
     }
 
     private void sendResult(HttpServletResponse response, boolean success, String token, String msg) throws IOException {
@@ -144,8 +139,8 @@ public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticati
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             resultObject = ResultUtils.defaultResult(JwtErrorConst.LOGIN_ERROR.getCode(), msg);
         }
-        writer.write(JSONObject.toJSONString(resultObject));
 
+        writer.write(JSONObject.toJSONString(resultObject));
     }
 
 }

@@ -17,7 +17,7 @@ import java.util.Collection;
  * configAttributes中包含了进行该步骤需要的权限，对其进行对比就可以判断该用户是否有权限进行操作
  */
 @Component
-public class MyAccessDecisionManager implements AccessDecisionManager {
+public class CustomAccessDecisionManager implements AccessDecisionManager {
 
     /**
      * decide           是判定是否拥有权限的决策方法，

@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class MyWebMvcConfig implements WebMvcConfigurer {
+public class CustomWebMvcConfig implements WebMvcConfigurer {
 
     @Value("${upload.relativePath}")
     private String relativePath;

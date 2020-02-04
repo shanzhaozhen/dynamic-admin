@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MyBeanUtils extends BeanUtils {
+public class CustomBeanUtils extends BeanUtils {
 
     private static List<String> metaList = Arrays.asList("createdDate", "createBy", "lastModifiedDate", "lastModifiedBy");
 
@@ -23,7 +23,7 @@ public class MyBeanUtils extends BeanUtils {
         if (ignoreProperties != null && ignoreProperties.length > 0) {
             newMetas = Arrays.asList(ignoreProperties);
         }
-        MyBeanUtils.copyProperties(source, target, newMetas.toArray(new String[0]));
+        CustomBeanUtils.copyProperties(source, target, newMetas.toArray(new String[0]));
     }
 
     public static void copyPropertiesExcludeNull(Object source, Object target, @Nullable Class<?> editable, @Nullable String... ignoreProperties) {

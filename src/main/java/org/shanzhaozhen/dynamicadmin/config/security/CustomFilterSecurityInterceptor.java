@@ -1,6 +1,5 @@
 package org.shanzhaozhen.dynamicadmin.config.security;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.SecurityMetadataSource;
 import org.springframework.security.access.intercept.AbstractSecurityInterceptor;
@@ -12,23 +11,23 @@ import javax.servlet.*;
 import java.io.IOException;
 
 @Component
-public class MyFilterSecurityInterceptor extends AbstractSecurityInterceptor implements Filter {
+public class CustomFilterSecurityInterceptor extends AbstractSecurityInterceptor implements Filter {
 
-    private final MyFilterInvocationSecurityMetadataSource myFilterInvocationSecurityMetadataSource;
+    private final CustomFilterInvocationSecurityMetadataSource customFilterInvocationSecurityMetadataSource;
 
-    public MyFilterSecurityInterceptor(MyFilterInvocationSecurityMetadataSource myFilterInvocationSecurityMetadataSource) {
-        this.myFilterInvocationSecurityMetadataSource = myFilterInvocationSecurityMetadataSource;
+    public CustomFilterSecurityInterceptor(CustomFilterInvocationSecurityMetadataSource customFilterInvocationSecurityMetadataSource) {
+        this.customFilterInvocationSecurityMetadataSource = customFilterInvocationSecurityMetadataSource;
     }
 
     @Autowired
-    public void setMyAccessDecisionManager(MyAccessDecisionManager myAccessDecisionManager) {
-        super.setAccessDecisionManager(myAccessDecisionManager);
+    public void setCustomAccessDecisionManager(CustomAccessDecisionManager customAccessDecisionManager) {
+        super.setAccessDecisionManager(customAccessDecisionManager);
     }
 
     /**
      * filterInvocation里面有一个被拦截的url
-     * 里面调用 MyInvocationSecurityMetadataSource 的 getAttributes(Object object) 这个方法获取 filterInvocation 对应的所有权限
-     * 再调用MyAccessDecisionManager的decide方法来校验用户的权限是否足够
+     * 里面调用 CustomInvocationSecurityMetadataSource 的 getAttributes(Object object) 这个方法获取 filterInvocation 对应的所有权限
+     * 再调用CustomAccessDecisionManager的decide方法来校验用户的权限是否足够
      */
     public void invoke(FilterInvocation filterInvocation) throws IOException, ServletException {
         InterceptorStatusToken interceptorStatusToken = super.beforeInvocation(filterInvocation);
@@ -69,6 +68,6 @@ public class MyFilterSecurityInterceptor extends AbstractSecurityInterceptor imp
 
     @Override
     public SecurityMetadataSource obtainSecurityMetadataSource() {
-        return this.myFilterInvocationSecurityMetadataSource;
+        return this.customFilterInvocationSecurityMetadataSource;
     }
 }

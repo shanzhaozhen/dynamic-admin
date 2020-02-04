@@ -1,8 +1,6 @@
 package org.shanzhaozhen.dynamicadmin.config.security;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -21,30 +19,39 @@ import java.util.Arrays;
 import java.util.Collections;
 
 @EnableWebSecurity
-public class MySecurityConfig extends WebSecurityConfigurerAdapter {
+public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final MyUserDetailsService myUserDetailsService;
+    private final CustomUserDetailsService customUserDetailsService;
 
-    private final MyAuthenticationEntryPoint myAuthenticationEntryPoint;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
-    private final MyUsernamePasswordAuthenticationFilter myUsernamePasswordAuthenticationFilter;
+    private final CustomJwtAuthenticationFilter customJwtAuthenticationFilter;
 
-    private final MyJwtAuthenticationFilter myJwtAuthenticationFilter;
+    private final CustomFilterSecurityInterceptor customFilterSecurityInterceptor;
 
-    private final MyFilterSecurityInterceptor myFilterSecurityInterceptor;
+    private final CustomJwtTokenProvider customJwtTokenProvider;
 
-    public MySecurityConfig(MyUserDetailsService myUserDetailsService, MyAuthenticationEntryPoint myAuthenticationEntryPoint, MyUsernamePasswordAuthenticationFilter myUsernamePasswordAuthenticationFilter, MyJwtAuthenticationFilter myJwtAuthenticationFilter, MyFilterSecurityInterceptor myFilterSecurityInterceptor) {
-        this.myUserDetailsService = myUserDetailsService;
-        this.myAuthenticationEntryPoint = myAuthenticationEntryPoint;
-        this.myUsernamePasswordAuthenticationFilter = myUsernamePasswordAuthenticationFilter;
-        this.myJwtAuthenticationFilter = myJwtAuthenticationFilter;
-        this.myFilterSecurityInterceptor = myFilterSecurityInterceptor;
+    public CustomSecurityConfig(CustomUserDetailsService customUserDetailsService,
+                                CustomAuthenticationEntryPoint customAuthenticationEntryPoint,
+                                CustomJwtAuthenticationFilter customJwtAuthenticationFilter,
+                                CustomFilterSecurityInterceptor customFilterSecurityInterceptor, CustomJwtTokenProvider customJwtTokenProvider) {
+        this.customUserDetailsService = customUserDetailsService;
+        this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
+        this.customJwtAuthenticationFilter = customJwtAuthenticationFilter;
+        this.customFilterSecurityInterceptor = customFilterSecurityInterceptor;
+        this.customJwtTokenProvider = customJwtTokenProvider;
     }
 
-    @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
+    /**
+     * 该方式才是最佳的AuthenticationFilter注入方式
+     * @return
+     * @throws Exception
+     */
+    @Bean
+    public CustomUsernamePasswordAuthenticationFilter CustomUsernamePasswordAuthenticationFilter() throws Exception {
+        CustomUsernamePasswordAuthenticationFilter customUsernamePasswordAuthenticationFilter = new CustomUsernamePasswordAuthenticationFilter(customJwtTokenProvider);
+        customUsernamePasswordAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
+        return customUsernamePasswordAuthenticationFilter;
     }
 
     /**
@@ -91,11 +98,11 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
             .logout()
                 .disable()
 //            .exceptionHandling()
-//                .authenticationEntryPoint(myAuthenticationEntryPoint)
+//                .authenticationEntryPoint(customAuthenticationEntryPoint)
 //                .and()
-            .addFilterBefore(myJwtAuthenticationFilter, BasicAuthenticationFilter.class)
-            .addFilterBefore(myUsernamePasswordAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-            .addFilterAfter(myFilterSecurityInterceptor, FilterSecurityInterceptor.class)
+            .addFilterBefore(customJwtAuthenticationFilter, BasicAuthenticationFilter.class)
+            .addFilterBefore(CustomUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+            .addFilterAfter(customFilterSecurityInterceptor, FilterSecurityInterceptor.class)
         ;
 
     }
@@ -107,7 +114,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(myUserDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+        auth.userDetailsService(customUserDetailsService).passwordEncoder(new BCryptPasswordEncoder());
     }
 
 

@@ -12,7 +12,7 @@ import org.shanzhaozhen.dynamicadmin.mapper.RoleMapper;
 import org.shanzhaozhen.dynamicadmin.mapper.RoleResourceMapper;
 import org.shanzhaozhen.dynamicadmin.mapper.RoleRouteMapper;
 import org.shanzhaozhen.dynamicadmin.service.RoleService;
-import org.shanzhaozhen.dynamicadmin.utils.MyBeanUtils;
+import org.shanzhaozhen.dynamicadmin.utils.CustomBeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -71,7 +71,7 @@ public class RoleServiceImpl implements RoleService {
         Assert.isNull(roleInDB, "更新失败：标识名称已被占用");
         RoleDO roleDO = roleMapper.selectById(roleDTO.getId());
         Assert.notNull(roleDO, "更新失败：没有找到该角色或已被删除");
-        MyBeanUtils.copyPropertiesExcludeMeta(roleDTO, roleDO);
+        CustomBeanUtils.copyPropertiesExcludeMeta(roleDTO, roleDO);
         roleMapper.updateById(roleDO);
         updateRouteAndResource(roleDO.getId(), roleDTO.getRouteIds(), roleDTO.getResourceIds());
         return roleDTO;

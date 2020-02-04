@@ -1,7 +1,6 @@
 package org.shanzhaozhen.dynamicadmin.config.security;
 
 import org.shanzhaozhen.dynamicadmin.vo.JWTUser;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,12 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class MyJwtAuthenticationFilter extends OncePerRequestFilter {
+public class CustomJwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final MyJwtTokenProvider myJwtTokenProvider;
+    private final CustomJwtTokenProvider customJwtTokenProvider;
 
-    public MyJwtAuthenticationFilter(MyJwtTokenProvider myJwtTokenProvider) {
-        this.myJwtTokenProvider = myJwtTokenProvider;
+    public CustomJwtAuthenticationFilter(CustomJwtTokenProvider customJwtTokenProvider) {
+        this.customJwtTokenProvider = customJwtTokenProvider;
     }
 
     // 1.从每个请求header获取token
@@ -35,7 +34,7 @@ public class MyJwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
 
-        String jwtToken = myJwtTokenProvider.getJwtTokenFromRequest(httpServletRequest);
+        String jwtToken = customJwtTokenProvider.getJwtTokenFromRequest(httpServletRequest);
 
         // 如果请求头中有token而且token校验正确，则进行解析，并且设置认证信息
         if (StringUtils.hasText(jwtToken)) {
@@ -43,7 +42,7 @@ public class MyJwtAuthenticationFilter extends OncePerRequestFilter {
             /**
              * token 过期时重新登录
              */
-            if (!myJwtTokenProvider.validateToken(httpServletResponse, jwtToken)) {
+            if (!customJwtTokenProvider.validateToken(httpServletResponse, jwtToken)) {
                 return;
             }
 
@@ -60,7 +59,7 @@ public class MyJwtAuthenticationFilter extends OncePerRequestFilter {
     // 这里从token中获取用户信息并新建一个UsernamePasswordAuthenticationToken供给过滤链进行权限过滤
     private UsernamePasswordAuthenticationToken createAuthentication(String token) {
 
-        JWTUser jwtUser = myJwtTokenProvider.getJWTUser(token);
+        JWTUser jwtUser = customJwtTokenProvider.getJWTUser(token);
 
         if (StringUtils.isEmpty(jwtUser.getUsername())) {
             return null;

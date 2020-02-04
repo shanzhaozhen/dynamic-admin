@@ -5,7 +5,7 @@ import org.shanzhaozhen.dynamicadmin.converter.RouteConverter;
 import org.shanzhaozhen.dynamicadmin.dto.RouteDTO;
 import org.shanzhaozhen.dynamicadmin.domain.sys.RouteDO;
 import org.shanzhaozhen.dynamicadmin.mapper.RouteMapper;
-import org.shanzhaozhen.dynamicadmin.utils.MyBeanUtils;
+import org.shanzhaozhen.dynamicadmin.utils.CustomBeanUtils;
 import org.shanzhaozhen.dynamicadmin.vo.AsyncRoute;
 import org.shanzhaozhen.dynamicadmin.service.RouteService;
 import org.shanzhaozhen.dynamicadmin.utils.UserDetailsUtils;
@@ -70,7 +70,7 @@ public class RouteServiceImpl implements RouteService {
         }
         RouteDO routeDO = routeMapper.selectById(routeDTO.getId());
         Assert.notNull(routeDO, "更新失败：没有找到该路由或已被删除");
-        MyBeanUtils.copyPropertiesExcludeMeta(routeDTO, routeDO);
+        CustomBeanUtils.copyPropertiesExcludeMeta(routeDTO, routeDO);
         routeMapper.updateById(routeDO);
         try {
             this.getAllRouteTree();

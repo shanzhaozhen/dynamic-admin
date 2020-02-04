@@ -13,8 +13,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @MapperScan("org.shanzhaozhen.dynamicadmin.mapper")
 public class MybatisPlusConfig {
 
-    @Autowired
-    private MyMetaObjectHandler myMetaObjectHandler;
+    private final CustomMetaObjectHandler customMetaObjectHandler;
+
+    public MybatisPlusConfig(CustomMetaObjectHandler customMetaObjectHandler) {
+        this.customMetaObjectHandler = customMetaObjectHandler;
+    }
 
     /**
      * 配置审计功能
@@ -23,7 +26,7 @@ public class MybatisPlusConfig {
     @Bean
     public GlobalConfig globalConfig() {
         GlobalConfig globalConfig = new GlobalConfig();
-        globalConfig.setMetaObjectHandler(myMetaObjectHandler);
+        globalConfig.setMetaObjectHandler(customMetaObjectHandler);
         return globalConfig;
     }
 

@@ -22,7 +22,7 @@ import java.util.Map;
 
 @Component
 @Log4j2
-public class MyJwtTokenProvider {
+public class CustomJwtTokenProvider {
 
     @Value("${jwt.issuer}")
     private String issuer;

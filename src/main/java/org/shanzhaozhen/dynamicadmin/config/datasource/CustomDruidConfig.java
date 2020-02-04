@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-public class MyDruidConfig {
+public class CustomDruidConfig {
 
     @Value("${druid.username}")
     private String loginUsername;
@@ -28,7 +28,6 @@ public class MyDruidConfig {
 
     @Value("${druid.deny}")
     private String deny;
-
 
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource")

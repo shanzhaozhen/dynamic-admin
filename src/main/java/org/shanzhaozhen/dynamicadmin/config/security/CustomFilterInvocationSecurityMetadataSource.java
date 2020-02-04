@@ -23,13 +23,13 @@ import java.util.*;
  * 而SpringSecurity会将返回的这个对象，其实就是accessDecisionManager的decide方法中的configAttributes对象
  */
 @Component
-public class MyFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
+public class CustomFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
     private final ResourceService resourceService;
 
     private HashMap<String, Collection<ConfigAttribute>> resourceMap;
 
-    public MyFilterInvocationSecurityMetadataSource(ResourceService resourceService) {
+    public CustomFilterInvocationSecurityMetadataSource(ResourceService resourceService) {
         this.resourceService = resourceService;
     }
 

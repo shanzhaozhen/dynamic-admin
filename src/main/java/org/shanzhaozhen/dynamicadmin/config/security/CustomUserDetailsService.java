@@ -18,18 +18,18 @@ import java.util.Set;
 
 /**
  * 启动服务器时，通过FilterInvocationSecurityMetadataSource获得用户的所有角色及权限信息
- * 当用户登陆时，通过MyUserDetailsServiceImpl中的loadUserByUsername获得该登陆用户所有的权限
+ * 当用户登陆时，通过CustomUserDetailsServiceImpl中的loadUserByUsername获得该登陆用户所有的权限
  * 发出请求时，通过FilterInvocationSecurityMetadataSource的getAttributes(Object url)获得需要的权限名
  * 最后在AccessDecisionManager中decide方法进行对比，如果用户拥有的权限名称和该url需要的权限名相同，那么放行，否则认证失败
  */
 @Service
-public class MyUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserService userService;
 
     private final RoleService roleService;
 
-    public MyUserDetailsService(UserService userService, RoleService roleService) {
+    public CustomUserDetailsService(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
     }
