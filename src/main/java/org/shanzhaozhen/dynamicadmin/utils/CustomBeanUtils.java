@@ -28,7 +28,6 @@ public class CustomBeanUtils extends BeanUtils {
 
     public static void copyPropertiesExcludeNull(Object source, Object target, @Nullable Class<?> editable, @Nullable String... ignoreProperties) {
 
-
         Assert.notNull(source, "Source must not be null");
         Assert.notNull(target, "Target must not be null");
 
