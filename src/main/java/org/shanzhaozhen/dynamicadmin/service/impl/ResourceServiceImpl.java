@@ -24,7 +24,7 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public List<ResourceDTO> getResourceRoleListByType(Integer type) {
-        return resourceMapper.getResourceListByType(type);
+        return resourceMapper.getResourceRoleListByTypeAndUserId(type, null);
     }
 
     @Override

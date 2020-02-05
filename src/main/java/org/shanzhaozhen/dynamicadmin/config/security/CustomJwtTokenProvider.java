@@ -1,12 +1,14 @@
 package org.shanzhaozhen.dynamicadmin.config.security;
 
-import com.alibaba.fastjson.JSONObject;
 import io.jsonwebtoken.*;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import org.shanzhaozhen.dynamicadmin.common.sys.JwtErrorConst;
+import org.shanzhaozhen.dynamicadmin.utils.HttpServletResponseUtils;
 import org.shanzhaozhen.dynamicadmin.vo.JWTUser;
 import org.shanzhaozhen.dynamicadmin.vo.ResultObject;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -14,35 +16,33 @@ import org.springframework.util.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@ConfigurationProperties(prefix = "jwt")
+@Getter
+@Setter
 @Component
 @Log4j2
 public class CustomJwtTokenProvider {
 
-    @Value("${jwt.issuer}")
+    public static final String tokenHead = "Bearer ";
+
     private String issuer;
 
-    @Value("${jwt.secret}")
     private String secret;
 
-    @Value("${jwt.header}")
     private String header;
 
-    @Value("${jwt.tokenHead}")
-    private String tokenHead;
-
-    @Value("${jwt.expiration}")
     private long expiration;
 
-    @Value("${jwt.remember_expiration}")
     private long remember_expiration;
 
     /**
+     * 创建token
+     *
      * iss：发行人
      * exp：到期时间
      * sub：主题
@@ -51,7 +51,6 @@ public class CustomJwtTokenProvider {
      * iat：发布时间
      * jti：JWT ID用于标识该JWT
      */
-    // 创建token
     public String buildToken(String username, Map<String, Object> claims) {
         /**
          * 按照jwt的规定，最后请求的时候应该是 `Bearer token`
@@ -69,7 +68,6 @@ public class CustomJwtTokenProvider {
                 .signWith(SignatureAlgorithm.HS512, secret)         //设置签名使用的签名算法和签名使用的秘钥
                 .compact();
     }
-
 
     /**
      * 创建token
@@ -125,33 +123,30 @@ public class CustomJwtTokenProvider {
             return true;
         } catch (SignatureException ex) {
             log.error("Invalid JWT signature");
-            this.sendError(httpServletResponse, JwtErrorConst.JWT_SIGNATURE);
+            HttpServletResponseUtils.resultJson(httpServletResponse, HttpServletResponse.SC_UNAUTHORIZED,
+                    new ResultObject<>(JwtErrorConst.JWT_SIGNATURE));
         } catch (MalformedJwtException ex) {
             log.error("Invalid JWT token");
-            this.sendError(httpServletResponse, JwtErrorConst.JWT_MALFORMED);
+            HttpServletResponseUtils.resultJson(httpServletResponse, HttpServletResponse.SC_UNAUTHORIZED,
+                    new ResultObject<>(JwtErrorConst.JWT_MALFORMED));
         } catch (ExpiredJwtException ex) {
             log.error("Expired JWT token");
-            this.sendError(httpServletResponse, JwtErrorConst.JWT_EXPIRED);
+            HttpServletResponseUtils.resultJson(httpServletResponse, HttpServletResponse.SC_UNAUTHORIZED,
+                    new ResultObject<>(JwtErrorConst.JWT_EXPIRED));
         } catch (UnsupportedJwtException ex) {
             log.error("Unsupported JWT token");
-            this.sendError(httpServletResponse, JwtErrorConst.JWT_UNSUPPORTED);
+            HttpServletResponseUtils.resultJson(httpServletResponse, HttpServletResponse.SC_UNAUTHORIZED,
+                    new ResultObject<>(JwtErrorConst.JWT_UNSUPPORTED));
         } catch (IllegalArgumentException ex) {
             log.error("JWT claims string is empty.");
-            this.sendError(httpServletResponse, JwtErrorConst.JWT_ILLEGALARGUMENT);
+            HttpServletResponseUtils.resultJson(httpServletResponse, HttpServletResponse.SC_UNAUTHORIZED,
+                    new ResultObject<>(JwtErrorConst.JWT_ILLEGALARGUMENT));
         } catch (JwtException ex) {
             log.error("JWT error.");
-            this.sendError(httpServletResponse, JwtErrorConst.JWT_ERROR);
+            HttpServletResponseUtils.resultJson(httpServletResponse, HttpServletResponse.SC_UNAUTHORIZED,
+                    new ResultObject<>(JwtErrorConst.JWT_ERROR));
         }
         return false;
-    }
-
-
-    public void sendError(HttpServletResponse httpServletResponse, JwtErrorConst jwtErrorConst) throws IOException {
-        httpServletResponse.setCharacterEncoding("UTF-8");
-        httpServletResponse.setContentType("application/json; charset=utf-8");
-        httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        PrintWriter writer = httpServletResponse.getWriter();
-        writer.write(JSONObject.toJSONString(new ResultObject<>(jwtErrorConst.getCode(), jwtErrorConst.getReason())));
     }
 
     /**
@@ -208,13 +203,16 @@ public class CustomJwtTokenProvider {
                 .build();
     }
 
-    // 是否已过期
+    /**
+     * 判断 token 是否已过期
+     * @param token
+     * @return
+     */
     public boolean isExpiration(String token){
         return getTokenBody(token).getExpiration().before(new Date());
     }
 
-    private Claims getTokenBody(String token){
-
+    private Claims getTokenBody(String token) {
         token = token.replace(tokenHead, "");
 
         return Jwts.parser()

@@ -10,29 +10,21 @@ import java.io.IOException;
 
 public class CustomFilterSecurityInterceptor extends AbstractSecurityInterceptor implements Filter {
 
+    // 防止重复进入过滤器，给该过滤器添加标识id
+    private static final String FILTER_APPLIED = "CustomFilterSecurityInterceptorFilterApplied";
+
     private final CustomFilterInvocationSecurityMetadataSource customFilterInvocationSecurityMetadataSource;
 
     public CustomFilterSecurityInterceptor(CustomFilterInvocationSecurityMetadataSource customFilterInvocationSecurityMetadataSource) {
         this.customFilterInvocationSecurityMetadataSource = customFilterInvocationSecurityMetadataSource;
     }
 
-    /**
-     * filterInvocation里面有一个被拦截的url
-     * 里面调用 CustomInvocationSecurityMetadataSource 的 getAttributes(Object object) 这个方法获取 filterInvocation 对应的所有权限
-     * 再调用CustomAccessDecisionManager的decide方法来校验用户的权限是否足够
-     */
-    public void invoke(FilterInvocation filterInvocation) throws IOException, ServletException {
-        InterceptorStatusToken interceptorStatusToken = super.beforeInvocation(filterInvocation);
-        try {
-            filterInvocation.getChain().doFilter(filterInvocation.getRequest(), filterInvocation.getResponse());
-        } finally {
-            super.afterInvocation(interceptorStatusToken, null);
-        }
+    @Override
+    public void init(FilterConfig filterConfig) {
     }
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-
+    public void destroy() {
     }
 
     /**
@@ -42,15 +34,15 @@ public class CustomFilterSecurityInterceptor extends AbstractSecurityInterceptor
      */
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        //这个类的作用本身很简单，就是把doFilter传进来的ServletRequest,ServletResponse和FilterChain对象保存起来，
-        //供FilterSecurityInterceptor的处理代码调用
+        // 这个类的作用本身很简单，就是把doFilter传进来的ServletRequest,ServletResponse和FilterChain对象保存起来，
+        // 供FilterSecurityInterceptor的处理代码调用
         FilterInvocation filterInvocation = new FilterInvocation(servletRequest, servletResponse, filterChain);
         this.invoke(filterInvocation);
     }
 
     @Override
-    public void destroy() {
-
+    public SecurityMetadataSource obtainSecurityMetadataSource() {
+        return this.customFilterInvocationSecurityMetadataSource;
     }
 
     @Override
@@ -58,8 +50,35 @@ public class CustomFilterSecurityInterceptor extends AbstractSecurityInterceptor
         return FilterInvocation.class;
     }
 
-    @Override
-    public SecurityMetadataSource obtainSecurityMetadataSource() {
-        return this.customFilterInvocationSecurityMetadataSource;
+    /**
+     * filterInvocation里面有一个被拦截的url
+     * 里面调用 CustomInvocationSecurityMetadataSource 的 getAttributes(Object object) 这个方法获取 filterInvocation 对应的所有权限
+     * 再调用CustomAccessDecisionManager的decide方法来校验用户的权限是否足够
+     */
+    public void invoke(FilterInvocation filterInvocation) throws IOException, ServletException {
+        // 每个请求处理一次，已经处理的请求不需要重新执行安全检查
+        // 如果已经进入过一次过滤器则直接跳过
+        if (filterInvocation.getRequest() != null && filterInvocation.getRequest().getAttribute(FILTER_APPLIED) != null) {
+            filterInvocation.getChain().doFilter(filterInvocation.getRequest(), filterInvocation.getResponse());
+        }
+        else {
+            // 第一次调用此请求时，则进行权限检查
+            if (filterInvocation.getRequest() != null) {
+                filterInvocation.getRequest().setAttribute(FILTER_APPLIED, Boolean.TRUE);
+            }
+
+            InterceptorStatusToken token = super.beforeInvocation(filterInvocation);
+
+            try {
+                filterInvocation.getChain().doFilter(filterInvocation.getRequest(), filterInvocation.getResponse());
+            }
+            finally {
+                super.finallyInvocation(token);
+            }
+
+            super.afterInvocation(token, null);
+        }
+
     }
+
 }

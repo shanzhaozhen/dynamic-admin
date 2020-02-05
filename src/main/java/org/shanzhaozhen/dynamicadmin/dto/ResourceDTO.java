@@ -9,7 +9,6 @@ import org.shanzhaozhen.dynamicadmin.domain.BaseEntity;
 
 import java.util.List;
 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

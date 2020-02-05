@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.shanzhaozhen.dynamicadmin.common.sys.JwtErrorConst;
 import org.shanzhaozhen.dynamicadmin.common.sys.ResultType;
 
 import java.util.function.Function;
@@ -56,6 +57,11 @@ public class ResultObject<T> {
         this.code = code;
         this.message = msg;
         this.data = data;
+    }
+
+    public ResultObject(JwtErrorConst jwtErrorConst) {
+        this.code = jwtErrorConst.getCode();
+        this.message = jwtErrorConst.getReason();
     }
 
     public static <T> ResultObject<T> getResultObject(Supplier<T> s) {

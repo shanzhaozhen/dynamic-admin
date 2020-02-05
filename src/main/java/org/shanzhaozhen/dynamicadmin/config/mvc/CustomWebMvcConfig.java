@@ -1,19 +1,22 @@
 package org.shanzhaozhen.dynamicadmin.config.mvc;
 
-import org.springframework.beans.factory.annotation.Value;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+@ConfigurationProperties(prefix = "upload")
+@Getter
+@Setter
 @Configuration
 public class CustomWebMvcConfig implements WebMvcConfigurer {
 
-    @Value("${upload.relativePath}")
     private String relativePath;
 
-    @Value("${upload.realPath}")
     private String realPath;
 
     @Override

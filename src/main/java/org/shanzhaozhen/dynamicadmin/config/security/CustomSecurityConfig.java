@@ -22,6 +22,24 @@ import java.util.Collections;
 @EnableWebSecurity
 public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    /**
+     * 需要放行的URL
+     */
+    private static final String[] AUTH_WHITELIST = {
+            "/",
+            "/login",
+            "/register/**",
+            "/swagger-resources/**",
+//            "/v2/api-docs/**",
+//            "/swagger-ui.html",
+            "/druid/**",
+            "/webjars/**",
+            "/upload",
+            "/test",
+            "/files/**",
+            "/error"
+    };
+
     private final CustomUserDetailsService customUserDetailsService;
 
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
@@ -65,7 +83,7 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
             .authorizeRequests()
 //                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/", "/login", "/register/**", "/swagger-resources/**", "/v2/api-docs/**", "/swagger-ui.html", "/druid/**", "/webjars/**", "/upload", "/test", "/files/**", "/error").permitAll()
+                .antMatchers(AUTH_WHITELIST).permitAll()
                 .anyRequest().authenticated()
                 .and()
             .headers()
@@ -93,7 +111,6 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(customUserDetailsService).passwordEncoder(new BCryptPasswordEncoder());
     }
-
 
     @Override
     public void configure(WebSecurity web) throws Exception {
