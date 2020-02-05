@@ -26,11 +26,18 @@ public class CustomJwtAuthenticationFilter extends OncePerRequestFilter {
         this.customJwtTokenProvider = customJwtTokenProvider;
     }
 
-    // 1.从每个请求header获取token
-    // 2.调用前面写的validateToken方法对token进行合法性验证
-    // 3.解析得到username，并从database取出用户相关信息权限
-    // 4.把用户信息(role等)放进SecurityContext以备整个请求过程使用。
-    //  （例如哪里需要判断用户权限是否足够时可以直接从SecurityContext取出去check）
+    /**
+     * 1.从每个请求header获取token
+     * 2.调用前面写的validateToken方法对token进行合法性验证
+     * 3.解析得到username，并从database取出用户相关信息权限
+     * 4.把用户信息(role等)放进SecurityContext以备整个请求过程使用。
+     * （例如哪里需要判断用户权限是否足够时可以直接从SecurityContext取出去check）
+     * @param httpServletRequest
+     * @param httpServletResponse
+     * @param filterChain
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
 
@@ -55,8 +62,11 @@ public class CustomJwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 
-
-    // 这里从token中获取用户信息并新建一个UsernamePasswordAuthenticationToken供给过滤链进行权限过滤
+    /**
+     * 这里从token中获取用户信息并新建一个UsernamePasswordAuthenticationToken供给过滤链进行权限过滤
+     * @param token
+     * @return
+     */
     private UsernamePasswordAuthenticationToken createAuthentication(String token) {
 
         JWTUser jwtUser = customJwtTokenProvider.getJWTUser(token);

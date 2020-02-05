@@ -72,15 +72,12 @@ public class CustomJwtTokenProvider {
 
 
     /**
-     * iss：发行人
-     * exp：到期时间
-     * sub：主题
-     * aud：用户
-     * nbf：在此之前不可用
-     * iat：发布时间
-     * jti：JWT ID用于标识该JWT
+     * 创建token
+     * @param userId
+     * @param username
+     * @param roles
+     * @return
      */
-    // 创建token
     public String createToken(Long userId, String username, List<String> roles) {
 
         Map<String, Object> claims = new HashMap<>();
@@ -93,15 +90,10 @@ public class CustomJwtTokenProvider {
     }
 
     /**
-     * iss：发行人
-     * exp：到期时间
-     * sub：主题
-     * aud：用户
-     * nbf：在此之前不可用
-     * iat：发布时间
-     * jti：JWT ID用于标识该JWT
+     * 更新token
+     * @param token
+     * @return
      */
-    // 创建token
     public String updateToken(String token) {
         Assert.hasText(token, "token不能为空");
 

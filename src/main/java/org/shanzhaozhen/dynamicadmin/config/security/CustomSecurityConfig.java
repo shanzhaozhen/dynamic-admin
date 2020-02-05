@@ -1,5 +1,6 @@
 package org.shanzhaozhen.dynamicadmin.config.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,47 +28,24 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomJwtAuthenticationFilter customJwtAuthenticationFilter;
 
-    private final CustomFilterSecurityInterceptor customFilterSecurityInterceptor;
-
     private final CustomJwtTokenProvider customJwtTokenProvider;
+
+    private final CustomFilterInvocationSecurityMetadataSource customFilterInvocationSecurityMetadataSource;
+
+    private final CustomAccessDecisionManager myAccessDecisionManager;
 
     public CustomSecurityConfig(CustomUserDetailsService customUserDetailsService,
                                 CustomAuthenticationEntryPoint customAuthenticationEntryPoint,
                                 CustomJwtAuthenticationFilter customJwtAuthenticationFilter,
-                                CustomFilterSecurityInterceptor customFilterSecurityInterceptor, CustomJwtTokenProvider customJwtTokenProvider) {
+                                CustomJwtTokenProvider customJwtTokenProvider,
+                                CustomFilterInvocationSecurityMetadataSource customFilterInvocationSecurityMetadataSource,
+                                CustomAccessDecisionManager myAccessDecisionManager) {
         this.customUserDetailsService = customUserDetailsService;
         this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
         this.customJwtAuthenticationFilter = customJwtAuthenticationFilter;
-        this.customFilterSecurityInterceptor = customFilterSecurityInterceptor;
         this.customJwtTokenProvider = customJwtTokenProvider;
-    }
-
-    /**
-     * 该方式才是最佳的AuthenticationFilter注入方式
-     * @return
-     * @throws Exception
-     */
-    @Bean
-    public CustomUsernamePasswordAuthenticationFilter CustomUsernamePasswordAuthenticationFilter() throws Exception {
-        CustomUsernamePasswordAuthenticationFilter customUsernamePasswordAuthenticationFilter = new CustomUsernamePasswordAuthenticationFilter(customJwtTokenProvider);
-        customUsernamePasswordAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
-        return customUsernamePasswordAuthenticationFilter;
-    }
-
-    /**
-     * 配置允许跨域
-     * @return
-     */
-    @Bean
-    protected CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Collections.singletonList("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "HEAD", "OPTION"));
-        configuration.setAllowedHeaders(Collections.singletonList("*"));
-        configuration.addExposedHeader("Authorization");
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
+        this.customFilterInvocationSecurityMetadataSource = customFilterInvocationSecurityMetadataSource;
+        this.myAccessDecisionManager = myAccessDecisionManager;
     }
 
     /**
@@ -102,9 +80,8 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .and()
             .addFilterBefore(customJwtAuthenticationFilter, BasicAuthenticationFilter.class)
             .addFilterBefore(CustomUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-            .addFilterAfter(customFilterSecurityInterceptor, FilterSecurityInterceptor.class)
+            .addFilterAfter(CustomFilterSecurityInterceptor(), FilterSecurityInterceptor.class)
         ;
-
     }
 
     /**
@@ -120,6 +97,46 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
+    }
+
+    /**
+     * 该方式才是最佳的AuthenticationFilter注入方式
+     * @return
+     * @throws Exception
+     */
+    @Bean
+    public CustomUsernamePasswordAuthenticationFilter CustomUsernamePasswordAuthenticationFilter() throws Exception {
+        CustomUsernamePasswordAuthenticationFilter customUsernamePasswordAuthenticationFilter = new CustomUsernamePasswordAuthenticationFilter(customJwtTokenProvider);
+        customUsernamePasswordAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
+        return customUsernamePasswordAuthenticationFilter;
+    }
+
+    /**
+     * 注入自定义 FilterSecurityInterceptor
+     * @return
+     * @throws Exception
+     */
+    @Bean
+    public CustomFilterSecurityInterceptor CustomFilterSecurityInterceptor() {
+        CustomFilterSecurityInterceptor customFilterSecurityInterceptor = new CustomFilterSecurityInterceptor(customFilterInvocationSecurityMetadataSource);
+        customFilterSecurityInterceptor.setAccessDecisionManager(myAccessDecisionManager);
+        return customFilterSecurityInterceptor;
+    }
+
+    /**
+     * 配置允许跨域
+     * @return
+     */
+    @Bean
+    protected CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Collections.singletonList("*"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "HEAD", "OPTION"));
+        configuration.setAllowedHeaders(Collections.singletonList("*"));
+        configuration.addExposedHeader("Authorization");
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
 }

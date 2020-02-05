@@ -1,27 +1,19 @@
 package org.shanzhaozhen.dynamicadmin.config.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.SecurityMetadataSource;
 import org.springframework.security.access.intercept.AbstractSecurityInterceptor;
 import org.springframework.security.access.intercept.InterceptorStatusToken;
 import org.springframework.security.web.FilterInvocation;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
 import java.io.IOException;
 
-@Component
 public class CustomFilterSecurityInterceptor extends AbstractSecurityInterceptor implements Filter {
 
     private final CustomFilterInvocationSecurityMetadataSource customFilterInvocationSecurityMetadataSource;
 
     public CustomFilterSecurityInterceptor(CustomFilterInvocationSecurityMetadataSource customFilterInvocationSecurityMetadataSource) {
         this.customFilterInvocationSecurityMetadataSource = customFilterInvocationSecurityMetadataSource;
-    }
-
-    @Autowired
-    public void setCustomAccessDecisionManager(CustomAccessDecisionManager customAccessDecisionManager) {
-        super.setAccessDecisionManager(customAccessDecisionManager);
     }
 
     /**
