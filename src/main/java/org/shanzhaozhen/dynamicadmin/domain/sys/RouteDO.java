@@ -13,7 +13,7 @@ import org.shanzhaozhen.dynamicadmin.domain.BaseEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("sys_route")
-@ApiModel(value="Route对象", description="")
+@ApiModel(description = "路由DO实体")
 public class RouteDO extends BaseEntity {
 
     private static final long serialVersionUID = 4485640590947953262L;

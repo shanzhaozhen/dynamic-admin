@@ -9,11 +9,10 @@ import org.shanzhaozhen.dynamicadmin.domain.BaseEntity;
 
 import java.util.List;
 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value="ResourceVO对象", description="")
+@ApiModel(description = "资源VO实体")
 public class ResourceVO extends BaseEntity {
 
     @ApiModelProperty(value = "主键ID")

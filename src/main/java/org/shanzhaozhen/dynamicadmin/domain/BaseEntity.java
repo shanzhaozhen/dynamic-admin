@@ -13,7 +13,7 @@ import java.util.Date;
 
 @Getter
 @Setter
-@ApiModel(value="BaseEntity对象", description="")
+@ApiModel(description = "实体基础信息")
 public class BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -4890503939284694535L;

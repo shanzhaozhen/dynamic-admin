@@ -18,7 +18,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value="User对象", description="")
+@ApiModel(description = "用户VO对象")
 public class UserVO {
 
     @ApiModelProperty(value = "主键ID")

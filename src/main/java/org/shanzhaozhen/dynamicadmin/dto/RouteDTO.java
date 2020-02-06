@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value="RouteDTO对象", description="")
+@ApiModel(description = "路由DTO实体")
 public class RouteDTO {
 
     @ApiModelProperty(value = "主键ID")

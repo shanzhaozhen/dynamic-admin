@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value="Role对象", description="")
+@ApiModel(description = "角色主要信息实体")
 public class RoleBase {
 
     @ApiModelProperty(value = "主键ID")

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value="User对象", description="")
+@ApiModel(description = "部门VO实体")
 public class DepartmentVO {
 
     @ApiModelProperty(value = "主键ID")

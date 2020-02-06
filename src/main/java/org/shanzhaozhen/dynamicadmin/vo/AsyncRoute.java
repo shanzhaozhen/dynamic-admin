@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value="AsyncRoute对象", description="用于前端菜单的存放")
+@ApiModel(description = "前端菜单实体（用于前端菜单的存放）")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AsyncRoute {
 

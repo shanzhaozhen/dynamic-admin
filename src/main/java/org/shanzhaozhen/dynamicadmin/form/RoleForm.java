@@ -1,13 +1,12 @@
 package org.shanzhaozhen.dynamicadmin.form;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
-import org.shanzhaozhen.dynamicadmin.vo.ResourceVO;
-import org.shanzhaozhen.dynamicadmin.vo.RouteVO;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -16,6 +15,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ApiModel(description = "角色Form实体")
 public class RoleForm {
 
     @ApiModelProperty(value = "主键ID")

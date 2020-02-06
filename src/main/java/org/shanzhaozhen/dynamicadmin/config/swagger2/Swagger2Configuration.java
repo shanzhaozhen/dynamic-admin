@@ -1,8 +1,8 @@
 package org.shanzhaozhen.dynamicadmin.config.swagger2;
 
-import io.swagger.annotations.Api;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +20,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableSwagger2
 @ConfigurationProperties(prefix = "swagger2")
+@ConditionalOnProperty(name = "swagger2.enabled", havingValue = "true")
 public class Swagger2Configuration {
 
     private String title;
@@ -28,7 +29,11 @@ public class Swagger2Configuration {
 
     private String termsOfServiceUrl;
 
-    private Contact contact;
+    private String contactName;
+
+    private String contactUrl;
+
+    private String contactEmail;
 
     private String license;
 
@@ -36,23 +41,33 @@ public class Swagger2Configuration {
 
     private String version;
 
+    /**
+     * 指定扫描包的路径来指定要创建API的目录，一般是控制器这个包
+     *
+     * @return
+     */
     @Bean
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
-                .select()
-                .apis(RequestHandlerSelectors.any())//这是注意的代码
-//                .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))//这是注意的代码
-                .paths(PathSelectors.any())
+                .select()   // 选择那些路径和api会生成document
+                .paths(PathSelectors.any()) // 对所有路径进行监控
+                .apis(RequestHandlerSelectors.any())    // 对所有api进行监控
+                .apis(RequestHandlerSelectors.basePackage("org.shanzhaozhen.dynamicadmin.controller"))//这是注意的代码
                 .build();
     }
 
+    /**
+     * 设置API的基本信息
+     *
+     * @return
+     */
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title(title)
                 .description(description)
                 .termsOfServiceUrl(termsOfServiceUrl)
-                .contact(contact)
+                .contact(new Contact(contactName, contactUrl, contactEmail))
                 .license(license)
                 .licenseUrl(licenseUrl)
                 .version(version)

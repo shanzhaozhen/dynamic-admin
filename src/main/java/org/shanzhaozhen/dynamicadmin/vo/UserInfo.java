@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value="用户信息", description="")
+@ApiModel(description = "用户登陆信息")
 public class UserInfo {
 
     @ApiModelProperty(value = "昵称")

@@ -1,14 +1,11 @@
 package org.shanzhaozhen.dynamicadmin.config.security;
 
-import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.shanzhaozhen.dynamicadmin.common.sys.JwtErrorConst;
-import org.shanzhaozhen.dynamicadmin.common.sys.ResultType;
-import org.shanzhaozhen.dynamicadmin.dto.LoginUser;
 import org.shanzhaozhen.dynamicadmin.dto.UserDTO;
+import org.shanzhaozhen.dynamicadmin.form.UserForm;
 import org.shanzhaozhen.dynamicadmin.utils.HttpServletResponseUtils;
 import org.shanzhaozhen.dynamicadmin.vo.ResultObject;
-import org.shanzhaozhen.dynamicadmin.utils.ResultUtils;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,7 +19,6 @@ import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.*;
 
 public class CustomUsernamePasswordAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
@@ -42,9 +38,9 @@ public class CustomUsernamePasswordAuthenticationFilter extends AbstractAuthenti
         }
 
         try {
-            LoginUser loginUser = new ObjectMapper().readValue(httpServletRequest.getInputStream(), LoginUser.class);
-            String username = loginUser.getUsername();
-            String password = loginUser.getPassword();
+            UserForm userForm = new ObjectMapper().readValue(httpServletRequest.getInputStream(), UserForm.class);
+            String username = userForm.getUsername();
+            String password = userForm.getPassword();
 
             if (username == null) {
                 username = "";

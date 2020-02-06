@@ -13,7 +13,7 @@ import javax.validation.constraints.NotEmpty;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value="RouteForm对象", description="")
+@ApiModel(description = "路由Form实体")
 public class RouteForm {
 
     @ApiModelProperty(value = "主键ID")

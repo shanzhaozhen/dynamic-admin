@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value="Dictionary对象", description="")
+@ApiModel(description = "字典DTO实体")
 public class DictionaryDTO {
 
     @ApiModelProperty(value = "主键ID")

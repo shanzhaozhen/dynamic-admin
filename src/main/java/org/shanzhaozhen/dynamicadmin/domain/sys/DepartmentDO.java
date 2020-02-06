@@ -14,7 +14,7 @@ import org.shanzhaozhen.dynamicadmin.domain.BaseEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("sys_department")
-@ApiModel(value="Department对象", description="")
+@ApiModel(description = "部门DO实体")
 public class DepartmentDO extends BaseEntity {
 
     private static final long serialVersionUID = -4727379501712632270L;

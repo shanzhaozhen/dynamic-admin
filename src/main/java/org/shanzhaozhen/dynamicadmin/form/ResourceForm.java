@@ -13,7 +13,7 @@ import javax.validation.constraints.NotEmpty;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value="ResourceForm对象", description="")
+@ApiModel(description = "资源Form实体")
 public class ResourceForm {
 
     @ApiModelProperty(value = "主键ID")
@@ -39,17 +39,17 @@ public class ResourceForm {
     @ApiModelProperty(value = "支持Get请求")
     private Boolean supportGet;
 
-    @ApiModelProperty(value = "支持Post请求")
-    private Boolean supportPost;
-
-    @ApiModelProperty(value = "支持Put请求")
-    private Boolean supportPut;
-
-    @ApiModelProperty(value = "支持Delete请求")
-    private Boolean supportDelete;
-
-    @ApiModelProperty(value = "支持Patch请求")
-    private Boolean supportPatch;
+//    @ApiModelProperty(value = "支持Post请求")
+//    private Boolean supportPost;
+//
+//    @ApiModelProperty(value = "支持Put请求")
+//    private Boolean supportPut;
+//
+//    @ApiModelProperty(value = "支持Delete请求")
+//    private Boolean supportDelete;
+//
+//    @ApiModelProperty(value = "支持Patch请求")
+//    private Boolean supportPatch;
 
     @ApiModelProperty(value = "资源描述")
     private String description;

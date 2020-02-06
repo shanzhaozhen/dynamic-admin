@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value="RouteVO对象", description="")
+@ApiModel(description = "路由VO实体")
 public class RouteVO {
 
     @ApiModelProperty(value = "主键ID")

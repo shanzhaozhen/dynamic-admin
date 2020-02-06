@@ -12,8 +12,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value="Meta对象", description="用于菜单的标题、图标、全局权限的存放")
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@ApiModel(description = "用于菜单的标题、图标、全局权限的存放")
 public class Meta {
 
     @ApiModelProperty(value = "显示名称")

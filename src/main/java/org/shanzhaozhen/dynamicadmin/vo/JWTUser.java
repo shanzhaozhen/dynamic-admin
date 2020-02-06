@@ -1,6 +1,7 @@
 package org.shanzhaozhen.dynamicadmin.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@ApiModel(description = "JWT登陆用户信息实体")
 public class JWTUser {
 
     private Long id;

@@ -15,7 +15,7 @@ import org.shanzhaozhen.dynamicadmin.domain.BaseEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("sys_resource")
-@ApiModel(value="Resource对象", description="")
+@ApiModel(description = "资源DO实体")
 public class ResourceDO extends BaseEntity {
 
     private static final long serialVersionUID = 4485640590947953262L;

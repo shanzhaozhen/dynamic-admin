@@ -14,7 +14,7 @@ import javax.validation.constraints.NotEmpty;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value="User对象", description="")
+@ApiModel(description = "用户Form实体")
 public class UserForm {
 
     @ApiModelProperty(value = "用户名")

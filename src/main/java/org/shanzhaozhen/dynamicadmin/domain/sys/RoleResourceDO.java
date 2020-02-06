@@ -14,7 +14,7 @@ import org.shanzhaozhen.dynamicadmin.domain.BaseEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("sys_role_resource")
-@ApiModel(value="RoleResource对象", description="")
+@ApiModel(description = "角色-资源关系DO实体")
 public class RoleResourceDO extends BaseEntity {
 
     private static final long serialVersionUID = 1642473344166749722L;

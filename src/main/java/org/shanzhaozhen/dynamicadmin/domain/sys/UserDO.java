@@ -15,7 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("sys_user")
-@ApiModel(value="User对象", description="")
+@ApiModel(description = "用户DO实体")
 public class UserDO extends BaseEntity {
 
     private static final long serialVersionUID = 3064727069207896868L;

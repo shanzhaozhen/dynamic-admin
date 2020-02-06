@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value="DictionaryVO对象", description="")
+@ApiModel(description = "字典VO实体")
 public class DictionaryVO {
 
     @ApiModelProperty(value = "主键ID")

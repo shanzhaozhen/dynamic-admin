@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value="Role对象", description="")
+@ApiModel(description = "角色DTO实体")
 public class RoleDTO {
 
     @ApiModelProperty(value = "主键ID")

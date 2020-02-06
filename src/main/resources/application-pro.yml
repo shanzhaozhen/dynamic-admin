@@ -13,19 +13,6 @@ upload:
   relativePath: /files/
   realPath: /home/webFile/
 
-
 logging:
   file:
     name: log/dynamic.log
-
-swagger2:
-  title: 动态权限管理后台接口文档
-  description: 动态权限管理后台相关接口的文档
-  termsOfServiceUrl: http://localhost:8080/dynamic/swagger2
-  contact:
-    name: 神大人
-    url: https://github.com/shanzhaozhen
-    email: 204447118
-  license: Apache License, Version 2.0
-  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.html
-  version: 0.0.1
