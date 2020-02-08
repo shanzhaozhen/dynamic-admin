@@ -25,10 +25,6 @@ public class RouteDTO {
 
     @ApiModelProperty(value = "上级ID")
     private Long pid;
-
-    @ApiModelProperty(value = "前端组件")
-    private String component;
-
     @ApiModelProperty(value = "重定向路径")
     private String redirect;
 

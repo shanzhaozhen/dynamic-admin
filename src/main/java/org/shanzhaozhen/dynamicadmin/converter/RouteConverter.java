@@ -111,7 +111,6 @@ public class RouteConverter {
                 .setName(routeDTO.getName())
                 .setPath(routeDTO.getPath())
                 .setPid(routeDTO.getPid())
-                .setComponent(routeDTO.getComponent())
                 .setRedirect(routeDTO.getRedirect())
                 .setPriority(routeDTO.getPriority())
                 .setHidden(routeDTO.getHidden())

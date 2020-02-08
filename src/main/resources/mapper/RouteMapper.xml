@@ -8,7 +8,6 @@
         <result column="name" property="name" />
         <result column="path" property="path" />
         <result column="pid" property="pid" />
-        <result column="component" property="component" />
         <result column="redirect" property="redirect" />
         <result column="title" property="title" />
         <result column="icon" property="icon" />
